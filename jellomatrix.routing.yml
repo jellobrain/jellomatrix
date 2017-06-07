@@ -1,0 +1,48 @@
+jellomatrix.admin:
+  path: '/admin/jellomatrix'
+  defaults:
+    _controller: '\Drupal\jellomatrix\Controller\JelloMatrixController::content'
+    _title: 'JelloMatrix Administrative'
+  requirements:
+    _permission: 'drive jellomatrix'
+
+jellomatrix.tone:
+  path: '/jellomatrix'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixToneForm'
+    _title: 'JelloMatrix Set Tone'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+jellomatrix.interval:
+  path: '/jellomatrix/{tone}'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixIntervalForm'
+    _title: 'JelloMatrix Set Interval'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+
+jellomatrix.result:
+  path: '/jellomatrix/{tone}/{interval}'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixResultForm'
+    _title: 'JelloMatrix View Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+jellomatrix.offsetresultzero:
+  path: '/jellomatrix/{tone}/{interval}/offset'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixOffsetResultForm'
+    _title: 'JelloMatrix View Offset Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+jellomatrix.offsetresult:
+  path: '/jellomatrix/{tone}/{interval}/offset/{offset}'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixOffsetResultForm'
+    _title: 'JelloMatrix View Offset Result'
+  requirements:
+    _permission: 'view some jellomatrix'

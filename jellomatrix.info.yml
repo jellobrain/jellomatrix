@@ -1,0 +1,6 @@
+name: JelloMatrix Module
+description: Creates the conditions for the JelloMatrix.
+package: Custom
+type: module
+version: 1.0
+core: 8.x

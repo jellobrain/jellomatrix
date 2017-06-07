@@ -1,0 +1,7 @@
+
+.begingrid { display: block; clear: both; text-align: left; margin-top: 30px; margin-left: 50px; clear: left; float: right; width: 100%;}
+.endgrid { clear: left; }
+.begintext { clear: both; margin-top: 15px; float: right; width: 100%; text-align: left;}
+.endtext { clear: both; margin-bottom: 15px; }
+.floatright { float: right; }
+.hr { clear: both; margin-top: 3px; margin-bottom: 15px; width: 100%; }

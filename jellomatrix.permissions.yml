@@ -1,0 +1,6 @@
+'drive jellomatrix':
+  title: 'Drive the Jellomatrix Tool'
+  description: Assign numbers to the matrix and view results.
+'view some jellomatrix':
+  title: 'View some of the Jellomatrix Tool'
+  description: View specific results.
