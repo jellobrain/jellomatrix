@@ -52,7 +52,7 @@ class JelloMatrixResultForm extends FormBase {
       '#value' => t('Submit'),
     );
 
-    //This function does not know how to deal yet with tones that are larger than intervals.
+    // This function does not know how to deal yet with tones that are larger than intervals.
     if ($tone > $interval) {
       $i = $interval;
       $t = $tone;
@@ -62,14 +62,14 @@ class JelloMatrixResultForm extends FormBase {
       unset($t);
     }
 
-    //Find the values of the arrays
+    // Find the values of the arrays.
     $prime_matrix = jellomatrix_prime_basetone($tone, $interval);
     $response_matrix = jellomatrix_response_basetone($tone, $interval);
     $spliced_matrix = jellomatrix_spliced_basetone($prime_matrix, $response_matrix, $tone, $interval);
 
     extract(jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_matrix));
 
-    //TEST
+    // TEST.
     $fwd = 0;
     $rev = 0;
     foreach($spliced_matrix as $row) {
@@ -96,7 +96,7 @@ class JelloMatrixResultForm extends FormBase {
     }
 
 
-    //now we get the harmonics
+    // Now we get the harmonics.
     $harmonics = jellomatrix_harmonics();
 
     $primes = jellomatrix_primes($tone);
@@ -107,7 +107,7 @@ class JelloMatrixResultForm extends FormBase {
 
     $increments_prime = jellomatrix_increments_prime_derivative($prime_matrix, $tone);
 
-  	//Now we create the first original matrix grid
+  	// Now we create the first original matrix grid.
     $output = '';
 
     $output .= jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, $tone, $interval);
@@ -121,7 +121,6 @@ class JelloMatrixResultForm extends FormBase {
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval);
-    //TODO
     $output .= '</div><hr><br><hr></div>';
 
 

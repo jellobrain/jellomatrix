@@ -66,14 +66,14 @@ class JelloMatrixOffsetResultForm extends FormBase {
       unset($t);
     }
 
-    //Find the values of the arrays
+    // Find the values of the arrays.
     $prime_matrix = jellomatrix_prime_offset($tone, $interval, $offset);
     $response_matrix = jellomatrix_response_offset($tone, $interval, $offset);
     $spliced_matrix = jellomatrix_spliced_offset($prime_matrix, $response_matrix, $tone, $interval, $offset);
 
     extract(jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_matrix));
 
-    //TEST
+    // TEST.
     $fwd = 0;
     $rev = 0;
     foreach($spliced_matrix as $row) {
@@ -100,7 +100,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     }
 
 
-    //now we get the harmonics
+    // Now we get the harmonics.
     $harmonics = jellomatrix_harmonics();
 
     $primes = jellomatrix_primes($tone);
@@ -127,7 +127,6 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval);
-    //TODO
     $output .= '</div><hr><br><hr></div>';
 
     $form['output'] = array(
