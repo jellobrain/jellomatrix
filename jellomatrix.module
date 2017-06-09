@@ -2142,7 +2142,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
   }
 
   $phi = 1/1.618;
-  $wavelength_calculation = '';
+  $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
 
   if (isset($wave_interactions)) {
     foreach ($wave_interactions as $tone=>$jumps) {
@@ -2157,18 +2157,25 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $wavelengths_mult = $wavelength_old*$wavelength['wavelength'];
       }
       $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
-      $wavelength_calculation .= 'Tone ' . $tone . ': phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = ' . $wavelengths_phi . '</br>';
+      if ($count == 2) {
+        $wavelength_calculation .= '<strong>Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s being taken into account:</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
+      }
     }
   }
+  $wavelength_calculation .= '</p></div></div>';
 
   if (isset($no_scales)) {
   }
   if (isset($scale_increments) && isset($wavelength_calculation)) {
-  return array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled, 'scale_increments' => $scale_increments, 'wavelength_calculation' => $wavelength_calculation,);
+  $wave_detection = array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled, 'scale_increments' => $scale_increments,);
   }
   else {
-    return array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled);
+    $wave_detection = array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled);
   }
+  if (isset($wavelength_calculation)) {
+    $wave_detection['wavelength_calculation'] = $wavelength_calculation;
+  }
+  return $wave_detection;
 
 }
 
