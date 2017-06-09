@@ -25,8 +25,6 @@ class JelloMatrixOffsetResultForm extends FormBase {
     * {@inheritdoc}
     */
   public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL, $offset = 0) {
-    $offsetrange = range(0,$interval-2);
-
     $form['description'] = array(
       '#type' => 'markup',
       '#title' => t('Orientation'),
@@ -37,6 +35,8 @@ class JelloMatrixOffsetResultForm extends FormBase {
         ),
       ),
     );
+
+    $offsetrange = range(0,$interval-2);
     $form['offset'] = array(
       '#type' => 'select',
       '#title' => t('Offset'),

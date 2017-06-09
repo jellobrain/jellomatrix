@@ -77,6 +77,11 @@ function jellomatrix_to_arg($arg) {
   }
 }
 
+function jellomatrix_phi_equation($spliced_matrix, $tone, $interval) {
+
+
+}
+
 function jellomatrix_primes($tone) {
   $primes = array();
   $primes[] = 1;
@@ -1817,6 +1822,27 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
     }
   }
 
+  // Find wave height;
+  $wave_height = 0;
+  $midwave = 0;
+  $wavecount = 0;
+  foreach ($spliced_matrix as $key=>$spliced_row) {
+    foreach ($spliced_row as $k=>$item) {
+      if ($wavecount == 0 && $midwave == 0 && $spliced_matrix[$key][$k]['column'] == 1 && isset($spliced_matrix[$key][$k]['wave_vertical']) && $spliced_matrix[$key][$k]['wave_vertical'] == 'top') {
+        $wave_height++;
+        $midwave = 1;
+        $wavecount++;
+      }
+      elseif ($wavecount < 2 && $midwave == 1 && $spliced_matrix[$key][$k]['column'] == 1 &&  isset($spliced_matrix[$key][$k]['wave_vertical']) && $spliced_matrix[$key][$k]['wave_vertical'] == 'bottom' && $wave_height > 1) {
+        $wave_height++;
+        $midwave = 0;
+      }
+      elseif ($wavecount < 2 && $midwave == 1 && $spliced_matrix[$key][$k]['column'] == 1 && !isset($spliced_matrix[$key][$k]['wave_vertical'])) {
+        $wave_height++;
+      }
+    }
+  }
+
   foreach ($spliced_matrix as $key=>$spliced_row) {
     foreach ($spliced_row as $k=>$item) {
       if (isset($spliced_matrix[$key][$k]['wave_limit_processed']) && $spliced_matrix[$key][$k]['wave_limit_processed'] == 1 && $spliced_matrix[$key][$k]['column'] == 1) {
@@ -1828,6 +1854,9 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
             $scale_direction = $explode[3];
             $color = $explode[4];
             $c = 0;
+
+            //TODO: Calculate wavelength of rhythms.
+
             if (isset($spliced_matrix[$key][$k]['wave'])) {
               foreach ($spliced_matrix[$key][$k]['wave'] as $w => $wave) {
                 if (isset($scale_increments[$i]) && $wave == $increment) {
@@ -1836,21 +1865,39 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                       $current_position_key = $key;
                       $current_position_k = $k + 1;
                       $spliced_matrix[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix[$key][$k + 1]['yellow'] = $color;
-                      $spliced_matrix[$key][$k + 1]['rhythm'][] = $jump;
+                      $spliced_matrix[$key][$k + 1]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix[$key][$k + 1]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix_reversed[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix_reversed[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix_reversed[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix_reversed[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix_reversed[$key][$k + 1]['yellow'] = $color;
-                      $spliced_matrix_reversed[$key][$k + 1]['rhythm'][] = $jump;
+                      $spliced_matrix_reversed[$key][$k + 1]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix_reversed[$key][$k + 1]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                     }
                     if ($item['pole_shift'] == 2) {
                       $current_position_key = $key;
                       $current_position_k = $k;
                       $spliced_matrix[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix_reversed[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix_reversed[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix_reversed[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix_reversed[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                     }
                     if (isset($current_position_k) && isset($current_position_key)) {
                       if ($scale_direction == 'forward') {
@@ -1864,8 +1911,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } elseif ($direction == 'up' && isset($spliced_matrix[$current_position_key - 1][$current_position_k + $jump])) {
                               $current_position_key = $current_position_key - 1;
@@ -1873,8 +1920,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } else {
                               break;
@@ -1883,8 +1930,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                             $current_position_k = $current_position_k + 1;
                             $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                             $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                             if ($direction == 'down') {
                               $direction = 'up';
                             } else {
@@ -1907,8 +1954,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } elseif ($direction == 'up' && isset($spliced_matrix[$current_position_key - 1][$current_position_k + $jump])) {
                               $current_position_key = $current_position_key - 1;
@@ -1916,8 +1963,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } else {
                               break;
@@ -1926,8 +1973,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                             $current_position_k = $current_position_k + 1;
                             $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                             $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                             if ($direction == 'down') {
                               $direction = 'up';
                             } else {
@@ -1949,21 +1996,40 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                       $current_position_key = $key;
                       $current_position_k = $k + 1;
                       $spliced_matrix[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix[$key][$k + 1]['yellow'] = $color;
-                      $spliced_matrix[$key][$k + 1]['rhythm'][] = $jump;
+                      $spliced_matrix[$key][$k + 1]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix[$key][$k + 1]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix_reversed[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix_reversed[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix_reversed[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix_reversed[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix_reversed[$key][$k + 1]['yellow'] = $color;
-                      $spliced_matrix_reversed[$key][$k + 1]['rhythm'][] = $jump;
+                      $spliced_matrix_reversed[$key][$k + 1]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix_reversed[$key][$k + 1]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                     }
                     if ($item['pole_shift'] == 2) {
                       $current_position_key = $key;
                       $current_position_k = $k;
                       $spliced_matrix[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
                       $spliced_matrix_reversed[$key][$k]['yellow'] = 'red';
-                      $spliced_matrix_reversed[$key][$k]['rhythm'][] = $jump;
+                      $spliced_matrix_reversed[$key][$k]['rhythm'][$jump] = $jump;
+
+                      $spliced_matrix_reversed[$key][$k]['wavelength_even'][$jump] = 1+($jump*($wave_height-1));
+
+
                     }
                     if (isset($current_position_k) && isset($current_position_key)) {
                       if ($scale_direction == 'forward') {
@@ -1977,8 +2043,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } elseif ($direction == 'up' && isset($spliced_matrix[$current_position_key - 1][$current_position_k + $jump])) {
                               $current_position_key = $current_position_key - 1;
@@ -1986,8 +2052,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } else {
                               break;
@@ -1996,8 +2062,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                             $current_position_k = $current_position_k + 1;
                             $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                             $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                             if ($direction == 'down') {
                               $direction = 'up';
                             } else {
@@ -2020,8 +2086,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } elseif ($direction == 'up' && isset($spliced_matrix[$current_position_key - 1][$current_position_k + $jump])) {
                               $current_position_key = $current_position_key - 1;
@@ -2029,8 +2095,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                               if (isset($current_position_k) && isset($current_position_key)) {
                                 $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                                 $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                                $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                                $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                               }
                             } else {
                               break;
@@ -2039,8 +2105,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                             $current_position_k = $current_position_k + 1;
                             $spliced_matrix[$current_position_key][$current_position_k]['yellow'] = $color;
                             $spliced_matrix_reversed[$current_position_key][$current_position_k]['yellow'] = $color;
-                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][] = $jump;
-                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][] = $jump;
+                            $spliced_matrix[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
+                            $spliced_matrix_reversed[$current_position_key][$current_position_k]['rhythm'][$jump] = $jump;
                             if ($direction == 'down') {
                               $direction = 'up';
                             } else {
@@ -2063,6 +2129,39 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
       }
     }
   }
+
+
+  foreach ($spliced_matrix as $key=>$spliced_row) {
+    foreach ($spliced_row as $k=>$item) {
+      if (isset($spliced_matrix[$key][$k]['wavelength_even'])) {
+        foreach ($spliced_matrix[$key][$k]['wavelength_even'] as $jump=>$value) {
+          $wave_interactions[$spliced_matrix[$key][$k]['tone']][$jump]['wavelength'] = $value;
+        }
+      }
+    }
+  }
+
+  $phi = 1/1.618;
+
+
+  if (isset($wave_interactions)) {
+    foreach ($wave_interactions as $tone=>$jumps) {
+      $count = 0;
+      $wavelengths_added = 0;
+      $wavelengths_mult = 1;
+      foreach ($jumps as $jump=>$wavelength) {
+        $count++;
+        $wavelength_old = $wavelengths_added;
+        $wavelengths_added = $wavelength_old+$wavelength['wavelength'];
+        $wavelength_old = $wavelengths_mult;
+        $wavelengths_mult = $wavelength_old*$wavelength['wavelength'];
+      }
+      $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
+      dpm('Tone ' . $tone . ': phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = ' . $wavelengths_phi . '</br>');
+    }
+  }
+
+
 
   if (isset($no_scales)) {
   }
