@@ -2142,7 +2142,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
   }
 
   $phi = 1/1.618;
-
+  $wavelength_calculation = '';
 
   if (isset($wave_interactions)) {
     foreach ($wave_interactions as $tone=>$jumps) {
@@ -2157,17 +2157,16 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $wavelengths_mult = $wavelength_old*$wavelength['wavelength'];
       }
       $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
-      dpm('Tone ' . $tone . ': phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = ' . $wavelengths_phi . '</br>');
+      $wavelength_calculation .= 'Tone ' . $tone . ': phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = ' . $wavelengths_phi . '</br>';
     }
   }
 
-
-
   if (isset($no_scales)) {
   }
-  if (isset($scale_increments)) {
-    return array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled, 'scale_increments' => $scale_increments);
-  } else {
+  if (isset($scale_increments) && isset($wavelength_calculation)) {
+  return array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled, 'scale_increments' => $scale_increments, 'wavelength_calculation' => $wavelength_calculation,);
+  }
+  else {
     return array('spliced_matrix' => $spliced_matrix, 'spliced_matrix_reversed' => $spliced_matrix_reversed, 'scale' => $scale, 'scaled' => $scaled);
   }
 

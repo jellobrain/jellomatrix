@@ -122,6 +122,9 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $output .= jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, $primes, $tone, $interval);
+    if (isset($wavelength_calculation)) {
+      $output .= $wavelength_calculation;
+    }
     $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval);
