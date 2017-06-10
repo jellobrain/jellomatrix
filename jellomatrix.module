@@ -2141,9 +2141,10 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
     }
   }
 
-  $phi = 1/1.618;
+  $phi = 1/1.61803398874989484820458683436563811772030917980576;
   $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
 
+  $wavelengths = array();
   if (isset($wave_interactions)) {
     foreach ($wave_interactions as $tone=>$jumps) {
       $count = 0;
@@ -2155,11 +2156,16 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $wavelengths_added = $wavelength_old+$wavelength['wavelength'];
         $wavelength_old = $wavelengths_mult;
         $wavelengths_mult = $wavelength_old*$wavelength['wavelength'];
+        $wavelengths[$tone][$wavelength['wavelength']] = $wavelength['wavelength'];
       }
       $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
-      if ($count == 2) {
-        $wavelength_calculation .= '<strong>Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s being taken into account:</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
-      }
+      //if ($count == 2) {
+        $wavelength_calculation .= '<strong>Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
+        foreach ($wavelengths[$tone] as $w=>$value) {
+          $wavelength_calculation .= $w . ' ';
+        }
+        $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
+      //}
     }
   }
   $wavelength_calculation .= '</p></div></div>';
