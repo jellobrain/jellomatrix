@@ -71,7 +71,7 @@ class JelloMatrixSidebar extends FormBase {
     }
     $form['post'] = array (
       '#type' => 'markup',
-      '#markup' => 'something',
+      '#markup' => $postform,
       '#attached' => array(
         'library' => array(
           'jellomatrix/jellomatrix',
