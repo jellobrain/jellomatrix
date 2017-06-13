@@ -22,7 +22,6 @@ jellomatrix.interval:
   requirements:
     _permission: 'view some jellomatrix'
 
-
 jellomatrix.result:
   path: '/jellomatrix/{tone}/{interval}'
   defaults:
