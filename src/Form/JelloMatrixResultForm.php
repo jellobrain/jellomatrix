@@ -14,7 +14,7 @@ class JelloMatrixResultForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'jellomatrix_offset_result_form';
+    return 'jellomatrix_result_form';
   }
 
    /**
@@ -26,7 +26,7 @@ class JelloMatrixResultForm extends FormBase {
     $form['description'] = array(
       '#type' => 'markup',
       '#title' => t('Orientation'),
-      '#markup' => '<p>' . t('If this looks like the beginning of a new math, that is because it is.  It\'s actually a very old math reborn.') . '</p><p><strong>' . t('Welcome.') . '</strong> ' . t('Contact me directly at') . ' <a href="mailto:ana@jellobrain.com">ana at jellobrain dot com</a> ' . t('if you\'d like to talk about it.') . '</p><div class="endtext"><br></div><div class="begintext" ><p>' . t('This is where we see that even if the grids are offset vertically from one another, they still have an opportunity to be scale active.').'</p></div>',
+      '#markup' => '<p>' . t('If this looks like the beginning of a new math, that is because it is.  It\'s actually a very old math reborn.') . '</p><p><strong>' . t('Welcome.') . '</strong> ' . t('Contact me directly at') . ' <a href="mailto:ana@jellobrain.com">ana at jellobrain dot com</a> ' . t('if you\'d like to talk about it.') . '</p><div class="endtext"><br></div><div class="begintext" ><p>' . t('This is where we see that even if the grids are offset vertically from one another, they still have an opportunity to be scale active and seem to function like Moire patterns in that sense.').'</p></div>',
       '#attached' => array(
         'library' => array(
           'jellomatrix/jellomatrix',
@@ -116,6 +116,9 @@ class JelloMatrixResultForm extends FormBase {
     $output .= jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, $primes, $tone, $interval);
+    if (isset($wavelength_calculation)) {
+      $output .= $wavelength_calculation;
+    }
     $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval);
