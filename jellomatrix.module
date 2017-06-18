@@ -1584,7 +1584,6 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
   );
   $color_array = array_reverse($color_array);
 
-  //TODO: look at 5/8
   foreach ($spliced_matrix as $key=>$spliced_row) {
     foreach ($spliced_row as $k=>$item) {
       if (isset($item['wave_limit'])) {
@@ -2392,7 +2391,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
             $color = $explode[4];
             $c = 0;
 
-            if (isset($spliced_matrix[$key][$k]['wave']) && $jump %2 == 0) {
+            if (isset($spliced_matrix[$key][$k]['wave'])/* odd waveform && $jump %2 == 0*/) {
               foreach ($spliced_matrix[$key][$k]['wave'] as $w => $wave) {
                 if (isset($scale_increments[$i]) && $wave == $increment) {
                   if ($direction == 'down' && $c == 0) {
@@ -2695,14 +2694,35 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $wavelengths[$tone][$wavelength['wavelength']] = $wavelength['wavelength'];
         }
       }
-      $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
-      //if ($count == 2) {
-        $wavelength_calculation .= '<strong>Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
-        foreach ($wavelengths[$tone] as $w=>$value) {
-          $wavelength_calculation .= $w . ' ';
+      $ocount = 0;
+      $owavelengths_added = 0;
+      $owavelengths_mult = 1;
+      foreach ($jumps as $jump=>$owavelength) {
+        if ($jump %2 != 0) {
+          $ocount++;
+          $owavelength_old = $owavelengths_added;
+          $owavelengths_added = $owavelength_old+$owavelength['wavelength'];
+          $owavelength_old = $owavelengths_mult;
+          $owavelengths_mult = $owavelength_old*$owavelength['wavelength'];
+          $owavelengths[$tone][$owavelength['wavelength']] = $owavelength['wavelength'];
         }
-        $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
-      //}
+      }
+      $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
+      $owavelengths_phi = ($phi*$owavelengths_mult)/$owavelengths_added;
+
+      $wavelength_calculation .= '<strong>EVEN Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
+      foreach ($wavelengths[$tone] as $w=>$value) {
+        $wavelength_calculation .= $w . ' ';
+      }
+      $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
+
+      if ($owavelengths_added > 0) {
+        $wavelength_calculation .= '<strong>ODD Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
+        foreach ($owavelengths[$tone] as $ow=>$value) {
+          $wavelength_calculation .= $ow . ' ';
+        }
+        $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $owavelengths_mult . '/' . $owavelengths_added . ' = <strong>' . $owavelengths_phi . '</strong></br>';
+      }
     }
   }
   $wavelength_calculation .= '</p></div></div>';
@@ -3668,8 +3688,8 @@ function jellomatrix_output_splicegrid_waveforms($spliced_matrix, $splied_matrix
 
   if (isset($oddgrid)) {
     //TODO: Bring back odd grid
-    //$output .= $output_odd;
-    //unset($oddgrid);
+    $output .= $output_odd;
+    unset($oddgrid);
   }
 
   return $output;
@@ -3682,6 +3702,7 @@ function jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, 
     $output .= '<p><strong>' . $scaled . '...</strong></p><div class="endtext"><br></div>';
     $output .= '<p><strong>Not all detected waveforms will render completely above.</strong></p><div class="endtext"><br></div>';
     $output .= '<p><strong>RED</strong> = Start of wave.</p>';
+    $output .= '<p><strong>EVEN Waves</strong></p>';
     if (isset($scale_increments)) {
       foreach ($scale_increments as $i=>$increment) {
         $explode = explode(':', $increment);
@@ -3691,6 +3712,26 @@ function jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, 
         $scale_direction = $explode[3];
         $color = $explode[4];
         if ($jump %2 == 0) {
+          $output .= '<p><strong>Starting ' . $t . ':</strong> scale direction = ' . $scale_direction . ', rhythm = ' . $jump . ', initial vertical = ' . $direction . ', color = ' . $color . '.</p>';
+        }
+        if ($jump %2 != 0) {
+          $odd_waves = 1;
+        }
+      }
+    }
+    if (isset($odd_waves)){
+      $output .= '<p><strong>ODD Waves</strong></p>';
+    }
+    unset($odd_waves);
+    if (isset($scale_increments)) {
+      foreach ($scale_increments as $i=>$increment) {
+        $explode = explode(':', $increment);
+        $t = $explode[0];
+        $jump = $explode[1];
+        $direction = $explode[2];
+        $scale_direction = $explode[3];
+        $color = $explode[4];
+        if ($jump %2 != 0) {
           $output .= '<p><strong>Starting ' . $t . ':</strong> scale direction = ' . $scale_direction . ', rhythm = ' . $jump . ', initial vertical = ' . $direction . ', color = ' . $color . '.</p>';
         }
       }
