@@ -2708,7 +2708,9 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         }
       }
       $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
-      $owavelengths_phi = ($phi*$owavelengths_mult)/$owavelengths_added;
+      if ($owavelengths_added > 0) {
+        $owavelengths_phi = ($phi*$owavelengths_mult)/$owavelengths_added;
+      }
 
       $wavelength_calculation .= '<strong>EVEN Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
       foreach ($wavelengths[$tone] as $w=>$value) {
