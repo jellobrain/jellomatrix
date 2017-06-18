@@ -29,7 +29,7 @@ class JelloMatrixSidebar extends FormBase {
     $tone = $explode[2];
 
     $offsetrange = range(0, $tone-2);
-    if ($explode[4] == 'offset' && isset($explode[5])) {
+    if (isset($explode[4]) && $explode[4] == 'offset' && isset($explode[5])) {
       $offset = $explode[5];
     } else {
       $offset = 0;
