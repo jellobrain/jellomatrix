@@ -1662,7 +1662,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                   }
                 }
               } else {
-                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoione)])) {
+                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoitwo)])) {
                   $next_next_next_position = $spliced_matrix[$key][($twoitwo)];
                 } else {
                   if (!isset($next_next_position['tone'])) {
@@ -1851,7 +1851,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                   }
                 }
               } else {
-                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoi)])) {
+                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoione)])) {
                   $next_next_next_position = $spliced_matrix[$key][($twoione)];
                 } else {
                   if (!isset($next_next_position['tone'])) {
@@ -2041,7 +2041,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                   }
                 }
               } else {
-                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoione)])) {
+                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoitwo)])) {
                   $next_next_next_position = $spliced_matrix[$key][($twoitwo)];
                 } else {
                   if (!isset($next_next_position['tone'])) {
@@ -2232,7 +2232,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
                   }
                 }
               } else {
-                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoi)])) {
+                if ($nadjacent == 1 && isset($next_position) && isset($next_next_position) && isset($spliced_matrix[$key][($twoione)])) {
                   $next_next_next_position = $spliced_matrix[$key][($twoione)];
                 } else {
                   if (!isset($next_next_position['tone'])) {
