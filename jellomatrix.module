@@ -2406,7 +2406,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
       if (isset($spliced_matrix[$key][$k]['wave_limit_processed']) && $spliced_matrix[$key][$k]['wave_limit_processed'] == 1 && $spliced_matrix[$key][$k]['column'] == 1) {
         if (isset($scale_increments)) {
           foreach ($scale_increments as $i => $increment) {
-            dpm($increment);
+            //dpm($increment);
             $explode = explode(':', $increment);
             $jump = $explode[1];
             $direction = $explode[2];
