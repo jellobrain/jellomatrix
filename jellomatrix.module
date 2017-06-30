@@ -2701,14 +2701,20 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $wave_interactions[$spliced_matrix[$key][$k]['tone']][$jump]['wavelength'] = $value;
         }
       }
+      if (isset($spliced_matrix[$key][$k]['wavelength_odd'])) {
+        foreach ($spliced_matrix[$key][$k]['wavelength_odd'] as $jump=>$value) {
+          $wave_interactions[$spliced_matrix[$key][$k]['tone']][$jump]['wavelength'] = $value;
+        }
+      }
     }
   }
 
-  $phi = 1/1.618;
-  $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
-
-  $wavelengths = array();
   if (isset($wave_interactions)) {
+
+    $phi = 1/1.618;
+    $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
+
+    $wavelengths = array();
     foreach ($wave_interactions as $tone=>$jumps) {
       $count = 0;
       $wavelengths_added = 0;
@@ -2755,8 +2761,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $owavelengths_mult . '/' . $owavelengths_added . ' = <strong>' . $owavelengths_phi . '</strong></br>';
       }
     }
+    $wavelength_calculation .= '</p></div></div>';
   }
-  $wavelength_calculation .= '</p></div></div>';
 
   if (isset($no_scales)) {
   }
