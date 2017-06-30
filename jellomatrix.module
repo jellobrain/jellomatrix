@@ -2725,9 +2725,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $wavelength_old = $wavelengths_added;
           $wavelengths_added = $wavelength_old+$wavelength['wavelength'];
           $wavelength_old = $wavelengths_mult;
-          $wavelength_jump = $jump;
           $wavelengths_mult = $wavelength_old*$wavelength['wavelength'];
-          //$wavelengths[$tone][$wavelength['wavelength']] = $wavelength['wavelength'];
           $wavelengths[$tone][$wavelength['wavelength']]['jump'] = $jump;
         }
       }
@@ -2741,7 +2739,6 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $owavelengths_added = $owavelength_old+$owavelength['wavelength'];
           $owavelength_old = $owavelengths_mult;
           $owavelengths_mult = $owavelength_old*$owavelength['wavelength'];
-          //$owavelengths[$tone][$owavelength['wavelength']] = $owavelength['wavelength'];
           $owavelengths[$tone][$owavelength['wavelength']]['jump'] = $jump;
         }
       }
