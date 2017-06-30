@@ -2748,14 +2748,14 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
 
       $wavelength_calculation .= '<strong>EVEN Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted.';
       foreach ($wavelengths[$tone] as $w=>$value) {
-        $wavelength_calculation .= '<br/>Wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $w . '.';
+        $wavelength_calculation .= '<br/>Half-wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $w . '.';
       }
       $wavelength_calculation .= '</strong><br/>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
 
       if ($owavelengths_added > 0) {
         $wavelength_calculation .= '<strong>ODD Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted.';
         foreach ($owavelengths[$tone] as $ow=>$value) {
-          $wavelength_calculation .= '<br/>Wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $ow . '.';
+          $wavelength_calculation .= '<br/>Half-wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $ow . '.';
         }
         $wavelength_calculation .= '</strong><br/>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $owavelengths_mult . '/' . $owavelengths_added . ' = <strong>' . $owavelengths_phi . '</strong></br>';
       }
@@ -2766,7 +2766,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $wavelengths_phi = (.615*$wavelengths_mult)/$wavelengths_added;
         $wavelength_calculation .= '<strong>VENUS Calculation</strong> with <strong>' . $count . '</strong> wavelength/s counted.';
         foreach ($wavelengths[$tone] as $w=>$value) {
-          $wavelength_calculation .= '<br/>Wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $w . '.';
+          $wavelength_calculation .= '<br/>Half-wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $w . '.';
         }
         $wavelength_calculation .= '</strong><br/>venus ratio = orbit of venus / orbit of earth = .615<br/> venus ratio(wavelengths multiplied)/wavelengths added = .615*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
       }
