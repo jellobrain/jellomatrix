@@ -125,7 +125,7 @@ class JelloMatrixResultForm extends FormBase {
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval);
-    $output .= '</div><hr><br><hr></div>';
+    $output .= '</div>';
 
 
     $form['output'] = array(

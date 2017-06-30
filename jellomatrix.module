@@ -2701,14 +2701,20 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $wave_interactions[$spliced_matrix[$key][$k]['tone']][$jump]['wavelength'] = $value;
         }
       }
+      if (isset($spliced_matrix[$key][$k]['wavelength_odd'])) {
+        foreach ($spliced_matrix[$key][$k]['wavelength_odd'] as $jump=>$value) {
+          $wave_interactions[$spliced_matrix[$key][$k]['tone']][$jump]['wavelength'] = $value;
+        }
+      }
     }
   }
 
-  $phi = 1/1.618;
-  $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
-
-  $wavelengths = array();
   if (isset($wave_interactions)) {
+
+    $phi = 1/1.618;
+    $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
+
+    $wavelengths = array();
     foreach ($wave_interactions as $tone=>$jumps) {
       $count = 0;
       $wavelengths_added = 0;
@@ -2755,8 +2761,8 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $owavelengths_mult . '/' . $owavelengths_added . ' = <strong>' . $owavelengths_phi . '</strong></br>';
       }
     }
+    $wavelength_calculation .= '</p></div></div>';
   }
-  $wavelength_calculation .= '</p></div></div>';
 
   if (isset($no_scales)) {
   }
@@ -3768,7 +3774,7 @@ function jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, 
       }
     }
   }
-  $output .= '<p></p><br></div></div>';
+  $output .= '<p></p><br></div>';
 
   return $output;
 }
@@ -5187,7 +5193,8 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
     }
   }
   $output .= $r;
-  $output .= '</div><hr class="hr"><br><div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Matrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com" rel="dct:source">http://jellobrain.com</a>.</div><hr class="hr"></div>';
+  $output .= '</div><hr class="hr"><br>
+  <div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Matrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com" rel="dct:source">http://jellobrain.com</a>.</div><hr class="hr">';
 
   return $output;
 }
