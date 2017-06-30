@@ -2726,7 +2726,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $wavelengths_added = $wavelength_old+$wavelength['wavelength'];
           $wavelength_old = $wavelengths_mult;
           $wavelengths_mult = $wavelength_old*$wavelength['wavelength'];
-          $wavelengths[$tone][$wavelength['wavelength']] = $wavelength['wavelength'];
+          $wavelengths[$tone][$wavelength['wavelength']]['jump'] = $jump;
         }
       }
       $ocount = 0;
@@ -2739,7 +2739,7 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
           $owavelengths_added = $owavelength_old+$owavelength['wavelength'];
           $owavelength_old = $owavelengths_mult;
           $owavelengths_mult = $owavelength_old*$owavelength['wavelength'];
-          $owavelengths[$tone][$owavelength['wavelength']] = $owavelength['wavelength'];
+          $owavelengths[$tone][$owavelength['wavelength']]['jump'] = $jump;
         }
       }
       $wavelengths_phi = ($phi*$wavelengths_mult)/$wavelengths_added;
@@ -2747,18 +2747,18 @@ function jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_ma
         $owavelengths_phi = ($phi*$owavelengths_mult)/$owavelengths_added;
       }
 
-      $wavelength_calculation .= '<strong>EVEN Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
+      $wavelength_calculation .= '<strong>EVEN Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted.';
       foreach ($wavelengths[$tone] as $w=>$value) {
-        $wavelength_calculation .= $w . ' ';
+        $wavelength_calculation .= '<br/>Wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $w . '.';
       }
-      $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
+      $wavelength_calculation .= '</strong><br/>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $wavelengths_mult . '/' . $wavelengths_added . ' = <strong>' . $wavelengths_phi . '</strong></br>';
 
       if ($owavelengths_added > 0) {
-        $wavelength_calculation .= '<strong>ODD Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted - ';
+        $wavelength_calculation .= '<strong>ODD Tone ' . $tone . '</strong> with <strong>' . $count . '</strong> wavelength/s counted.';
         foreach ($owavelengths[$tone] as $ow=>$value) {
-          $wavelength_calculation .= $ow . ' ';
+          $wavelength_calculation .= '<br/>Wavelength for <strong>rhythm ' . $value['jump'] . '</strong> is ' . $ow . '.';
         }
-        $wavelength_calculation .= ':</strong></br>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $owavelengths_mult . '/' . $owavelengths_added . ' = <strong>' . $owavelengths_phi . '</strong></br>';
+        $wavelength_calculation .= '</strong><br/>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . $owavelengths_mult . '/' . $owavelengths_added . ' = <strong>' . $owavelengths_phi . '</strong></br>';
       }
     }
     $wavelength_calculation .= '</p></div></div>';
