@@ -4149,7 +4149,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval) {
+function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics) {
   $output = '';
   // Now output the differences between different integers.
   $output .= '<div class="endtable begintext"><h2>ODD+EVEN: Derivatives</h2>';
@@ -4199,13 +4199,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               }
             }
 
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
             } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
+            if (isset($four) && $two == $four) {
+              $lower = $two;
             } else {
               unset($lower);
             }
@@ -4230,36 +4230,38 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<table class="table"><tr>';
           foreach ($direction as $spliced_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
-            foreach ($spliced_row as $key => $item) {
+            foreach ($spliced_row as $k => $item) {
               if (($item) % 2 == 0) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (($item) % 2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
             } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
+            if (isset($four) && $two == $four) {
+              $lower = $two;
             } else {
               unset($lower);
             }
+
             if (isset($upper)) {
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
@@ -4282,36 +4284,34 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<table class="table"><tr>';
           foreach ($direction as $spliced_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
-            foreach ($spliced_row as $key => $item) {
-              if ($key == 0) {
-                beep;
-              }
+            foreach ($spliced_row as $k => $item) {
               if (($item) % 2 == 0) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (($item) % 2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
             } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
+            if (isset($four) && $two == $four) {
+              $lower = $two;
             } else {
               unset($lower);
             }
@@ -4351,39 +4351,39 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<table class="table"><tr>';
           foreach ($direction as $spliced_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($spliced_row as $key=>$item) {
+            foreach ($spliced_row as $k=>$item) {
               if (in_array($item, $primes)) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (!in_array($item, $primes)) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
+            //dpm($upper);
             if (isset($upper)) {
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
@@ -4403,36 +4403,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<table class="table"><tr>';
           foreach ($direction as $spliced_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($spliced_row as $key=>$item) {
+            foreach ($spliced_row as $k=>$item) {
               if (in_array($item, $primes)) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (!in_array($item, $primes)) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
@@ -4455,36 +4454,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<table class="table"><tr>';
           foreach ($direction as $spliced_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($spliced_row as $key=>$item) {
+            foreach ($spliced_row as $k=>$item) {
               if (in_array($item, $primes)) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (!in_array($item, $primes)) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
@@ -4857,7 +4855,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval) {
+function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics) {
   $output = '';
   // Now output the differences between different integers.
   $output .= '<div class="endtable begintext"><h2>PRIMARY MATRIX DERIVATIVES ODD+EVEN: Derivatives</h2>';
@@ -4874,38 +4872,38 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           $r .= '<table class="table"><tr>';
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($prime_row as $key=>$item) {
+            foreach ($prime_row as $k=>$item) {
               if (($item)%2 == 0) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (($item)%2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
+
 
             if (isset($upper)) {
               foreach ($harmonics as $note) {
@@ -4926,38 +4924,38 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           $r .= '<table class="table"><tr>';
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($prime_row as $key=>$item) {
+            foreach ($prime_row as $k=>$item) {
               if (($item)%2 == 0) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (($item)%2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
+
 
             if (isset($upper)) {
               foreach ($harmonics as $note) {
@@ -4978,36 +4976,35 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           $r .= '<table class="table"><tr>';
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($prime_row as $key=>$item) {
+            foreach ($prime_row as $k=>$item) {
               if (($item)%2 == 0) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (($item)%2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
@@ -5033,7 +5030,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval) {
+function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics) {
   $output = '';
   // Now output the differences between different integers.
   $output .= '<div class="endtable begintext"><h2>PRIMARY MATRIX DERIVATIVES PRIMES: Derivatives</h2>';
@@ -5050,36 +5047,35 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
           $r .= '<table class="table"><tr>';
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($prime_row as $key=>$item) {
+            foreach ($prime_row as $k=>$item) {
               if (in_array($item, $primes)) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (!in_array($item, $primes)) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
@@ -5102,36 +5098,35 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
           $r .= '<table class="table"><tr>';
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($prime_row as $key=>$item) {
+            foreach ($prime_row as $k=>$item) {
               if (in_array($item, $primes)) {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               if (!in_array($item, $primes)) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
@@ -5154,35 +5149,34 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
           $r .= '<table class="table"><tr>';
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
-            foreach ($prime_row as $key=>$item) {
+            foreach ($prime_row as $k=>$item) {
               if (in_array($item, $primes)) {
               }
               if (!in_array($item, $primes)) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
-              if ($key == 0) {
-                $zero = $item;
-              }
-              if ($key == 1) {
+              if ($k == 1) {
                 $one = $item;
               }
-              if ($key == 2) {
+              if ($k == 2) {
                 $two = $item;
               }
-              if ($key == 3) {
+              if ($k == 3) {
                 $three = $item;
               }
+              if ($k == 4) {
+                $four = $item;
+              }
             }
-            if (isset($two) && isset($zero) && $zero == $two) {
-              $upper = $zero;
-            }
-            else {
+
+            if (isset($three) && isset($one) && $three == $one) {
+              $upper = $one;
+            } else {
               unset($upper);
             }
-            if (isset($three) && $one == $three) {
-              $lower = $one;
-            }
-            else {
+            if (isset($four) && $two == $four) {
+              $lower = $two;
+            } else {
               unset($lower);
             }
 
