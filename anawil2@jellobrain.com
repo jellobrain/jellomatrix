@@ -3858,7 +3858,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -3911,7 +3911,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -3968,7 +3968,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $lr .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $lr .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4020,7 +4020,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $lr .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $lr .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4077,7 +4077,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $rl .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $rl .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4129,7 +4129,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $rl .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $rl .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4214,7 +4214,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4266,7 +4266,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4320,7 +4320,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4388,7 +4388,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4439,7 +4439,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4490,7 +4490,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4565,7 +4565,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4617,7 +4617,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4674,7 +4674,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $lr .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $lr .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4726,7 +4726,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $lr .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $lr .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4783,7 +4783,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $rl .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $rl .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4835,7 +4835,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $rl .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $rl .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4909,7 +4909,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -4961,7 +4961,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -5012,7 +5012,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -5083,7 +5083,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -5134,7 +5134,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
@@ -5184,7 +5184,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower) {
-                  $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
+                  $r .= '<td class="tdgrid">' . $explode[2] . '</td>';
                 }
               }
             }
