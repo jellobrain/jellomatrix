@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\jellomatrix\Form\JelloMatrixOffsetResultForm.
+ * Contains \Drupal\jellomatrix\Form\JelloMatrixDoubleFlipOffsetResultForm.
  */
 
 namespace Drupal\jellomatrix\Form;
@@ -13,18 +13,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Contribute form.
  */
-class JelloMatrixOffsetResultForm extends FormBase {
+class JelloMatrixDoubleFlipOffsetResultForm extends FormBase {
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'jellomatrix_offset_result_form';
+    return 'jellomatrix_doubleflip_offset_result_form';
   }
 
    /**
     * {@inheritdoc}
     */
-  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL, $offset = 0) {
+  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL,     $offset = 0) {
     $offsetrange = range(0,$interval-2);
 
     $form['description'] = array(
@@ -69,8 +69,8 @@ class JelloMatrixOffsetResultForm extends FormBase {
 
     // Find the values of the arrays.
     $prime_matrix = jellomatrix_prime_offset($tone, $interval, $offset);
-    $response_matrix = jellomatrix_response_offset($tone, $interval, $offset);
-    $spliced_matrix = jellomatrix_spliced_offset($prime_matrix, $response_matrix, $tone, $interval, $offset);
+    $response_matrix = jellomatrix_doubleflip_response_offset($tone, $interval, $offset);
+    $spliced_matrix = jellomatrix_doubleflip_spliced_offset($prime_matrix, $response_matrix, $tone, $interval, $offset);
 
     extract(jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_matrix));
 
@@ -157,7 +157,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $offset = $form_state->getValue('offset');
     $tone = $form_state->getValue('tone');
     $interval = $form_state->getValue('interval');
-    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/offset/' . $offset;
+    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/doubleflip/offset/' . $offset;
     $url = Url::fromUri('internal:/' . $uri);
     $form_state->setRedirectUrl($url);
   }
