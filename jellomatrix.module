@@ -251,6 +251,83 @@ function jellomatrix_response_basetone($tone, $interval) {
       $matrix_count++;
     }
   }
+
+  return $response_bt;
+}
+
+
+/*
+ *
+ * name: jellomatrix_doubleflip_response_basetone
+ * @param = $tone, $interval
+ * @return = array()
+ *
+ */
+function jellomatrix_doubleflip_response_basetone($tone, $interval) {
+  $matrix_count = 1;
+  $response_bt = array();
+
+  // Make sure the line above took.
+  if ($interval >= $tone) {
+    $balance = $interval - $tone;
+    $row = 0;
+    for ($i = 1; $i <= $interval; $i++) {
+      $row++;
+      $column = 0;
+      $record = 'first';
+      for ($t = 1; $t <= $tone; $t++) {
+        $column++;
+        if ($record == 'first') {
+          if ($i == 1 ) {
+            $response_bt[$i][$t]['tone'] = $tone;
+          }
+          else/*if ($i > 1 && $tone >= $i )*/ {
+            $response_bt[$i][$t]['tone'] = $tone - ($i-1);
+          }
+          while ($response_bt[$i][$t]['tone'] <= 0) {
+            $response_bt[$i][$t]['tone'] = $response_bt[$i][$t]['tone']+$tone;
+          }
+          $response_bt[$i][$t]['column'] = $column;
+          $response_bt[$i][$t]['row'] = $row;
+          $response_bt[$i][$t]['grid_x'] = $column;
+          $response_bt[$i][$t]['grid_y'] = $row;
+          $response_bt[$i][$t]['count'] = (($column-1)*$interval)+$row; //BOOKMARK
+          $response_bt[$i][$t]['interval'] = floor($response_bt[$i][$t]['count']/$tone*$interval);
+          $response_bt[$i][$t]['color'] = '#333';
+          $response_bt[$i][$t]['opacity'] = 1;
+          $response_bt[$i][$t]['padding'] = 3;
+          $response_bt[$i][$t]['background'] = '#fafafa';
+          $record = $response_bt[$i][$t]['tone'];
+          $matrix_count++;
+        }
+        else {
+          while ($record <= 0) {
+            $record = $record+$tone;
+          }
+
+          $new_record = $record - $balance;
+          while ($new_record <= 0) {
+            $new_record = $new_record + $tone;
+          }
+          $record = $new_record;
+
+          $response_bt[$i][$t]['tone'] = $record;
+          $response_bt[$i][$t]['column'] = $column;
+          $response_bt[$i][$t]['row'] = $row;
+          $response_bt[$i][$t]['grid_x'] = $column;
+          $response_bt[$i][$t]['grid_y'] = $row;
+          $response_bt[$i][$t]['count'] = (($column-1)*$interval)+$row;
+          $response_bt[$i][$t]['interval'] = floor($response_bt[$i][$t]['count']/$tone*$interval);
+          $response_bt[$i][$t]['color'] = '#333';
+          $response_bt[$i][$t]['opacity'] = 1;
+          $response_bt[$i][$t]['padding'] = 3;
+          $response_bt[$i][$t]['background'] = '#fafafa';
+          $matrix_count++;
+        }
+      }
+    }
+  }
+
   return $response_bt;
 }
 
@@ -459,6 +536,108 @@ function jellomatrix_response_offset($tone, $interval, $offset) {
   return $response_bt;
 }
 
+/*
+ *
+ * name: jellomatrix_doubleflip_response_offset
+ * @param = $tone, $interval
+ * @return = array()
+ *
+ */
+function jellomatrix_doubleflip_response_offset($tone, $interval, $offset) {
+  $matrix_count = 1;
+  $response_bt = array();
+
+  // Make sure the line above took.
+  if ($interval >= $tone) {
+    $balance = $interval - $tone;
+    $row = 0;
+    for ($i = 1; $i <= $interval; $i++) {
+      $row++;
+      $column = 0;
+      $record = 'first';
+      for ($t = 1; $t <= $tone; $t++) {
+        $column++;
+        if ($record == 'first') {
+          if ($i == 1 ) {
+            $response_bt[$i][$t]['tone'] = $tone;
+          }
+          else/*if ($i > 1 && $tone >= $i )*/ {
+            $response_bt[$i][$t]['tone'] = $tone - ($i-1);
+          }
+          while ($response_bt[$i][$t]['tone'] <= 0) {
+            $response_bt[$i][$t]['tone'] = $response_bt[$i][$t]['tone']+$tone;
+          }
+          $response_bt[$i][$t]['column'] = $column;
+          $response_bt[$i][$t]['row'] = $row;
+          $response_bt[$i][$t]['grid_x'] = $column;
+          $response_bt[$i][$t]['grid_y'] = $row;
+          $response_bt[$i][$t]['count'] = (($column-1)*$interval)+$row;
+          $response_bt[$i][$t]['interval'] = floor($response_bt[$i][$t]['count']/$tone*$interval);
+          $response_bt[$i][$t]['color'] = '#333';
+          $response_bt[$i][$t]['opacity'] = 1;
+          $response_bt[$i][$t]['padding'] = 3;
+          $response_bt[$i][$t]['background'] = '#fafafa';
+          $record = $response_bt[$i][$t]['tone'];
+          $matrix_count++;
+        }
+        else {
+          while ($record <= 0) {
+            $record = $record+$tone;
+          }
+
+          $new_record = $record - $balance;
+          while ($new_record <= 0) {
+            $new_record = $new_record + $tone;
+          }
+          $record = $new_record;
+
+          $response_bt[$i][$t]['tone'] = $record;
+          $response_bt[$i][$t]['column'] = $column;
+          $response_bt[$i][$t]['row'] = $row;
+          $response_bt[$i][$t]['grid_x'] = $column;
+          $response_bt[$i][$t]['grid_y'] = $row;
+          $response_bt[$i][$t]['count'] = (($column-1)*$interval)+$row;
+          $response_bt[$i][$t]['interval'] = floor($response_bt[$i][$t]['count']/$tone*$interval);
+          $response_bt[$i][$t]['color'] = '#333';
+          $response_bt[$i][$t]['opacity'] = 1;
+          $response_bt[$i][$t]['padding'] = 3;
+          $response_bt[$i][$t]['background'] = '#fafafa';
+          $matrix_count++;
+        }
+      }
+    }
+  }
+
+
+  if ($offset < 0) {
+    for ($i = 1; $i <= $offset; $i++) {
+      array_pop($response_bt);
+    }
+  }
+  elseif ($offset > 0) {
+    for ($i = 1; $i <= $offset; $i++) {
+      array_shift($response_bt);
+    }
+  }
+
+  $old_arr = $response_bt;
+  $response_bt = array();
+  $i = 1;
+  foreach($old_arr as $old_val) {
+      $response_bt[$i]  = $old_val;
+      $i++;
+  }
+
+  foreach($response_bt as $r=>$row) {
+    foreach ($row as $i=>$item) {
+      $response_bt[$r][$i]['row'] = $r;
+      $response_bt[$r][$i]['grid_y'] = $r;
+    }
+  }
+
+  return $response_bt;
+}
+
 /**
  *
  * name: jellomatrix_spliced_basetone
@@ -488,7 +667,7 @@ function jellomatrix_spliced_basetone($prime_matrix, $response_matrix, $tone, $i
         $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
         $count++;
       }
-      else {
+      else { //BOOKMARK
         if (isset($response_splice_record)) {
           if (isset($prime_splice_record)) {
             $prime_matrix[$i][$t]['spliced_count'] = $prime_splice_record + $interval;
@@ -507,6 +686,58 @@ function jellomatrix_spliced_basetone($prime_matrix, $response_matrix, $tone, $i
       }
     }
   }
+  return $spliced_bt;
+}
+
+/**
+ *
+ * name: jellomatrix_doubleflip_spliced_basetone
+ * @param $prime_matrix
+ * @param $response_matrix
+ * @param $tone
+ * @param $interval
+ * @return array = array()
+ *
+ * @internal param $ = $prime_matrix, $prime_reversed
+ */
+function jellomatrix_doubleflip_spliced_basetone($prime_matrix, $response_matrix, $tone, $interval) {
+
+  $spliced_bt = array();
+  for ($i = 1; $i <= $interval; $i++) {
+    $count = 1;
+    for ($t = 1; $t <= $tone; $t++) {
+      if ($prime_matrix[$i][$t]['count'] == 1) {
+        $prime_matrix[$i][$t]['spliced_count'] = $count;
+        $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
+        $prime_splice_record = $prime_matrix[$i][$t]['spliced_count'];
+        $count++;
+        $response_matrix[$i][$t]['spliced_count'] = $count;
+        $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column']+1;
+        $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column']+1;
+        $spliced_bt[$i][$count] = $response_matrix[$i][$t];
+        $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
+        $count++;
+      }
+      else {
+        if (isset($response_splice_record)) {
+          if (isset($prime_splice_record)) {
+            $prime_matrix[$i][$t]['spliced_count'] = $count;
+            $prime_matrix[$i][$t]['column'] = ($prime_matrix[$i][$t]['column'] * 2) - 1;
+            $prime_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'];
+            $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
+            $count++;
+            $response_matrix[$i][$t]['spliced_count'] = $count;
+            $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column'] + 1;
+            $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column']+1;
+            $spliced_bt[$i][$count] = $response_matrix[$i][$t];
+            $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
+            $count++;
+          }
+        }
+      }
+    }
+  }
+
   return $spliced_bt;
 }
 
@@ -552,6 +783,59 @@ function jellomatrix_spliced_offset($prime_matrix, $response_matrix, $tone, $int
             $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
             $count++;
             $response_matrix[$i][$t]['spliced_count'] = $response_splice_record + $interval;
+            $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column'] + 1;
+            $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'] + 1;
+            $spliced_bt[$i][$count] = $response_matrix[$i][$t];
+            $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
+            $count++;
+          }
+        }
+      }
+    }
+  }
+  return $spliced_bt;
+}
+
+/**
+ *
+ * name: jellomatrix_doubleflip_spliced_offset
+ * @param $prime_matrix
+ * @param $response_matrix
+ * @param $tone
+ * @param $interval
+ * @param $offset
+ * @return array = array()
+ *
+ * @internal param $ = $prime_matrix, $prime_reversed
+ */
+function jellomatrix_doubleflip_spliced_offset($prime_matrix, $response_matrix, $tone, $interval, $offset) {
+  $spliced_bt = array();
+
+  $intoff = $interval - abs($offset);
+  for ($i = 1; $i <= $intoff; $i++) {
+    $count = 1;
+    for ($t = 1; $t <= $tone; $t++) {
+      if ($prime_matrix[$i][$t]['count'] == 1) {
+        $prime_matrix[$i][$t]['spliced_count'] = $prime_matrix[$i][$t]['count']*$prime_matrix[$i][$t]['column'];
+        $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
+        $prime_splice_record = $prime_matrix[$i][$t]['spliced_count'];
+        $count++;
+        $response_matrix[$i][$t]['spliced_count'] =  $interval + ($response_matrix[$i][$t]['count']*$response_matrix[$i][$t]['column']);
+        $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column']+1;
+        $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column']+1;
+        $spliced_bt[$i][$count] = $response_matrix[$i][$t];
+        $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
+        $count++;
+      }
+      else {
+        if (isset($response_splice_record)) {
+          if (isset($prime_splice_record)) {
+            $prime_matrix[$i][$t]['spliced_count'] =  $prime_splice_record + $interval;
+            $prime_matrix[$i][$t]['column'] = ($prime_matrix[$i][$t]['column'] * 2) - 1;
+            $prime_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'];
+            $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
+            $count++;
+            $response_matrix[$i][$t]['spliced_count'] =  $response_splice_record + $interval;
             $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column'] + 1;
             $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'] + 1;
             $spliced_bt[$i][$count] = $response_matrix[$i][$t];
@@ -3426,6 +3710,12 @@ function jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $i
 
   // And then we create the spliced matrix grid.
   $output .= '<div class="begintext endtable"></div><div class="begingrid"><h3>The Basic Orientation of the Spliced Matrix</h3><table class=" table begingrid" cols="' . $tone*2 . '" rows="' . $interval . '">';
+
+  $request = \Drupal::request();
+  $current_path = $request->getPathInfo();
+  $path_args = explode('/', $current_path);
+  $doubleflip = $path_args[4];
+
   for ($i = 1; $i <= $interval; $i++) {
     $output .= '<tr>';
     $count = 1;
@@ -3439,13 +3729,21 @@ function jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $i
           if (($item['column'])%2 != 0) {
             $item['color'] = 'red-text';
           }
-          if ($item['column'] == 1 && $item['row'] == 1 || $item['column'] == 2 && $item['row'] == $interval) {
+          if ($item['column'] == 1 && $item['row'] == 1) {
             $item['background'] = 'green';
             $item['opacity'] = '.' . $item['tone'];
           }
-          if ($item['column'] == 2*$tone && $item['row'] == $interval || $item['column'] == (2*$tone)-1 && $item['row'] == 1) {
-            $item['background'] = 'orange';
-            $item['opacity'] = '.' . $item['tone'];
+          if (isset($doubleflip) && $doubleflip == 'doubleflip') {
+            if ($item['column'] == 2*$tone && $item['row'] == $interval) {
+              $item['background'] = 'green';
+              $item['opacity'] = '.' . $item['tone'];
+            }
+          }
+          else {
+            if ($item['column'] == 2 && $item['row'] == $interval) {
+              $item['background'] = 'green';
+              $item['opacity'] = '.' . $item['tone'];
+            }
           }
           $output .= '<td class="' . $item['column'] . 'x-' . $item['row'] . 'y ' .$item['color'] . ' tdgrid ' .$item['background'] . '">' . $item['tone'] . '</td>';
           $count++;

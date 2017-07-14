@@ -1,26 +1,30 @@
 <?php
 /**
  * @file
- * Contains \Drupal\jellomatrix\Form\JelloMatrixResultForm.
+ * Contains \Drupal\jellomatrix\Form\JelloMatrixDoubleFlipOffsetResultForm.
  */
+
 namespace Drupal\jellomatrix\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class JelloMatrixResultForm extends FormBase {
+/**
+ * Contribute form.
+ */
+class JelloMatrixDoubleFlipOffsetResultForm extends FormBase {
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'jellomatrix_result_form';
+    return 'jellomatrix_doubleflip_offset_result_form';
   }
 
    /**
     * {@inheritdoc}
     */
-  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL,     $offset = 0) {
     $offsetrange = range(0,$interval-2);
 
     $form['description'] = array(
@@ -38,7 +42,7 @@ class JelloMatrixResultForm extends FormBase {
       '#title' => t('Offset'),
       '#description' => t('This is where we see that even if the grids are offset vertically from one another, they still have an opportunity to be scale active and seem to function like Moire patterns in that sense.'),
       '#options' => $offsetrange,
-      '#default_value' => 0,
+      '#default_value' => $offset,
     );
     $form['tone'] = array(
       '#type' => 'hidden',
@@ -53,7 +57,7 @@ class JelloMatrixResultForm extends FormBase {
       '#value' => t('Submit'),
     );
 
-    // This function does not know how to deal yet with tones that are larger than intervals.
+    //This function does not know how to deal yet with tones that are larger than intervals.
     if ($tone > $interval) {
       $i = $interval;
       $t = $tone;
@@ -64,9 +68,9 @@ class JelloMatrixResultForm extends FormBase {
     }
 
     // Find the values of the arrays.
-    $prime_matrix = jellomatrix_prime_basetone($tone, $interval);
-    $response_matrix = jellomatrix_response_basetone($tone, $interval);
-    $spliced_matrix = jellomatrix_spliced_basetone($prime_matrix, $response_matrix, $tone, $interval);
+    $prime_matrix = jellomatrix_prime_offset($tone, $interval, $offset);
+    $response_matrix = jellomatrix_doubleflip_response_offset($tone, $interval, $offset);
+    $spliced_matrix = jellomatrix_doubleflip_spliced_offset($prime_matrix, $response_matrix, $tone, $interval, $offset);
 
     extract(jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_matrix));
 
@@ -108,7 +112,9 @@ class JelloMatrixResultForm extends FormBase {
 
     $increments_prime = jellomatrix_increments_prime_derivative($prime_matrix, $tone);
 
-  	// Now we create the first original matrix grid.
+    // Now the interval is just how high the grid is and we change that to match reality.
+    $interval = $interval - $offset;
+    // Now we create the first original matrix grid.
     $output = '';
 
     $output .= jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, $tone, $interval);
@@ -121,12 +127,11 @@ class JelloMatrixResultForm extends FormBase {
       $output .= $wavelength_calculation;
     }
     $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
-    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
+    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $harmonics);
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics);
     $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics);
     $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics);
     $output .= '</div>';
-
 
     $form['output'] = array(
       '#type' => 'markup',
@@ -136,8 +141,8 @@ class JelloMatrixResultForm extends FormBase {
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     // Validate video URL.
     if (!is_numeric($form_state->getValue('offset'))) {
@@ -146,13 +151,13 @@ class JelloMatrixResultForm extends FormBase {
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $offset = $form_state->getValue('offset');
     $tone = $form_state->getValue('tone');
     $interval = $form_state->getValue('interval');
-    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/offset/' . $offset;
+    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/doubleflip/offset/' . $offset;
     $url = Url::fromUri('internal:/' . $uri);
     $form_state->setRedirectUrl($url);
   }

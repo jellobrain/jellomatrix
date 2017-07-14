@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\jellomatrix\Form\JelloMatrixResultForm.
+ * Contains \Drupal\jellomatrix\Form\JelloMatrixDoubleFlipResultForm.
  */
 namespace Drupal\jellomatrix\Form;
 use Drupal\Core\Form\FormBase;
@@ -9,12 +9,12 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class JelloMatrixResultForm extends FormBase {
+class JelloMatrixDoubleFlipResultForm extends FormBase {
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'jellomatrix_result_form';
+    return 'jellomatrix_doubleflip_result_form';
   }
 
    /**
@@ -65,8 +65,8 @@ class JelloMatrixResultForm extends FormBase {
 
     // Find the values of the arrays.
     $prime_matrix = jellomatrix_prime_basetone($tone, $interval);
-    $response_matrix = jellomatrix_response_basetone($tone, $interval);
-    $spliced_matrix = jellomatrix_spliced_basetone($prime_matrix, $response_matrix, $tone, $interval);
+    $response_matrix = jellomatrix_doubleflip_response_basetone($tone, $interval);
+    $spliced_matrix = jellomatrix_doubleflip_spliced_basetone($prime_matrix, $response_matrix, $tone, $interval);
 
     extract(jellomatrix_wave_detection($prime_matrix, $tone, $interval, $spliced_matrix));
 
@@ -152,7 +152,7 @@ class JelloMatrixResultForm extends FormBase {
     $offset = $form_state->getValue('offset');
     $tone = $form_state->getValue('tone');
     $interval = $form_state->getValue('interval');
-    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/offset/' . $offset;
+    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/doubleflip/offset/' . $offset;
     $url = Url::fromUri('internal:/' . $uri);
     $form_state->setRedirectUrl($url);
   }
