@@ -1,0 +1,23 @@
+jellomatrix.assign_tone:
+  path: '/matrix'
+  defaults:
+    _controller: '\Drupal\jellomatrix\Controller\JellomatrixController::addTone'
+    _title: 'Step 1: Select first number'
+  requirements:
+    _permission: 'drive jellomatrix'
+
+jellomatrix.assign_increment:
+  path: '/matrix/{tone}'
+  defaults:
+    _controller: '\Drupal\jellomatrix\Controller\JellomatrixController::addIncrement'
+    _title: 'Step 2: Select second number'
+  requirements:
+    _permission: 'administer migrations'
+
+entity.migration.collection:
+  path: '/matrix/{tone}/{increment}'
+  defaults:
+    _controller: '\Drupal\jellomatrix\Controller\JellomatrixController::processResult'
+    _title: '{tone}/{increment}'
+  requirements:
+    _permission: 'administer migrations'
