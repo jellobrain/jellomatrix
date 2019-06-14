@@ -8,7 +8,6 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drupal\Core\Render\Renderer;
 
 class JelloMatrixResultForm extends FormBase {
   /**
@@ -63,10 +62,7 @@ class JelloMatrixResultForm extends FormBase {
       unset($i);
       unset($t);
     }
-    
-    unset($prime_matrix);
-    unset($response_matrix);
-    unset($spliced_matrix);
+
     // Find the values of the arrays.
     $prime_matrix = jellomatrix_prime_basetone($tone, $interval);
     $response_matrix = jellomatrix_response_basetone($tone, $interval);
@@ -79,28 +75,14 @@ class JelloMatrixResultForm extends FormBase {
       jellomatrix_circle_detection($h_increment, $tone, $interval, 100, $direction = 'h');
       jellomatrix_circle_grid($tone, $interval, 200);
     }
-    else {
-      $h_increment = .1;
-      jellomatrix_circle_detection($h_increment, $tone, $interval, 100, $direction = 'h');
-      jellomatrix_circle_grid($tone, $interval, 200);
-    }
 
     if (!empty($f_increment)) {
-      jellomatrix_circle_detection($f_increment, $tone, $interval, 100, $direction = 'f');
-    }
-    else {
-      $f_increment = .1;
       jellomatrix_circle_detection($f_increment, $tone, $interval, 100, $direction = 'f');
     }
 
     if (!empty($b_increment)) {
       jellomatrix_circle_detection($b_increment, $tone, $interval, 100, $direction = 'b');
     }
-    else {
-      $b_increment = .1;
-      jellomatrix_circle_detection($b_increment, $tone, $interval, 100, $direction = 'b');
-    }
-
 
 
     // Now we get the harmonics.
@@ -113,81 +95,44 @@ class JelloMatrixResultForm extends FormBase {
     $increment_original = jellomatrix_increments_original($spliced_matrix, $tone);
 
     $increments_prime = jellomatrix_increments_prime_derivative($prime_matrix, $tone);
-  
-    $spliced_matrix_saved = $spliced_matrix;
-    $spliced_matrix_reversed_saved = $spliced_matrix_reversed;
 
   	// Now we create the first original matrix grid.
     $output = '';
-    $output .= jellomatrix_output_basegrid($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
+    $output .= jellomatrix_output_basegrid($increments, $prime_matrix, $primes, $tone, $interval, $scaled/*, $scales*/);
     $output .= jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_primes($spliced_matrix, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, $interval);
-  
-    unset($spliced_matrix);
-    unset($spliced_matrix_reversed);
-    $spliced_matrix = $spliced_matrix_saved;
-    $spliced_matrix_reversed = $spliced_matrix_reversed_saved;
-  
     $output .= '<h2>HORIZONTAL SCALED WAVES</h2>';
-    $dir = 'h';
-    unset($scale);
-    $scale = $scales['h'];
-    if (!empty($spliced_matrix)) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir/*, $scales*/));
-    }
-    
-    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone,
-      $interval, $boolean = TRUE, $hscaled/*, $scales*/);
+    extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scales, 'h'));
+    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = TRUE, $hscaled);
     if (!empty($scale_increments)) {
       $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, $primes, $tone, $interval);
     }
     if (isset($wavelength_calculation)) {
       $output .= $wavelength_calculation;
     }
-    
-    unset($scale_increments);
-    unset($spliced_matrix);
-    unset($spliced_matrix_reversed);
-    $spliced_matrix = $spliced_matrix_saved;
-    $spliced_matrix_reversed = $spliced_matrix_reversed_saved;
-    
-    $output .= '<div class="begintext"><p><br></p><hr><h2>FORWARD BACKSLASH SCALED WAVES</h2></div>';
-    $dir = 'f';
-    unset($scale);
-    $scale = $scales['f'];
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir));
-    }
-    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $fscaled);
     if (!empty($scale_increments)) {
-      $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $fscaled, $primes, $tone, $interval);
+      $output .= '<div class="begintext"><p><br></p><hr><h2>FORWARD BACKSLASH SCALED WAVES</h2></div>';
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scales, 'f'));
+      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $fscaled);
+      if (!empty($scale_increments)) {
+        $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $fscaled, $primes, $tone, $interval);
+      }
+      if (isset($wavelength_calculation)) {
+        //$output .= $wavelength_calculation;
+      }
     }
-    if (isset($wavelength_calculation)) {
-      $output .= $wavelength_calculation;
-    }
-  
-    unset($scale_increments);
-    unset($spliced_matrix);
-    unset($spliced_matrix_reversed);
-    $spliced_matrix = $spliced_matrix_saved;
-    $spliced_matrix_reversed = $spliced_matrix_reversed_saved;
-    
-    $output .= '<div class="begintext"><p><br></p><hr><h2>BACKWARD BACKSLASH SCALED WAVES</h2></div>';
-    $dir = 'b';
-    unset($scale);
-    $scale = $scales['b'];
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir));
-    }
-    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $bscaled);
     if (!empty($scale_increments)) {
-      $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $bscaled, $primes, $tone, $interval);
+      $output .= '<div class="begintext"><p><br></p><hr><h2>BACKWARD BACKSLASH SCALED WAVES</h2></div>';
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scales, 'b'));
+      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $bscaled);
+      if (!empty($scale_increments)) {
+        $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $bscaled, $primes, $tone, $interval);
+      }
+      if (isset($wavelength_calculation)) {
+        //$output .= $wavelength_calculation;
+      }
     }
-    if (isset($wavelength_calculation)) {
-      $output .= $wavelength_calculation;
-    }
-    
     $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics);
@@ -200,24 +145,6 @@ class JelloMatrixResultForm extends FormBase {
       '#type' => 'markup',
       '#markup' => $output,
     );
-    unset($scale_increments);
-    unset($scale);
-    unset($scaled);
-    unset($bscaled);
-    unset($fscaled);
-    unset($hscaled);
-    unset($h_increment);
-    unset($f_increment);
-    unset($b_increment);
-    unset($h_scale_sum_ratios);
-    unset($f_scale_sum_ratios);
-    unset($b_scale_sum_ratios);
-    unset($spliced_matrix);
-    unset($spliced_matrix_reversed);
-    unset($wavelength_calculation);
-    unset($increment_original);
-    unset($increments);
-    unset($increments_prime);
     return $form;
   }
 
