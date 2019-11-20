@@ -4724,10 +4724,26 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
 
             foreach ($row as $key => $item) {
-              if (($item) % 2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $r .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $r .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item) % 2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -4850,10 +4866,26 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $rd .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
 
             foreach ($row as $key => $item) {
-              if (($item) % 2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rd .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item) % 2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rd .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -4968,10 +5000,26 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           foreach ($direction as $row) {
             $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $lr .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $lr .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $lr .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -5070,10 +5118,26 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           foreach ($direction as $row) {
             $lrd .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $lrd .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $lrd .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $lrd .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -5190,10 +5254,26 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           foreach ($direction as $row) {
             $rl .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rl .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rl .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rl .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -5305,10 +5385,26 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           foreach ($direction as $row) {
             $rld .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rld .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rld .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rld .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -5568,10 +5664,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           foreach ($direction as $spliced_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
             foreach ($spliced_row as $key => $item) {
-              if (($item) % 2 == 0) {
+              $test = $spliced_row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $r .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $r .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item) % 2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -5695,10 +5807,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           foreach ($direction as $spliced_row) {
             $rd .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
             foreach ($spliced_row as $key => $item) {
-              if (($item) % 2 == 0) {
+              $test = $spliced_row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rd .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item) % 2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rd .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -5815,10 +5943,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           foreach ($direction as $spliced_row) {
             $rd2 .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
             foreach ($spliced_row as $key => $item) {
-              if (($item) % 2 == 0) {
+              $test = $spliced_row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rd2 .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rd2 .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item) % 2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rd2 .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -6808,10 +6952,26 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           foreach ($direction as $row) {
             $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $lr .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $lr .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $lr .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -6904,16 +7064,32 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $lr .= '</table><div class="endtext"><br></div>';
         }
         if ($ke == 'backward') {
-          $lrd = '<h4>Backward (Primes) (x,y)|(x-1,y-1)</h4>';
+          $lrd = '<h4>Backward (x,y)|(x-1,y-1)</h4>';
           $count = 1;
           $lrd .= '<table class="table"><tr>';
           foreach ($direction as $row) {
             $lrd .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
-              if (in_array($item, $primes)) {
+              $test = $row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $lrd .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $lrd .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (!in_array($item, $primes)) {
+              elseif (($item) % 2 != 0) {
                 $lrd .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -7408,10 +7584,26 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           foreach ($direction as $prime_row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($prime_row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $prime_row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $r .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $r .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $r .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -7526,10 +7718,26 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           foreach ($direction as $prime_row) {
             $rd .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($prime_row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $prime_row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rd .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rd .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
@@ -7644,10 +7852,26 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           foreach ($direction as $prime_row) {
             $rd2 .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($prime_row as $key=>$item) {
-              if (($item)%2 == 0) {
+              $test = $prime_row;
+              unset($clink);
+              if (is_array($test)) {
+                $a = array_pop($test);
+                $b = array_pop($test);
+      
+                if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
+                  $clink = 'highlight';
+                }
+                elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
+                  $clink = 'highlight';
+                }
+              }  
+              if ($clink == 'highlight') {
+                $rd2 .= '<td class="tdgrid highlight">' . $item . '</td>';
+              }
+              elseif (($item) % 2 == 0) {
                 $rd2 .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
-              if (($item)%2 != 0) {
+              elseif (($item) % 2 != 0) {
                 $rd2 .= '<td class="tdgrid">' . $item . '</td>';
               }
               if ($key == 0) {
