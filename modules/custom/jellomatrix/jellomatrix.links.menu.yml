@@ -1,0 +1,13 @@
+jellomatrix.admin:
+  title: 'JelloMatrix'
+  description: 'Administering the display settings for the JelloMatrix.'
+  parent: system.admin
+  route_name: jellomatrix.admin
+  weight: 100
+
+jellomatrix.tone:
+  title: 'JelloMatrix Start Here'
+  description: 'Choosing a Tone for the JelloMatrix.'
+  route_name: jellomatrix.tone
+  parent: system.menu.main
+  weight: 100
