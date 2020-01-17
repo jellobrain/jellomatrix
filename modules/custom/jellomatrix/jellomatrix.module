@@ -4792,6 +4792,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             if (isset($upper)) {
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
+                //dpm($explode);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
                   $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
                   $lower = (int)$lower;
@@ -4841,25 +4842,38 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
+            //dpm($lambdoma_map);
             $r .= '</tr>';
             $count++;
           }
@@ -4971,23 +4985,35 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd .= '</tr>';
@@ -5106,6 +5132,12 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
+                  }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
@@ -5229,19 +5261,25 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $lrd .= '</tr>';
@@ -5361,23 +5399,35 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rl .= '</tr>';
@@ -5492,23 +5542,35 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                  //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
                   $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
                   $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                 }
                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
                   $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                 }
                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
                   $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                }*/
               }
             }
             $rld .= '</tr>';
@@ -5531,16 +5593,19 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
     }
   }
   $output .= "</table>";*/
-
+  
+  
   $map = [];
   foreach ($lambdoma_map as $k => $data) {
     foreach ($data as $ke => $stuff) {
+      //dpm($stuff);
       //if ($ke = 'forward' || $k = 'row') {*/
       foreach ($stuff as $key => $counts) {
         foreach ($counts as $count => $values) {
+          //dpm($values);
           for ($u = 0; $u <= 16; $u++) {
             for ($l = 0; $l <= 16; $l++) {
-              if (!in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'] . ':' . $ke, $map)) {
+              if (isset($values['upper']) && isset($values['lower']) && !in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'] . ':' . $ke, $map)) {
                 $map[] = $values['upper'] . ':' . $values['lower'] . ':' . $values['class'] . ':' . $ke;
               }
             }
@@ -5550,6 +5615,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       //}
     }
   }
+  dpm($map);
 
   $output .= $r;
   $output .= $rd;
@@ -5566,6 +5632,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -5597,6 +5664,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -5628,6 +5696,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -5782,23 +5851,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
-                }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                }/*
+                elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                  //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
                   $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
                   $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                 }
                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
                   $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                 }
                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
                   $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                }*/
               }
             }
             $r .= '</tr>';
@@ -5916,23 +5997,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
 
@@ -6052,23 +6145,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd2 .= '</tr>';
@@ -6101,9 +6206,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       //if ($ke = 'forward' || $k = 'row') {*/
       foreach ($stuff as $key => $counts) {
         foreach ($counts as $count => $values) {
+          //dpm($values);
           for ($u = 0; $u <= 16; $u++) {
             for ($l = 0; $l <= 16; $l++) {
-              if (!in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
+              if (isset($values['upper']) && isset($values['lower']) && !in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
                 $map[] = $values['upper'] . ':' . $values['lower'] . ':' . $values['class'];
               }
             }
@@ -6115,7 +6221,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   }
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -6125,7 +6231,9 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          //dpm($exploded[2]);
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -6157,6 +6265,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -6188,6 +6297,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -6310,23 +6420,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $r .= '</tr>';
@@ -6427,23 +6549,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd .= '</tr>';
@@ -6544,23 +6678,35 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd2 .= '</tr>';
@@ -6591,9 +6737,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       //if ($ke = 'forward' || $k = 'row') {*/
       foreach ($stuff as $key => $counts) {
         foreach ($counts as $count => $values) {
+          //dpm($values);
           for ($u = 0; $u <= 16; $u++) {
             for ($l = 0; $l <= 16; $l++) {
-              if (!in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
+              if (isset($values['upper']) && isset($values['lower']) && !in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
                 $map[] = $values['upper'] . ':' . $values['lower'] . ':' . $values['class'];
               }
             }
@@ -6617,6 +6764,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -6648,6 +6796,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -6679,6 +6828,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -6808,23 +6958,35 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $r .= '</tr>';
@@ -6923,23 +7085,35 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd .= '</tr>';
@@ -7177,23 +7351,35 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $lrd .= '</tr>';
@@ -7297,23 +7483,35 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rl .= '</tr>';
@@ -7412,23 +7610,35 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rld .= '</tr>';
@@ -7461,9 +7671,10 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
       //if ($ke = 'forward' || $k = 'row') {*/
       foreach ($stuff as $key => $counts) {
         foreach ($counts as $count => $values) {
+          //dpm($values);
           for ($u = 0; $u <= 16; $u++) {
             for ($l = 0; $l <= 16; $l++) {
-              if (!in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
+              if (isset($values['upper']) && isset($values['lower']) && !in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
                 $map[] = $values['upper'] . ':' . $values['lower'] . ':' . $values['class'];
               }
             }
@@ -7486,6 +7697,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -7518,6 +7730,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -7550,6 +7763,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -7694,23 +7908,35 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $r .= '</tr>';
@@ -7828,23 +8054,35 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd .= '</tr>';
@@ -7961,23 +8199,35 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd2 .= '</tr>';
@@ -8009,9 +8259,10 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
       //if ($ke = 'forward' || $k = 'row') {*/
       foreach ($stuff as $key => $counts) {
         foreach ($counts as $count => $values) {
+          //dpm($values);
           for ($u = 0; $u <= 16; $u++) {
             for ($l = 0; $l <= 16; $l++) {
-              if (!in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
+              if (isset($values['upper']) && isset($values['lower']) && !in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
                 $map[] = $values['upper'] . ':' . $values['lower'] . ':' . $values['class'];
               }
             }
@@ -8034,6 +8285,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
@@ -8171,23 +8423,35 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'zbee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $r .= '</tr>';
@@ -8289,23 +8553,35 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd .= '</tr>';
@@ -8405,23 +8681,35 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
                   elseif ($explode[2] == 'B') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'bee';
                   }
+                  elseif ($explode[2] == 'zero') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
+                  elseif ($explode[2] == 'infinity') {
+                    $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                  }
                   else {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
                   }
                 }
-                elseif (isset($lower) && $explode[0] == 0 && empty($explode[2]) || isset($lower) && $explode[1] == 0 && empty($explode[2])) {
-                  $lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
-                  $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
-                  $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
-                elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
-                  $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
-                }
+                /*elseif (isset($lower) && $explode[0] == 0 && $explode[2] == 'infinity'|| isset($lower) && $explode[1] == 0 && $explode[2] == 'zero') {
+                 //$lr .= '<td class="tdgrid"><strong>ZERO/INFINITY</strong></td>';
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower == "0" && isset($upper) && $upper != "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }
+                 elseif (isset($lower) && $lower != "0" && isset($upper) && $upper == "0") {
+                 $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
+                 $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
+                 $lambdoma_map[$k][$ke][$key][$count]['key'] = 'ZERO/INFINITY';
+                 $lambdoma_map[$k][$ke][$key][$count]['class'] = 'darkslategray';
+                 }*/
               }
             }
             $rd2 .= '</tr>';
@@ -8452,9 +8740,10 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
       //if ($ke = 'forward' || $k = 'row') {*/
         foreach ($stuff as $key => $counts) {
           foreach ($counts as $count => $values) {
+            //dpm($values);
             for ($u = 0; $u <= 16; $u++) {
               for ($l = 0; $l <= 16; $l++) {
-                if (!in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
+                if (isset($values['upper']) && isset($values['lower']) && !in_array($values['upper'] . ':' . $values['lower'] . ':' . $values['class'], $map)) {
                   $map[] = $values['upper'] . ':' . $values['lower'] . ':' . $values['class'];
                 }
               }
@@ -8477,6 +8766,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
+          //dpm($class);
           //$output .= '<td>' . $u . '</td>';
         }
       }
