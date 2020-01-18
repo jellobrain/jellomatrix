@@ -7308,6 +7308,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
+              unset($clink);
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
