@@ -7071,6 +7071,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           foreach ($direction as $row) {
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
+              unset($clink);
               if (in_array($item, $primes)) {
                 $r .= '<td class="tdgrid subhighlight">' . $item . '</td>';
               }
