@@ -1,9 +1,0 @@
-jellomatrix:
-  version: 1.x
-  css:
-    layout:
-      css/jellomatrix-layout.css: {}
-    theme:
-      css/jellomatrix-theme.css: {}
-  js:
-    js/jellomatrix.js: {}

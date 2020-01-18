@@ -4743,7 +4743,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
 
             foreach ($row as $key => $item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -4755,7 +4755,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -4886,7 +4886,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
 
             foreach ($row as $key => $item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -4898,7 +4898,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -5020,7 +5020,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -5032,7 +5032,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $lr .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -5151,7 +5151,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $lrd .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -5163,7 +5163,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $lrd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -5287,7 +5287,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $rl .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -5299,7 +5299,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rl .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -5418,7 +5418,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $rld .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = ''; $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -5430,7 +5430,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rld .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -5712,215 +5712,177 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   foreach ($note_assembly as $ke => $directions) {
     foreach ($directions as $direction => $dir_arrays) {
       foreach ($dir_arrays as $freqs) {
-        $input = $freqs;
-        
-        //Path to output file
-        $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . '.wav';
-        
-        //Open a handle to our file in write mode, truncate the file if it exists
-        $fileHandle = fopen($filePath, 'wb');
-        
-        // Calculate variable dependent fields
-        $channels = 1; //Mono
-        $bitDepth = 8; //8bit
-        $sampleRate = 44100; //CD quality
-        $blockAlign = ($channels * ($bitDepth/8));
-        $averageBytesPerSecond = $sampleRate * $blockAlign;
-        
-        /*
-         * Header chunk
-         * dwFileLength will be calculated at the end, based upon the length of the audio data
-         */
-        $header = [
-            'sGroupID' => 'RIFF',
-            'dwFileLength' => 0,
-            'sRiffType' => 'WAVE'
-        ];
-        
-        /*
-         * Format chunk
-         */
-        $fmtChunk = [
-            'sGroupID' => 'fmt',
-            'dwChunkSize' => 16,
-            'wFormatTag' => 1,
-            'wChannels' => $channels,
-            'dwSamplesPerSec' => $sampleRate,
-            'dwAvgBytesPerSec' => $averageBytesPerSecond,
-            'wBlockAlign' => $blockAlign,
-            'dwBitsPerSample' => $bitDepth
-        ];
-        
-        /*
-         * Map all fields to pack flags
-         * WAV format uses little-endian byte order
-         */
-        $fieldFormatMap = [
-            'sGroupID' => 'A4',
-            'dwFileLength'=> 'V',
-            'sRiffType' => 'A4',
-            'dwChunkSize' => 'V',
-            'wFormatTag' => 'v',
-            'wChannels' => 'v',
-            'dwSamplesPerSec' => 'V',
-            'dwAvgBytesPerSec' => 'V',
-            'wBlockAlign' => 'v',
-            'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
-        ];
-        
-        
-        /*
-         * Pack and write our values
-         * Keep track of how many bytes we write so we can update the dwFileLength in the header
-         */
-        $dwFileLength = 0;
-        foreach($header as $currKey=>$currValue)
-        {
-          if(!array_key_exists($currKey, $fieldFormatMap))
-          {
-            die('Unrecognized field '.$currKey);
-          }
+        if ($direction == 'r' || $direction == 'rl' || $direction == 'lr' || $direction == 'rd' || $direction == 'rld' || $direction == 'lrd') {
+          $input = $freqs;
           
-          $currPackFlag = $fieldFormatMap[$currKey];
-          $currOutput = pack($currPackFlag, $currValue);
-          $dwFileLength += fwrite($fileHandle, $currOutput);
-        }
-        
-        foreach($fmtChunk as $currKey=>$currValue)
-        {
-          if(!array_key_exists($currKey, $fieldFormatMap))
-          {
-            die('Unrecognized field '.$currKey);
-          }
+          //Path to output file
+          $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . '.wav';
           
-          $currPackFlag = $fieldFormatMap[$currKey];
-          $currOutput = pack($currPackFlag, $currValue);
-          $dwFileLength += fwrite($fileHandle, $currOutput);
-        }
-        
-        /*
-         * Set up our data chunk
-         * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
-         * after audio data has been written
-         */
-        $dataChunk = [
-            'sGroupID' => 'data',
-            'dwChunkSize' => 0
-        ];
-        
-        //Write sGroupID
-        $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
-        
-        //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
-        $dataChunkSizePosition = $dwFileLength;
-        
-        //Write our empty dwChunkSize field
-        $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-        
-        /*
-         8-bit audio: -128 to 127 (because of 2’s complement)
-         */
-        $maxAmplitude = 127;
-        
-        //Loop through input
-        foreach($input as $currNote)
-        {
-          $currHz = $currNote;
-          $currMillis = 1000;
+          //Open a handle to our file in write mode, truncate the file if it exists
+          $fileHandle = fopen($filePath, 'wb');
+          
+          // Calculate variable dependent fields
+          $channels = 1; //Mono
+          $bitDepth = 8; //8bit
+          $sampleRate = 44100; //CD quality
+          $blockAlign = ($channels * ($bitDepth/8));
+          $averageBytesPerSecond = $sampleRate * $blockAlign;
           
           /*
-           * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
-           * 1000/$sampleRate
+           * Header chunk
+           * dwFileLength will be calculated at the end, based upon the length of the audio data
            */
-          $timeIncrement = 1000/$sampleRate;
+          $header = [
+              'sGroupID' => 'RIFF',
+              'dwFileLength' => 0,
+              'sRiffType' => 'WAVE'
+          ];
           
           /*
-           * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
+           * Format chunk
            */
-          if ($currHz == 0) {
-            $currHz = 7.83;
-          }
-          $waveIncrement = 360/($sampleRate/$currHz);
+          $fmtChunk = [
+              'sGroupID' => 'fmt',
+              'dwChunkSize' => 16,
+              'wFormatTag' => 1,
+              'wChannels' => $channels,
+              'dwSamplesPerSec' => $sampleRate,
+              'dwAvgBytesPerSec' => $averageBytesPerSecond,
+              'wBlockAlign' => $blockAlign,
+              'dwBitsPerSample' => $bitDepth
+          ];
           
           /*
-           * Run the sine function until we have written all the samples to fill the current note time
+           * Map all fields to pack flags
+           * WAV format uses little-endian byte order
            */
-          $elapsed = 0;
-          $x = 0;
-          while($elapsed<$currMillis)
+          $fieldFormatMap = [
+              'sGroupID' => 'A4',
+              'dwFileLength'=> 'V',
+              'sRiffType' => 'A4',
+              'dwChunkSize' => 'V',
+              'wFormatTag' => 'v',
+              'wChannels' => 'v',
+              'dwSamplesPerSec' => 'V',
+              'dwAvgBytesPerSec' => 'V',
+              'wBlockAlign' => 'v',
+              'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+          ];
+          
+          
+          /*
+           * Pack and write our values
+           * Keep track of how many bytes we write so we can update the dwFileLength in the header
+           */
+          $dwFileLength = 0;
+          foreach($header as $currKey=>$currValue)
           {
+            if(!array_key_exists($currKey, $fieldFormatMap))
+            {
+              die('Unrecognized field '.$currKey);
+            }
+            
+            $currPackFlag = $fieldFormatMap[$currKey];
+            $currOutput = pack($currPackFlag, $currValue);
+            $dwFileLength += fwrite($fileHandle, $currOutput);
+          }
+          
+          foreach($fmtChunk as $currKey=>$currValue)
+          {
+            if(!array_key_exists($currKey, $fieldFormatMap))
+            {
+              die('Unrecognized field '.$currKey);
+            }
+            
+            $currPackFlag = $fieldFormatMap[$currKey];
+            $currOutput = pack($currPackFlag, $currValue);
+            $dwFileLength += fwrite($fileHandle, $currOutput);
+          }
+          
+          /*
+           * Set up our data chunk
+           * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
+           * after audio data has been written
+           */
+          $dataChunk = [
+              'sGroupID' => 'data',
+              'dwChunkSize' => 0
+          ];
+          
+          //Write sGroupID
+          $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
+          
+          //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
+          $dataChunkSizePosition = $dwFileLength;
+          
+          //Write our empty dwChunkSize field
+          $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+          
+          /*
+           8-bit audio: -128 to 127 (because of 2’s complement)
+           */
+          $maxAmplitude = 127;
+          
+          //Loop through input
+          foreach($input as $currNote)
+          {
+            $currHz = $currNote;
+            $currMillis = 1000;
+            
             /*
-             * The sine wave math
-             * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+             * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
+             * 1000/$sampleRate
              */
-            $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+            $timeIncrement = 1000/$sampleRate;
             
-            //Increment our position in the wave
-            $x+=$waveIncrement;
+            /*
+             * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
+             */
+            if ($currHz == 0) {
+              $currHz = 7.83;
+            }
+            $waveIncrement = 360/($sampleRate/$currHz);
             
-            //Write the sample and increment our byte counts
-            $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-            $dataChunk['dwChunkSize'] += $currBytesWritten;
-            $dwFileLength  += $currBytesWritten;
-            
-            //Update the time counter
-            $elapsed += $timeIncrement;
+            /*
+             * Run the sine function until we have written all the samples to fill the current note time
+             */
+            $elapsed = 0;
+            $x = 0;
+            while($elapsed<$currMillis)
+            {
+              /*
+               * The sine wave math
+               * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+               */
+              $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+              
+              //Increment our position in the wave
+              $x+=$waveIncrement;
+              
+              //Write the sample and increment our byte counts
+              $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+              $dataChunk['dwChunkSize'] += $currBytesWritten;
+              $dwFileLength  += $currBytesWritten;
+              
+              //Update the time counter
+              $elapsed += $timeIncrement;
+            }
           }
+          
+          /*
+           * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
+           * sGroupID and sRiffType fields in the header.
+           */
+          fseek($fileHandle, 4);
+          fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
+          
+          //Seek to our dwChunkSize and overwrite it with our final value
+          fseek($fileHandle, $dataChunkSizePosition);
+          fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+          fclose($fileHandle);
+          
+          $output .= '<p><embed name="sound_file" src="/sites/default/files/sine' . $tone . '_' . $interval . $direction . '.wav" loop="true" hidden="false" autostart="false"/></p>';
         }
-        
-        /*
-         * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
-         * sGroupID and sRiffType fields in the header.
-         */
-        fseek($fileHandle, 4);
-        fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
-        
-        //Seek to our dwChunkSize and overwrite it with our final value
-        fseek($fileHandle, $dataChunkSizePosition);
-        fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-        fclose($fileHandle);
-        
-        
-        /*$sampleRate = 44100;
-        $samplesCount = 80000;
-        
-        $amplitude = 0.25 * 32768;
-        $w = 2 * pi() * $freqOfTone / $sampleRate;
-        
-        $samples = array();
-        for ($n = 0; $n < $samplesCount; $n++) {
-          $sound_arrays[] = (int)($amplitude *  sin($n * $w));
-        }
-        
-        $srate = 44100; //sample rate
-        $bps = 16; //bits per sample
-        $Bps = $bps/8; //bytes per sample /// I EDITED
-        
-        $str = call_user_func_array("pack",
-            array_merge(array($tone . '_' . $interval . $direction),
-                array(//header
-                    0x46464952, //RIFF
-                    160038,      //File size
-                    0x45564157, //WAVE
-                    0x20746d66, //"fmt " (chunk)
-                    16, //chunk size
-                    1, //compression
-                    1, //nchannels
-                    $srate, //sample rate
-                    $Bps*$srate, //bytes/second
-                    $Bps, //block align
-                    $bps, //bits/sample
-                    0x61746164, //"data"
-                    160000 //chunk size
-                ),
-                $sound_arrays //data
-                )
-            );
-        $myfile = fopen('/sites/default/files/sine' . $tone . '_' . $interval . $direction . '.wav', 'wb') or die('Unable to open file!');
-        fwrite($myfile, $str);
-        fclose($myfile);*/
-        $output .= '<p><embed name="sound_file" src="/sites/default/files/sine' . $tone . '_' . $interval . $direction . '.wav" loop="true" hidden="false" autostart="false"/></p>';
-        
       }
     }
   }
@@ -5952,7 +5914,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
             foreach ($spliced_row as $key => $item) {
               $test = $spliced_row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -5964,7 +5926,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -6095,7 +6057,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $rd .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
             foreach ($spliced_row as $key => $item) {
               $test = $spliced_row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -6107,7 +6069,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -6231,7 +6193,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $rd2 .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
             foreach ($spliced_row as $key => $item) {
               $test = $spliced_row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -6243,7 +6205,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rd2 .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -7041,7 +7003,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output .= '</table>';
 
   //dpm($note_assembly);
-
+  
   return $output;
 }
 
@@ -7308,7 +7270,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -7320,7 +7282,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $lr .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -7439,7 +7401,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $lrd .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
             foreach ($row as $key=>$item) {
               $test = $row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -7451,7 +7413,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $lrd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -7963,7 +7925,8 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   $output .= '<hr class="hr">';
 
   //dpm($note_assembly);
-
+  
+ 
   return $output;
 }
 
@@ -7988,7 +7951,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $r .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($prime_row as $key=>$item) {
               $test = $prime_row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -8000,7 +7963,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -8122,7 +8085,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $rd .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($prime_row as $key=>$item) {
               $test = $prime_row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -8134,7 +8097,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
@@ -8256,7 +8219,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $rd2 .= '<td class="tdgridltfirst">Row ' . $count .': </td>';
             foreach ($prime_row as $key=>$item) {
               $test = $prime_row;
-              unset($clink);
+              unset($clink); $clink = '';
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
@@ -8268,7 +8231,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   $clink = 'highlight';
                 }
               }  
-              if ($clink == 'highlight') {
+              if (isset($clink) && $clink == 'highlight') {
                 $rd2 .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
               elseif (($item) % 2 == 0) {
