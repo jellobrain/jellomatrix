@@ -4868,7 +4868,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies</h3><ol>';
+          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $r .= '<li>' . $hz . 'Hz</li>';
           }
@@ -4998,7 +4998,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies</h3><ol>';
+          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -5265,7 +5265,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $lrd .= '</table>';
-          $lrd .= '<h3>Order of frequencies</h3><ol>';
+          $lrd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $lrd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -5401,7 +5401,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $rl .= '</table>';
-          $rl .= '<h3>Order of frequencies</h3><ol>';
+          $rl .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rl .= '<li>' . $hz . 'Hz</li>';
           }
@@ -5532,7 +5532,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $rld .= '</table>';
-          $rld .= '<h3>Order of frequencies</h3><ol>';
+          $rld .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rld .= '<li>' . $hz . 'Hz</li>';
           }
@@ -6039,7 +6039,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies</h3><ol>';
+          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $r .= '<li>' . $hz . 'Hz</li>';
           }
@@ -6174,7 +6174,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies</h3><ol>';
+          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -6308,7 +6308,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies</h3><ol>';
+          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd2 .= '<li>' . $hz . 'Hz</li>';
           }
@@ -6599,7 +6599,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies</h3><ol>';
+          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $r .= '<li>' . $hz . 'Hz</li>';
           }
@@ -6716,7 +6716,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies</h3><ol>';
+          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -6833,7 +6833,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies</h3><ol>';
+          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd2 .= '<li>' . $hz . 'Hz</li>';
           }
@@ -7133,7 +7133,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies</h3><ol>';
+          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $r .= '<li>' . $hz . 'Hz</li>';
           }
@@ -7248,7 +7248,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies</h3><ol>';
+          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -7384,7 +7384,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $lr .= '</table>';
-          $lr .= '<h3>Order of frequencies</h3><ol>';
+          $lr .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $lr .= '<li>' . $hz . 'Hz</li>';
           }
@@ -7515,7 +7515,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $lrd .= '</table>';
-          $lrd .= '<h3>Order of frequencies</h3><ol>';
+          $lrd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $lrd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -7635,7 +7635,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $rl .= '</table>';
-          $rl .= '<h3>Order of frequencies</h3><ol>';
+          $rl .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rl .= '<li>' . $hz . 'Hz</li>';
           }
@@ -7750,7 +7750,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $rld .= '</table>';
-          $rld .= '<h3>Order of frequencies</h3><ol>';
+          $rld .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rld .= '<li>' . $hz . 'Hz</li>';
           }
@@ -8068,7 +8068,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies</h3><ol>';
+          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $r .= '<li>' . $hz . 'Hz</li>';
           }
@@ -8202,7 +8202,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies</h3><ol>';
+          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -8335,7 +8335,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies</h3><ol>';
+          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd2 .= '<li>' . $hz . 'Hz</li>';
           }
@@ -8557,7 +8557,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies</h3><ol>';
+          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $r .= '<li>' . $hz . 'Hz</li>';
           }
@@ -8675,7 +8675,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies</h3><ol>';
+          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd .= '<li>' . $hz . 'Hz</li>';
           }
@@ -8791,7 +8791,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies</h3><ol>';
+          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $rd2 .= '<li>' . $hz . 'Hz</li>';
           }
