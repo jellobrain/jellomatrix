@@ -5134,7 +5134,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $lr .= '</table>';
-          $lr .= '<h3>Order of frequencies</h3><ol>';
+          $lr .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
           foreach ($note_order as $key => $hz) {
             $lr .= '<li>' . $hz . 'Hz</li>';
           }
