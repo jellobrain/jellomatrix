@@ -5789,7 +5789,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           $chunksize = 16;
           $bitDepth = 8; //8bit
           $sampleRate = 44100; //CD quality
-          $samplesCount = 80;
+          $samplesCount = 2;
           $blockAlign = ($channels * ($bitDepth/8));
           $averageBytesPerSecond = $sampleRate * $blockAlign;
           
@@ -6005,11 +6005,12 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 while($elapsed<$currMillis)
                 
                 {
+                  //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
                   $currAmplitude = [];
                   $currAmplitude2 = [];
                   for ($n = 0; $n < $samplesCount; $n++) {
-                    $currAmplitude[] = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                    $currAmplitude2[] = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                    $currAmplitude[] = (int)($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                    $currAmplitude2[] = (int)($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
                   }
                   $stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
                   
@@ -6017,7 +6018,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                   $x+=$waveIncrement;
                   
                   //Write the sample and increment our byte counts
-                  $currBytesWritten2 = fwrite($fileHandle, pack('c', $stereoAmplitude));
+                  $currBytesWritten = fwrite($fileHandle, pack('c', $stereoAmplitude));
                   
                   $dataChunk['dwChunkSize'] += $currBytesWritten;
                   $dwFileLength  += $currBytesWritten;
