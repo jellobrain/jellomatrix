@@ -3930,7 +3930,7 @@ function jellomatrix_increments_prime_derivative($prime_matrix, $tone) {
 }
 
 
-function jellomatrix_harmonics() {
+function jellomatrix_harmonics($frequency) {
   // Now the harmonics.
   $harmonics = array();
   $harmonics[] = '0:0:origin';
@@ -4227,10 +4227,10 @@ function jellomatrix_harmonics() {
   foreach ($harmonics as $key => $harmonic) {
     $explode = explode(':', $harmonic);
     if ($explode[1] >= 1) {
-      $frequency = ($explode[0]/$explode[1])*264;
+      $freq = ($explode[0]/$explode[1])*$frequency;
     }
-    if (isset($frequency)) {
-      $harmonics[$key] .= ':' . $frequency;
+    if (isset($freq)) {
+      $harmonics[$key] .= ':' . $freq;
     }
     else {
       $harmonics[$key] .= ':INF';
@@ -4718,8 +4718,10 @@ function jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, 
   return $output;
 }
 
-function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval) {
-  
+function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency) {
+  $notea_pairing = [];
+  $noteb_pairing = [];
+  $note_pairing = [];
   $note_assembly = [];
   $lambdoma_map = [];
   $output = '';
@@ -4868,13 +4870,18 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $r .= '<li>' . $hz . 'Hz</li>';
+          $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+          
+              $r .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $r .= '</ol><hr>';
           $r .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['r'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['r'][] = $note_order;
+          }
         }
         if ($ke == 'backward') {
           unset($note_order);
@@ -4998,13 +5005,18 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd .= '<li>' . $hz . 'Hz</li>';
+          $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd .= '</ol><hr>';
           $rd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd'][] = $note_order;
+          }
         }
       }
     }
@@ -5134,13 +5146,18 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $lr .= '</table>';
-          $lr .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $lr .= '<li>' . $hz . 'Hz</li>';
+          $lr .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $lr .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $lr .= '</ol><hr>';
           $lr .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['lr'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['lr'][] = $note_order;
+          }
         }
         if ($ke == 'backward') {
           unset($note_order);
@@ -5265,13 +5282,18 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $lrd .= '</table>';
-          $lrd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $lrd .= '<li>' . $hz . 'Hz</li>';
+          $lrd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $lrd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $lrd .= '</ol><hr>';
           $lrd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['lrd'][] = $note_order;
+          if (isset($note_order)) {
+           $note_assembly[$ke]['lrd'][] = $note_order;
+          }
         }
       }
     }
@@ -5401,13 +5423,18 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $rl .= '</table>';
-          $rl .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rl .= '<li>' . $hz . 'Hz</li>';
+          $rl .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rl .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rl .= '</ol><hr>';
           $rl .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rl'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rl'][] = $note_order;
+          }
         }
         if ($ke == 'backward') {
           unset($note_order);
@@ -5532,13 +5559,18 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             $count++;
           }
           $rld .= '</table>';
-          $rld .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rld .= '<li>' . $hz . 'Hz</li>';
+          $rld .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rld .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rld .= '</ol><hr>';
           $rld .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rld'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rld'][] = $note_order;
+          }
         }
       }
     }
@@ -5706,14 +5738,32 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $output .= '</table>';
 
   $output .= '<hr class="hr">';
-
-  //dpm($note_assembly);
   
-  foreach ($note_assembly as $ke => $directions) {
+  //dpm($note_assembly);
+  /*if (isset($note_assembly['forward']['r'][0]) && isset($note_assembly['backward']['rd'][0])) {
+    $array_size  = count($note_assembly['forward']['r'][0]);
+    for ($i= 0; $i<$array_size; $i++) {
+      $note_assembly['pairings']['horizontal'][] = array($note_assembly['forward']['r'][0][$i], $note_assembly['backward']['rd'][0][$i]);
+    }
+  }
+  if (isset($note_assembly['forward']['rl'][0]) && isset($note_assembly['backward']['rld'][0])) {
+    $array_size  = count($note_assembly['forward']['rl'][0]);
+    for ($i= 0; $i<$array_size; $i++) {
+      $note_assembly['pairings']['backslash'][] = array($note_assembly['forward']['rl'][0][$i], $note_assembly['backward']['rld'][0][$i]);
+    }
+  }
+  if (isset($note_assembly['forward']['lr'][0]) && isset($note_assembly['backward']['lrd'][0])) {
+    $array_size  = count($note_assembly['forward']['r'][0]);
+    for ($i= 0; $i<$array_size; $i++) {
+      $note_assembly['pairings']['forwardslash'][] = array($note_assembly['forward']['lr'][0][$i], $note_assembly['backward']['lrd'][0][$i]);
+    }
+  }*/
+  
+  /*foreach ($note_assembly as $ke => $directions) {
     foreach ($directions as $direction => $dir_arrays) {
       foreach ($dir_arrays as $freqs) {
         if ($direction == 'r' || $direction == 'rl' || $direction == 'lr' || $direction == 'rd' || $direction == 'rld' || $direction == 'lrd') {
-          $input = $freqs;
+          
           
           //Path to output file
           $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . '.wav';
@@ -5722,58 +5772,110 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $fileHandle = fopen($filePath, 'wb');
           
           // Calculate variable dependent fields
-          $channels = 1; //Mono
+          if ($ke == 'pairings') {
+            $channels = 2; //Stereo
+          }
+          if ($ke != 'pairings') {
+            $channels = 1; //Mono
+          }
           $bitDepth = 8; //8bit
           $sampleRate = 44100; //CD quality
           $blockAlign = ($channels * ($bitDepth/8));
           $averageBytesPerSecond = $sampleRate * $blockAlign;
           
-          /*
-           * Header chunk
-           * dwFileLength will be calculated at the end, based upon the length of the audio data
-           */
-          $header = [
-              'sGroupID' => 'RIFF',
-              'dwFileLength' => 0,
-              'sRiffType' => 'WAVE'
-          ];
           
-          /*
-           * Format chunk
-           */
-          $fmtChunk = [
-              'sGroupID' => 'fmt',
-              'dwChunkSize' => 16,
-              'wFormatTag' => 1,
-              'wChannels' => $channels,
-              'dwSamplesPerSec' => $sampleRate,
-              'dwAvgBytesPerSec' => $averageBytesPerSecond,
-              'wBlockAlign' => $blockAlign,
-              'dwBitsPerSample' => $bitDepth
-          ];
-          
-          /*
-           * Map all fields to pack flags
-           * WAV format uses little-endian byte order
-           */
-          $fieldFormatMap = [
-              'sGroupID' => 'A4',
-              'dwFileLength'=> 'V',
-              'sRiffType' => 'A4',
-              'dwChunkSize' => 'V',
-              'wFormatTag' => 'v',
-              'wChannels' => 'v',
-              'dwSamplesPerSec' => 'V',
-              'dwAvgBytesPerSec' => 'V',
-              'wBlockAlign' => 'v',
-              'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
-          ];
+          if ($channels == 1) {
+            $input = $freqs;
+            /* 
+             * Header chunk
+             * dwFileLength will be calculated at the end, based upon the length of the audio data
+             *
+            $header = [
+                'sGroupID' => 'RIFF',
+                'dwFileLength' => 0,
+                'sRiffType' => 'WAVE'
+            ];
+            
+            /*
+             * Format chunk
+             *
+            $fmtChunk = [
+                'sGroupID' => 'fmt',
+                'dwChunkSize' => 16,
+                'wFormatTag' => 1,
+                'wChannels' => $channels,
+                'dwSamplesPerSec' => $sampleRate,
+                'dwAvgBytesPerSec' => $averageBytesPerSecond,
+                'wBlockAlign' => $blockAlign,
+                'dwBitsPerSample' => $bitDepth
+            ];
+            
+            /*
+             * Map all fields to pack flags
+             * WAV format uses little-endian byte order
+             *
+            $fieldFormatMap = [
+                'sGroupID' => 'A4',
+                'dwFileLength'=> 'V',
+                'sRiffType' => 'A4',
+                'dwChunkSize' => 'V',
+                'wFormatTag' => 'v',
+                'wChannels' => 'v',
+                'dwSamplesPerSec' => 'V',
+                'dwAvgBytesPerSec' => 'V',
+                'wBlockAlign' => 'v',
+                'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+            ];
+          }
+          /*if ($channels == 2) {
+            $input = $freqs;
+            /*
+             * Header chunk
+             * dwFileLength will be calculated at the end, based upon the length of the audio data
+             *
+            $header = [
+                'sGroupID' => 'RIFF',
+                'dwFileLength' => 0,
+                'sRiffType' => 'WAVE'
+            ];
+            
+            /*
+             * Format chunk
+             *
+            $fmtChunk = [
+                'sGroupID' => 'fmt',
+                'dwChunkSize' => 16,
+                'wFormatTag' => 1,
+                'wChannels' => $channels,
+                'dwSamplesPerSec' => $sampleRate,
+                'dwAvgBytesPerSec' => $averageBytesPerSecond,
+                'wBlockAlign' => $blockAlign,
+                'dwBitsPerSample' => $bitDepth
+            ];
+            
+            /*
+             * Map all fields to pack flags
+             * WAV format uses little-endian byte order
+             *
+            $fieldFormatMap = [
+                'sGroupID' => 'A4',
+                'dwFileLength'=> 'V',
+                'sRiffType' => 'A4',
+                'dwChunkSize' => 'V',
+                'wFormatTag' => 'v',
+                'wChannels' => 'v',
+                'dwSamplesPerSec' => 'V',
+                'dwAvgBytesPerSec' => 'V',
+                'wBlockAlign' => 'v',
+                'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+            ];
+          }*/
           
           
           /*
            * Pack and write our values
            * Keep track of how many bytes we write so we can update the dwFileLength in the header
-           */
+           *
           $dwFileLength = 0;
           foreach($header as $currKey=>$currValue)
           {
@@ -5803,7 +5905,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
            * Set up our data chunk
            * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
            * after audio data has been written
-           */
+           *
           $dataChunk = [
               'sGroupID' => 'data',
               'dwChunkSize' => 0
@@ -5820,7 +5922,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           
           /*
            8-bit audio: -128 to 127 (because of 2’s complement)
-           */
+           *
           $maxAmplitude = 127;
           
           //Loop through input
@@ -5832,12 +5934,12 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             /*
              * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
              * 1000/$sampleRate
-             */
+             *
             $timeIncrement = 1000/$sampleRate;
             
             /*
              * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-             */
+             *
             if ($currHz == 0) {
               $currHz = 7.83;
             }
@@ -5845,7 +5947,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             
             /*
              * Run the sine function until we have written all the samples to fill the current note time
-             */
+             *
             $elapsed = 0;
             $x = 0;
             while($elapsed<$currMillis)
@@ -5853,7 +5955,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               /*
                * The sine wave math
                * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-               */
+               *
               $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
               
               //Increment our position in the wave
@@ -5872,7 +5974,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           /*
            * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
            * sGroupID and sRiffType fields in the header.
-           */
+           *
           fseek($fileHandle, 4);
           fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
           
@@ -5881,11 +5983,10 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
           fclose($fileHandle);
           
-          $output .= '<p><embed name="sound_file" src="/sites/default/files/sine' . $tone . '_' . $interval . $direction . '.wav" loop="true" hidden="false" autostart="false"/></p>';
         }
       }
     }
-  }
+  }*/
   
   
   
@@ -5893,7 +5994,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics) {
+function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency) {
   $lambdoma_map = [];
   $note_assembly = [];
   $output = '';
@@ -6039,13 +6140,18 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $r .= '<li>' . $hz . 'Hz</li>';
+          $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $r .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $r .= '</ol><hr>';
           $r .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['r'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['r'][] = $note_order;
+          }
         }
 
         if ($ke == 'derivative') {
@@ -6174,13 +6280,18 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd .= '<li>' . $hz . 'Hz</li>';
+          $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd .= '</ol><hr>';
           $rd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd'][] = $note_order;
+          }
         }
 
 
@@ -6308,13 +6419,18 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd2 .= '<li>' . $hz . 'Hz</li>';
+          $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd2 .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd2 .= '</ol><hr>';
           $rd2 .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd2'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd2'][] = $note_order;
+          }
         }
       }
     }
@@ -6599,13 +6715,18 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $r .= '<li>' . $hz . 'Hz</li>';
+          $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $r .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $r .= '</ol><hr>';
           $r .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['r'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['r'][] = $note_order;
+          }
         }
         if ($ke == 'derivative') {
           unset($note_order);
@@ -6716,13 +6837,18 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd .= '<li>' . $hz . 'Hz</li>';
+          $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd .= '</ol><hr>';
           $rd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd'][] = $note_order;
+          }
         }
         if ($ke == 'derivative_2') {
           unset($note_order);
@@ -6833,13 +6959,18 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd2 .= '<li>' . $hz . 'Hz</li>';
+          $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd2 .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd2 .= '</ol><hr>';
           $rd2 .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd2'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd2'][] = $note_order;
+          }
         }
       }
     }
@@ -7007,7 +7138,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval) {
+function jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency) {
 
   $note_assembly = [];  
   $lambdoma_map = [];
@@ -7133,13 +7264,18 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $r .= '<li>' . $hz . 'Hz</li>';
+          $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $r .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $r .= '</ol><hr>';
           $r .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['r'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['r'][] = $note_order;
+          }
         }
         if ($ke == 'backward') {
           unset($note_order);
@@ -7248,13 +7384,18 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd .= '<li>' . $hz . 'Hz</li>';
+          $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd .= '</ol><hr>';
           $rd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd'][] = $note_order;
+          }
         }
       }
     }
@@ -7384,13 +7525,18 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $lr .= '</table>';
-          $lr .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $lr .= '<li>' . $hz . 'Hz</li>';
+          $lr .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $lr .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $lr .= '</ol><hr>';
           $lr .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['lr'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['lr'][] = $note_order;
+          }
         }
         if ($ke == 'backward') {
           unset($note_order);
@@ -7515,13 +7661,18 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $lrd .= '</table>';
-          $lrd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $lrd .= '<li>' . $hz . 'Hz</li>';
+          $lrd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $lrd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $lrd .= '</ol><hr>';
           $lrd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['lrd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['lrd'][] = $note_order;
+          }
         }
       }
     }
@@ -7635,13 +7786,18 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $rl .= '</table>';
-          $rl .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rl .= '<li>' . $hz . 'Hz</li>';
+          $rl .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rl .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rl .= '</ol><hr>';
           $rl .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rl'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rl'][] = $note_order;
+          }
         }
         if ($ke == 'backward') {
           unset($note_order);
@@ -7750,13 +7906,18 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             $count++;
           }
           $rld .= '</table>';
-          $rld .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rld .= '<li>' . $hz . 'Hz</li>';
+          $rld .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rld .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rld .= '</ol><hr>';
           $rld .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rld'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rld'][] = $note_order;
+          }
         }
       }
     }
@@ -7930,7 +8091,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics) {
+function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency) {
   $lambdoma_map = [];
   $note_assembly = [];
   $output = '';
@@ -8068,13 +8229,18 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $r .= '<li>' . $hz . 'Hz</li>';
+          $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $r .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $r .= '</ol><hr>';
           $r .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['r'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['r'][] = $note_order;
+          }
         }
         if ($ke == 'derivative') {
           unset($note_order);
@@ -8202,13 +8368,18 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd .= '<li>' . $hz . 'Hz</li>';
+          $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd .= '</ol><hr>';
           $rd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd'][] = $note_order;
+          }
         }
         if ($ke == 'derivative_2') {
           unset($note_order);
@@ -8335,13 +8506,18 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd2 .= '<li>' . $hz . 'Hz</li>';
+          $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd2 .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd2 .= '</ol><hr>';
           $rd2 .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd2'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd2'][] = $note_order;
+          }
         }
       }
     }
@@ -8434,7 +8610,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
   return $output;
 }
 
-function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics) {
+function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency) {
   $lambdoma_map = [];
   $note_assembly = [];
   $note_order = [];
@@ -8557,13 +8733,18 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             $count++;
           }
           $r .= '</table>';
-          $r .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $r .= '<li>' . $hz . 'Hz</li>';
+          $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $r .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $r .= '</ol><hr>';
           $r .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['r'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['r'][] = $note_order;
+          }
         }
         if ($ke == 'derivative') {
           unset($note_order);
@@ -8675,13 +8856,18 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             $count++;
           }
           $rd .= '</table>';
-          $rd .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd .= '<li>' . $hz . 'Hz</li>';
+          $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd .= '</ol><hr>';
           $rd .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd'][] = $note_order;
+          }
         }
         if ($ke == 'derivative_2') {
           unset($note_order);
@@ -8791,13 +8977,18 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             $count++;
           }
           $rd2 .= '</table>';
-          $rd2 .= '<h3>Order of frequencies: based on a 440HZ A</h3><ol>';
-          foreach ($note_order as $key => $hz) {
-            $rd2 .= '<li>' . $hz . 'Hz</li>';
+          $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
+          if (isset($note_order)) {
+            foreach ($note_order as $key => $hz) {
+              
+              $rd2 .= '<li>' . $hz . 'Hz</li>';
+            }
           }
           $rd2 .= '</ol><hr>';
           $rd2 .= '<div class="endtext"><br></div>';
-          $note_assembly[$ke]['rd2'][] = $note_order;
+          if (isset($note_order)) {
+            $note_assembly[$ke]['rd2'][] = $note_order;
+          }
         }
       }
     }

@@ -21,9 +21,12 @@ class JelloMatrixResultForm extends FormBase {
    /**
     * {@inheritdoc}
     */
-  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL, $frequency = NULL) {
+    $frequency = \Drupal::request()->query->get('frequency');
     $offsetrange = range(0,$interval-2);
-
+    if(!isset($frequency)) {
+      $frequency = 264;
+    }
     $form['description'] = array(
       '#type' => 'markup',
       '#title' => t('Orientation'),
@@ -35,11 +38,21 @@ class JelloMatrixResultForm extends FormBase {
       ),
     );
     $form['offset'] = array(
-      '#type' => 'select',
-      '#title' => t('Offset'),
-      '#description' => t('This is where we see that even if the grids are offset vertically from one another, they still have an opportunity to be scale active and seem to function like Moire patterns in that sense.'),
-      '#options' => $offsetrange,
-      '#default_value' => 0,
+        '#type' => 'select',
+        '#title' => t('Offset'),
+        '#description' => t('This is where we see that even if the grids are offset vertically from one another, they still have an opportunity to be scale active and seem to function like Moire patterns in that sense.'),
+        '#options' => $offsetrange,
+        '#default_value' => 0,
+    );
+    $form['frequency'] = array(
+        '#title' => t('Base frequency.'),
+        '#description' => t('This is where we modify the base frequency of the middle C value in the Lambdoma/Frequency charts.'),
+        '#default_value' => $frequency,
+        '#type' => 'textfield',
+        '#attributes' => array(
+            ' type' => 'number', // insert space before attribute name :)
+        ),
+        '#maxlength' => 11,
     );
     $form['tone'] = array(
       '#type' => 'hidden',
@@ -104,7 +117,7 @@ class JelloMatrixResultForm extends FormBase {
 
 
     // Now we get the harmonics.
-    $harmonics = jellomatrix_harmonics();
+    $harmonics = jellomatrix_harmonics($frequency);
 
     $primes = jellomatrix_primes($tone);
 
@@ -134,7 +147,7 @@ class JelloMatrixResultForm extends FormBase {
     unset($scale);
     $scale = $scales['h'];
     if (!empty($spliced_matrix)) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir/*, $scales*/));
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir/*, $scales*/));
     }
     
     $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone,
@@ -156,8 +169,8 @@ class JelloMatrixResultForm extends FormBase {
     $dir = 'f';
     unset($scale);
     $scale = $scales['f'];
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir));
+    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
     }
     $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $fscaled);
     if (!empty($scale_increments)) {
@@ -177,8 +190,8 @@ class JelloMatrixResultForm extends FormBase {
     $dir = 'b';
     unset($scale);
     $scale = $scales['b'];
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $scale, $dir));
+    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dirr));
     }
     $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $bscaled);
     if (!empty($scale_increments)) {
@@ -188,11 +201,11 @@ class JelloMatrixResultForm extends FormBase {
       $output .= $wavelength_calculation;
     }
     
-    $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
-    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval);
-    $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics);
-    $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics);
-    $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics);
+    $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency);
+    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency);
+    $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency);
+    $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency);
+    $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency);
     $output .= '</div>';
 
 
@@ -238,8 +251,18 @@ class JelloMatrixResultForm extends FormBase {
     $offset = $form_state->getValue('offset');
     $tone = $form_state->getValue('tone');
     $interval = $form_state->getValue('interval');
-    $uri = 'jellomatrix/' . $tone . '/' . $interval . '/offset/' . $offset;
-    $url = Url::fromUri('internal:/' . $uri);
-    $form_state->setRedirectUrl($url);
+    $frequency = $form_state->getValue('frequency');
+    if ($offset != 0) {
+      $uri = 'jellomatrix/' . $tone . '/' . $interval . '/offset/' . $offset . '?frequency=' . $frequency;
+      $url = Url::fromUri('internal:/' . $uri);
+      $form_state->setRedirectUrl($url);
+      return $frequency;
+    }
+    else {
+      $uri = 'jellomatrix/' . $tone . '/' . $interval . '?frequency=' . $frequency;
+      $url = Url::fromUri('internal:/' . $uri);
+      $form_state->setRedirectUrl($url);
+      return $frequency;
+    }
   }
 }
