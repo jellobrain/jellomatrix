@@ -5626,7 +5626,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5639,10 +5639,10 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -5668,7 +5668,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5681,10 +5681,10 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -5710,7 +5710,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5723,10 +5723,10 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -5766,7 +5766,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           
           
           //Path to output file
-          $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . '.wav';
+          $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
           
           //Open a handle to our file in write mode, truncate the file if it exists
           $fileHandle = fopen($filePath, 'wb');
@@ -6482,7 +6482,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -6495,10 +6495,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -6524,7 +6524,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -6537,10 +6537,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -6567,7 +6567,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -6580,10 +6580,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -7022,7 +7022,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7035,10 +7035,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -7064,7 +7064,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7077,10 +7077,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -7106,7 +7106,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7119,10 +7119,10 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -7970,7 +7970,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7983,10 +7983,10 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -8013,7 +8013,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8026,10 +8026,10 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -8056,7 +8056,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8069,10 +8069,10 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -8569,7 +8569,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8582,10 +8582,10 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
@@ -9041,7 +9041,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
-          $frequency = $exploded[3];
+          $freq = $exploded[3];
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -9054,10 +9054,10 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
         }
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
-      if (isset($frequency) && $frequency != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($frequency) . 'Hz</td>';
+      if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
+        $output .= intval($freq) . 'Hz</td>';
       }
-      elseif (isset($frequency) && $frequency == 'INF') {
+      elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
