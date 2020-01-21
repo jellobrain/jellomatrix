@@ -5760,13 +5760,13 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   }
   
   if (isset($note_assembly)) {
-    //jellomatrix_generate_sound_files($note_assembly);
+    //jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency);
   }
   
   return $output;
 }
 
-function jellomatrix_generate_sound_files($note_assembly) {
+function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency) {
   foreach ($note_assembly as $ke => $directions) {
     foreach ($directions as $direction => $dir_arrays) {
       foreach ($dir_arrays as $freqs) {
@@ -5789,7 +5789,7 @@ function jellomatrix_generate_sound_files($note_assembly) {
           $chunksize = 16;
           $bitDepth = 8; //8bit
           $sampleRate = 44100; //CD quality
-          $samplesCount = 80000;
+          $samplesCount = 80;
           $blockAlign = ($channels * ($bitDepth/8));
           $averageBytesPerSecond = $sampleRate * $blockAlign;
           
@@ -5972,42 +5972,60 @@ function jellomatrix_generate_sound_files($note_assembly) {
              */
             $elapsed = 0;
             $x = 0;
-            while($elapsed<$currMillis)
-            {
-              /*
-               * The sine wave math
-               * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-               */
-              
-              $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-              
-              
+            if (!isset($currHz2)) {
+              while($elapsed<$currMillis)
+            
+              {
+                /*
+                 * The sine wave math
+                 * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                 */
+                
+                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                
+                
+
+                
+                //Increment our position in the wave
+                $x+=$waveIncrement;
+                
+                //Write the sample and increment our byte counts
+                $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                
+                $dataChunk['dwChunkSize'] += $currBytesWritten;
+                $dwFileLength  += $currBytesWritten;
+                
+                
+                //Update the time counter
+                $elapsed += $timeIncrement;
+              }
+            }
+            else {
               if (isset($currHz2)) {
-                $currAmplitude = [];
-                $currAmplitude2 = [];
-                for ($n = 0; $n < $samplesCount; $n++) {
-                  $currAmplitude[] = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                  $currAmplitude2[] = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                while($elapsed<$currMillis)
+                
+                {
+                  $currAmplitude = [];
+                  $currAmplitude2 = [];
+                  for ($n = 0; $n < $samplesCount; $n++) {
+                    $currAmplitude[] = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                    $currAmplitude2[] = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                  }
+                  $stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
+                  
+                  //Increment our position in the wave
+                  $x+=$waveIncrement;
+                  
+                  //Write the sample and increment our byte counts
+                  $currBytesWritten2 = fwrite($fileHandle, pack('c', $stereoAmplitude));
+                  
+                  $dataChunk['dwChunkSize'] += $currBytesWritten;
+                  $dwFileLength  += $currBytesWritten;
+                  
+                  //Update the time counter
+                  $elapsed += $timeIncrement;
                 }
-                $stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
               }
-              
-              //Increment our position in the wave
-              $x+=$waveIncrement;
-              
-              //Write the sample and increment our byte counts
-              $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-              if (isset($currHz2)) {
-                $currBytesWritten2 = fwrite($fileHandle, pack('c', $stereoAmplitude));
-              }
-              
-              
-              $dataChunk['dwChunkSize'] += $currBytesWritten;
-              $dwFileLength  += $currBytesWritten;
-              
-              
-              //Update the time counter
-              $elapsed += $timeIncrement;
             }
           }
           
