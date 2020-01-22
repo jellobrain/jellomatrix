@@ -6175,7 +6175,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             $x5 = 0;
             $x6 = 0;
             
-            if (!isset($currHz2)) {
+            if ($channels == 1) {
               while($elapsed<$currMillis) {
                 /*
                  * The sine wave math
@@ -6198,7 +6198,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 $elapsed += $timeIncrement;
               }
             }
-            elseif (isset($currHz2) && !isset($currHz3)) {
+            elseif ($channels == 2) {
               while($elapsed<$currMillis) {
                 //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
                 
@@ -6227,7 +6227,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 $elapsed += $timeIncrement;
               }
             }
-            elseif (isset($currHz3)) {
+            elseif ($channels == 6) {
               while($elapsed<$currMillis) {
                 //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
                 $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
