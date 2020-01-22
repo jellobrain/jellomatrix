@@ -24,11 +24,15 @@ class JelloMatrixOffsetResultForm extends FormBase {
    /**
     * {@inheritdoc}
     */
-  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL, $offset = 0, $frequency = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL, $offset = 0, $frequency = NULL, $print = NULL) {
     $frequency = \Drupal::request()->query->get('frequency');
     $offsetrange = range(0,$interval-2);
     if (!isset($frequency)) {
       $frequency = 264;
+    }
+    $print = \Drupal::request()->query->get('print');
+    if(!isset($print)) {
+      $print = 'none';
     }
     $form['description'] = array(
       '#type' => 'markup',
@@ -57,6 +61,18 @@ class JelloMatrixOffsetResultForm extends FormBase {
         ),
         '#maxlength' => 11,
     );
+    $user = \Drupal::currentUser();
+    $roles = $user->getRoles();
+    if (in_array('administrator', $roles)) {
+      $print_options = ['none', 'singles', 'pairings', 'complete'/*, 'all'*/];
+      $form['print'] = array(
+          '#title' => t('Do you want to reload and create audio files?  Which?'),
+          '#description' => t(''),
+          '#default_value' => $print,
+          '#type' => 'select',
+          '#options' => $print_options,
+      );
+    }
     $form['tone'] = array(
       '#type' => 'hidden',
       '#value' => $tone,
@@ -133,6 +149,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
   
     // Now we create the first original matrix grid.
     $output = '';
+    
     $output .= jellomatrix_output_basegrid($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
     $output .= jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $interval);
     $output .= jellomatrix_output_splicegrid_primes($spliced_matrix, $primes, $tone, $interval);
@@ -148,11 +165,11 @@ class JelloMatrixOffsetResultForm extends FormBase {
     unset($scale);
     $scale = $scales['h'];
     if (!empty($spliced_matrix)) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir/*, $scales*/));
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir/*, $scales*/));
     }
-  
-    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone,
-      $interval, $boolean = TRUE, $hscaled/*, $scales*/);
+    
+    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'yes', $hscaled);
+    
     if (!empty($scale_increments)) {
       $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, $primes, $tone, $interval);
     }
@@ -173,7 +190,9 @@ class JelloMatrixOffsetResultForm extends FormBase {
     if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
       extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
     }
-    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $fscaled);
+    
+    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $fscaled);
+
     if (!empty($scale_increments)) {
       $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $fscaled, $primes, $tone, $interval);
     }
@@ -191,22 +210,24 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'b';
     unset($scale);
     $scale = $scales['b'];
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
+    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir))) {
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir));
     }
-    $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = FALSE, $bscaled);
-    if (!empty($scale_increments)) {
+    //if (isset($bscaled)) {
+      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'no', $bscaled);
+    //}
+    if (!empty($scale_increments) && isset($bscaled)) {
       $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $bscaled, $primes, $tone, $interval);
     }
     if (isset($wavelength_calculation)) {
       $output .= $wavelength_calculation;
     }
   
-    $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency);
-    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency);
-    $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency);
-    $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency);
-    $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency);
+    $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
+    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
+    $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     $output .= '</div>';
   
   
@@ -253,14 +274,21 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $tone = $form_state->getValue('tone');
     $interval = $form_state->getValue('interval');
     $frequency = $form_state->getValue('frequency');
+    $print = $form_state->getValue('print');
     if ($offset != 0) {
       $uri = 'jellomatrix/' . $tone . '/' . $interval . '/offset/' . $offset . '?frequency=' . $frequency;
+      if (isset($print)) {
+        $uri .= '&print=' . $print;
+      }
       $url = Url::fromUri('internal:/' . $uri);
       $form_state->setRedirectUrl($url);
       return $frequency;
     }
     else {
       $uri = 'jellomatrix/' . $tone . '/' . $interval . '?frequency=' . $frequency;
+      if (isset($print)) {
+        $uri .= '&print=' . $print;
+      }
       $url = Url::fromUri('internal:/' . $uri);
       $form_state->setRedirectUrl($url);
       return $frequency;
