@@ -5840,10 +5840,10 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           if ($ke == 'pairings') {
             $channels = 2; //Stereo
           }
-          if ($ke == 'complete') {
+          elseif ($ke == 'complete') {
             $channels = 6; //Mono
           }
-          else {
+          elseif ($ke == 'forward' || $ke == 'backward') {
             $channels = 1; //Mono
           }
           $chunksize = 16;
@@ -6198,78 +6198,76 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 $elapsed += $timeIncrement;
               }
             }
-            else {
-              if (isset($currHz2) && !isset($currHz3)) {
-                while($elapsed<$currMillis) {
-                  //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
-                  
-                  $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                  $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
-                  
-                  //$stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
-                  
-                  //Increment our position in the wave
-                  $x+=$waveIncrement;
-                  $x2+=$waveIncrement2;
-                  
-                  //Write the sample and increment our byte counts
-                  $currBytesWritten1 = fwrite($fileHandle, pack('c', $currAmplitude));
-                  sleep(3);
-                  $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
-                  sleep(3);
-                  
-                  $currBytesWritten = $currBytesWritten1+$currBytesWritten2;
-                  
-                  
-                  $dataChunk['dwChunkSize'] += $currBytesWritten;
-                  $dwFileLength  += $currBytesWritten;
-                  
-                  //Update the time counter
-                  $elapsed += $timeIncrement;
-                }
+            elseif (isset($currHz2) && !isset($currHz3)) {
+              while($elapsed<$currMillis) {
+                //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
+                
+                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
+                
+                //$stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
+                
+                //Increment our position in the wave
+                $x+=$waveIncrement;
+                $x2+=$waveIncrement2;
+                
+                //Write the sample and increment our byte counts
+                $currBytesWritten1 = fwrite($fileHandle, pack('c', $currAmplitude));
+                sleep(3);
+                $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
+                sleep(3);
+                
+                $currBytesWritten = $currBytesWritten1+$currBytesWritten2;
+                
+                
+                $dataChunk['dwChunkSize'] += $currBytesWritten;
+                $dwFileLength  += $currBytesWritten;
+                
+                //Update the time counter
+                $elapsed += $timeIncrement;
               }
-              if (isset($currHz3)) {
-                while($elapsed<$currMillis) {
-                  //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
-                  $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                  $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
-                  $currAmplitude3 = ($maxAmplitude)-number_format(sin(deg2rad($x3))*($maxAmplitude*.95));
-                  $currAmplitude4 = ($maxAmplitude)-number_format(sin(deg2rad($x4))*($maxAmplitude*.95));
-                  $currAmplitude5 = ($maxAmplitude)-number_format(sin(deg2rad($x5))*($maxAmplitude*.95));
-                  $currAmplitude6 = ($maxAmplitude)-number_format(sin(deg2rad($x6))*($maxAmplitude*.95));
-                  
-                  //$stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
-                  
-                  //Increment our position in the wave
-                  $x+=$waveIncrement;
-                  $x2+=$waveIncrement2;
-                  $x3+=$waveIncrement3;
-                  $x4+=$waveIncrement4;
-                  $x5+=$waveIncrement5;
-                  $x6+=$waveIncrement6;
-                  
-                  //Write the sample and increment our byte counts
-                  $currBytesWritten1 = fwrite($fileHandle, pack('c', $currAmplitude));
-                  sleep(3);
-                  $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
-                  sleep(3);
-                  $currBytesWritten3 = fwrite($fileHandle, pack('c', $currAmplitude3));
-                  sleep(3);
-                  $currBytesWritten4 = fwrite($fileHandle, pack('c', $currAmplitude4));
-                  sleep(3);
-                  $currBytesWritten5 = fwrite($fileHandle, pack('c', $currAmplitude5));
-                  sleep(3);
-                  $currBytesWritten6 = fwrite($fileHandle, pack('c', $currAmplitude6));
-                  sleep(3);
-                  
-                  $currBytesWritten = $currBytesWritten1+$currBytesWritten2+$currBytesWritten3+$currBytesWritten4+$currBytesWritten5+$currBytesWritten6;
-                  
-                  $dataChunk['dwChunkSize'] += $currBytesWritten;
-                  $dwFileLength  += $currBytesWritten;
-                  
-                  //Update the time counter
-                  $elapsed += $timeIncrement;
-                }
+            }
+            elseif (isset($currHz3)) {
+              while($elapsed<$currMillis) {
+                //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
+                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
+                $currAmplitude3 = ($maxAmplitude)-number_format(sin(deg2rad($x3))*($maxAmplitude*.95));
+                $currAmplitude4 = ($maxAmplitude)-number_format(sin(deg2rad($x4))*($maxAmplitude*.95));
+                $currAmplitude5 = ($maxAmplitude)-number_format(sin(deg2rad($x5))*($maxAmplitude*.95));
+                $currAmplitude6 = ($maxAmplitude)-number_format(sin(deg2rad($x6))*($maxAmplitude*.95));
+                
+                //$stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
+                
+                //Increment our position in the wave
+                $x+=$waveIncrement;
+                $x2+=$waveIncrement2;
+                $x3+=$waveIncrement3;
+                $x4+=$waveIncrement4;
+                $x5+=$waveIncrement5;
+                $x6+=$waveIncrement6;
+                
+                //Write the sample and increment our byte counts
+                $currBytesWritten1 = fwrite($fileHandle, pack('c', $currAmplitude));
+                sleep(3);
+                $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
+                sleep(3);
+                $currBytesWritten3 = fwrite($fileHandle, pack('c', $currAmplitude3));
+                sleep(3);
+                $currBytesWritten4 = fwrite($fileHandle, pack('c', $currAmplitude4));
+                sleep(3);
+                $currBytesWritten5 = fwrite($fileHandle, pack('c', $currAmplitude5));
+                sleep(3);
+                $currBytesWritten6 = fwrite($fileHandle, pack('c', $currAmplitude6));
+                sleep(3);
+                
+                $currBytesWritten = $currBytesWritten1+$currBytesWritten2+$currBytesWritten3+$currBytesWritten4+$currBytesWritten5+$currBytesWritten6;
+                
+                $dataChunk['dwChunkSize'] += $currBytesWritten;
+                $dwFileLength  += $currBytesWritten;
+                
+                //Update the time counter
+                $elapsed += $timeIncrement;
               }
             }
           }
