@@ -1951,7 +1951,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $scaled .= '</span>';
     $bscaled .= '</span>';
   }
-  dpm($bscale);
+  //dpm($bscale);
   
   
   $scales = array('h' => $hscale, 'f' => $fscale, 'b' => $bscale);
