@@ -6093,24 +6093,27 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
            8-bit audio: -128 to 127 (because of 2’s complement)
            */
           $maxAmplitude = 127;
-          $currHz = '';
-          $currHz2 = '';
-          $currHz3 = '';
-          $currHz4 = '';
-          $currHz5 = '';
-          $currHz6 = '';
+          $currHz;
+          if ($channels == 2) {
+            $currHz2 = '';
+          }
+          if ($channels == 6) {
+            $currHz2;
+            $currHz3;
+            $currHz4;
+            $currHz5;
+            $currHz6;
+          }
           
           //Loop through input
           foreach($input as $currNote) {
             //dpm($currNote);
-            if (!isset($currNote[1])) {
-              $currHz = (int)$currNote;
-            }
-            elseif (isset($currNote[1]) && !isset($currNote[2])) {
-              $currHz = (int)$currNote[0];
+            $currHz = (int)$currNote[0];
+            
+            if ($channels == 2) {
               $currHz2 = (int)$currNote[1];
             }
-            elseif (isset($currNote[1]) && isset($currNote[5])) {
+            elseif ($channels == 6) {
               $currHz = (int)$currNote[0];
               $currHz2 = (int)$currNote[1];
               $currHz3 = (int)$currNote[2];
@@ -6148,19 +6151,13 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
               $currHz6 = 7.83;
             }
             $waveIncrement = 360/($sampleRate/$currHz);
-            if (isset($currHz2)) {
+            if ($channels == 2) {
               $waveIncrement2 = 360/($sampleRate/$currHz2);
             }
-            if (isset($currHz3)) {
+            if ($channels == 6) {
               $waveIncrement3 = 360/($sampleRate/$currHz3);
-            }
-            if (isset($currHz4)) {
               $waveIncrement4 = 360/($sampleRate/$currHz4);
-            }
-            if (isset($currHz5)) {
               $waveIncrement5 = 360/($sampleRate/$currHz5);
-            }
-            if (isset($currHz6)) {
               $waveIncrement6 = 360/($sampleRate/$currHz6);
             }
             
