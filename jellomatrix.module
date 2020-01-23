@@ -5857,8 +5857,8 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           foreach ($collection as $pos => $freqs) {
             if ($pos != 0) {
               foreach ($freqs as $position => $freaq) {
-                $print_array[$ke][$direction][$position][0] = $prints_array[$ke][$direction][0][$position];
-                $print_array[$ke][$direction][$position][1] = $freaq;
+                $print_array[$ke][$direction][$pos][$position][] = $prints_array[$ke][$direction][0][$position];
+                $print_array[$ke][$direction][$pos][$position][] = $freaq;
               }
             }
           }
@@ -5870,12 +5870,12 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           foreach ($collection as $pos => $freqs) {
             if ($pos == 0) {
               foreach ($freqs as $position => $freaq) {
-                $print_array[$ke][$direction][$position][0] = $prints_array[$ke][$direction][0][$position];
+                $print_array[$ke][$direction][$pos][$position][0] = $prints_array[$ke][$direction][0][$position];
               }
             }
             if ($pos > 0) {
               foreach ($freqs as $position => $freaq) {
-                $print_array[$ke][$direction][$position][$pos] = $freaq;
+                $print_array[$ke][$direction][0][$position][] = $freaq;
                 $cnt++;
               }
             }
