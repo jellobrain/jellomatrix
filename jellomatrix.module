@@ -1848,10 +1848,18 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $scaled = '<span class="blue-text">HORIZONTAL SCALE [<->] (' . $h_scale_sum_ratios['rtl'] . '/' . $h_scale_sum_ratios['ltr'] . '): ';
     $hscaled = '<span class="blue-text">HORIZONTAL SCALE [<->] (' . $h_scale_sum_ratios['rtl'] . '/' . $h_scale_sum_ratios['ltr'] . '): ';
   }
-  if (!empty($hscale)) {
+  if (isset($hscale) && isset($hscaled) &&  !empty($hscale)) {
     foreach ($hscale as $array => $value) {
       $scaled .= $value . ', ';
       $hscaled .= $value . ', ';
+    }
+    $scaled .= '</span>';
+    $hscaled .= '</span>';
+  }
+  elseif (isset($hscale) && isset($hscaled) &&  empty($hscale)) {
+    foreach ($hscale as $array => $value) {
+      $scaled = $value . ', ';
+      $hscaled = $value . ', ';
     }
     $scaled .= '</span>';
     $hscaled .= '</span>';
@@ -1877,8 +1885,10 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
               if ($prime_matrix[$k - $i][$key + $i]['tone'] - $prime_matrix[$k - $i - 1][$key + $i + 1]['tone'] >= 0) {
                 $f_scale_sum_ratios['ltr'] = $prime_matrix[$k - $i][$key + $i]['tone'] - $prime_matrix[$k - $i - 1][$key + $i + 1]['tone'];
               }
-              elseif ($prime_matrix[$k - $i][$key + $i]['tone'] - $prime_matrix[$k - $i - 1][$key + $i + 1]['tone'] < 0 && $prime_matrix[$k - $i - 1][$key + $i]['tone'] - $prime_matrix[$k - $i - 2][$key + $i + 1]['tone'] >= 0) {
-                $f_scale_sum_ratios['ltr'] = $prime_matrix[$k - $i - 1][$key + $i]['tone'] - $prime_matrix[$k - $i - 2][$key + $i + 1]['tone'];
+              elseif (isset($prime_matrix[$k - $i][$key + $i]['tone']) && isset ($prime_matrix[$k - $i - 1][$key + $i + 1]['tone']) && isset($prime_matrix[$k - $i - 1][$key + $i]['tone']) && isset($prime_matrix[$k - $i - 2][$key + $i + 1]['tone'])) {
+                if ($prime_matrix[$k - $i][$key + $i]['tone'] - $prime_matrix[$k - $i - 1][$key + $i + 1]['tone'] < 0 && $prime_matrix[$k - $i - 1][$key + $i]['tone'] - $prime_matrix[$k - $i - 2][$key + $i + 1]['tone'] >= 0) {
+                  $f_scale_sum_ratios['ltr'] = $prime_matrix[$k - $i - 1][$key + $i]['tone'] - $prime_matrix[$k - $i - 2][$key + $i + 1]['tone'];
+                }
               }
             }
             if (!empty($prime_matrix[$k - $i + 1][$key + $i - 1])) {
@@ -1895,10 +1905,18 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $scaled .= '<br><span class="groen-text">FORWARD SLASH DIAGONAL SCALE [/] (' . $f_scale_sum_ratios['rtl'] . '/' . $f_scale_sum_ratios['ltr'] . '): ';
     $fscaled = '<br><span class="groen-text">FORWARD SLASH DIAGONAL SCALE [/] (' . $f_scale_sum_ratios['rtl'] . '/' . $f_scale_sum_ratios['ltr'] . '): ';
   }
-  if (!empty($fscale)) {
+  if (isset($fscale) && isset($fscaled) && !empty($fscale)) {
     foreach ($fscale as $array => $value) {
       $scaled .= $value . ', ';
       $fscaled .= $value . ', ';
+    }
+    $scaled .= '</span>';
+    $fscaled .= '</span>';
+  }
+  elseif (isset($fscale) && isset($fscaled) && empty($fscale)) {
+    foreach ($fscale as $array => $value) {
+      $scaled = $value . ', ';
+      $fscaled = $value . ', ';
     }
     $scaled .= '</span>';
     $fscaled .= '</span>';
@@ -1925,8 +1943,10 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
               if ($prime_matrix[$k + $i][$key + $i]['tone'] - $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'] >= 0) {
                 $b_scale_sum_ratios['ltr'] = $prime_matrix[$k + $i][$key + $i]['tone'] - $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'];
               }
-              elseif ($prime_matrix[$k + $i][$key + $i]['tone'] - $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'] < 0 && $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'] - $prime_matrix[$k + $i + 2][$key + $i + 2]['tone'] >= 0) {
-                $b_scale_sum_ratios['ltr'] = $prime_matrix[$k + $i][$key + $i]['tone'] - $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'];
+              elseif (isset($prime_matrix[$k + $i][$key + $i]['tone']) && isset($prime_matrix[$k + $i + 1][$key + $i + 1]['tone']) && isset($prime_matrix[$k + $i + 1][$key + $i + 1]['tone']) && isset($prime_matrix[$k + $i + 2][$key + $i + 2]['tone'])) {
+                if ($prime_matrix[$k + $i][$key + $i]['tone'] - $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'] < 0 && $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'] - $prime_matrix[$k + $i + 2][$key + $i + 2]['tone'] >= 0) {
+                  $b_scale_sum_ratios['ltr'] = $prime_matrix[$k + $i][$key + $i]['tone'] - $prime_matrix[$k + $i + 1][$key + $i + 1]['tone'];
+                }
               }
             }
             if (!empty($prime_matrix[$k + $i - 1][$key + $i - 1])) {
@@ -1943,10 +1963,18 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $scaled .= '<br><span class="salmon-text">BACKWARD SLASH DIAGONAL SCALE [\] (' . $b_scale_sum_ratios['rtl'] . '/' . $b_scale_sum_ratios['ltr'] . '): ';
     $bscaled = '<br><span class="salmon-text">BACKWARD SLASH DIAGONAL SCALE [\] (' . $b_scale_sum_ratios['rtl'] . '/' . $b_scale_sum_ratios['ltr'] . '): ';
   }
-  if (!empty($bscale)) {
+  if (isset($bscale) && isset($bscaled) &&  !empty($bscale)) {
     foreach ($bscale as $array => $value) {
       $scaled .= $value . ', ';
       $bscaled .= $value . ', ';
+    }
+    $scaled .= '</span>';
+    $bscaled .= '</span>';
+  }
+  elseif (isset($bscale) && isset($bscaled) &&  empty($bscale)) {
+    foreach ($bscale as $array => $value) {
+      $scaled = $value . ', ';
+      $bscaled = $value . ', ';
     }
     $scaled .= '</span>';
     $bscaled .= '</span>';
@@ -1957,16 +1985,32 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
   $scales = array('h' => $hscale, 'f' => $fscale, 'b' => $bscale);
   
   //dpm($scales);
-  $wave_detection = array(
-     'scales' => $scales,
-     'scaled' => $scaled,
-     'hscale' => $hscale,
-     'hscaled' => $hscaled,
-     'fscale' => $fscale,
-     'fscaled' => $fscaled,
-     'bscale' => $bscale,
-     'bscaled' => $bscaled,
-  );
+  $wave_detection = array();
+  
+  if (!empty($scales)) {
+    $wave_detection['scales'] = $scales;
+  }
+  if (!empty($scaled)) {
+    $wave_detection['scaled'] = $scaled;
+  }
+  if (!empty($hscale)) {
+    $wave_detection['hscale'] = $hscale;
+  }
+  if (!empty($hscaled)) {
+    $wave_detection['hscaled'] = $hscaled;
+  }
+  if (!empty($fscale)) {
+    $wave_detection['fscale'] = $fscale;
+  }
+  if (!empty($fscaled)) {
+    $wave_detection['fscaled'] = $fscaled;
+  }
+  if (!empty($bscale)) {
+    $wave_detection['bscale'] = $bscale;
+  }
+  if (!empty($bscaled)) {
+    $wave_detection['bscaled'] = $bscaled;
+  }
   
   if (!empty($h_scale_sum_ratios)) {
     $wave_detection['h_scale_sum_ratios'] = $h_scale_sum_ratios;
@@ -2685,198 +2729,289 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                     $jount = 1;
                     $scale_record = [];
                     foreach ($scale as $s => $svalue) {
-                      if (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1] && isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1] && isset($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s + 1]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2] && isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 3]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 3;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2] && isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1] && isset($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s + 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s + 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1] && isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s + 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $jount++;
-                        $j++;
-                        $jount = 1;
+                      if (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
                       }
-
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                            if (isset($next_next_adjacent_position['tone']) && !empty($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s + 1]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 3]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 3;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone'])  && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                            if (isset($next_next_adjacent_position['tone']) && !empty($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s + 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s + 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s + 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $jount++;
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
                     }
 
                     $jount = 1;
                     $scale_record = [];
                     foreach ($scale as $s => $svalue) {
-                      if (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1] && isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1] && isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 1]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2] && isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 3]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 3;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $jount++;
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2] && isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $jount++;
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1] && isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $jount++;
-                        $j++;
-                        $jount = 1;
-                      } elseif (!in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval && isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1] && isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1] && isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s - 2]) {
-                        $scale_record[] = $current_position['tone'];
-                        $calc_scale[$j][$jount]['scale'] = $s;
-                        $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 1;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
-                        $jount++;
-                        $calc_scale[$j][$jount]['scale'] = $s - 2;
-                        $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                        $jount++;
-                        $j++;
-                        $jount = 1;
+                      if (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) &&  !empty($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 1]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 3]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 3;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $jount++;
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) &&  !empty($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2]) {
+                            if (isset($next_next_next_position['tone'])  && !empty($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $jount++;
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $jount++;
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
+                      }
+                          
+                      elseif (isset($current_position['tone']) && !empty($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                        if (isset($next_position['tone']) && !empty($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
+                          if (isset($next_next_position['tone']) && !empty($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && !empty($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s - 2]) {
+                              $scale_record[] = $current_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s;
+                              $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
+                              $jount++;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $jount++;
+                              $j++;
+                              $jount = 1;
+                            }
+                          }
+                        }
                       }
 
                     }
@@ -5841,20 +5976,20 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     $print_array['backward'] = $note_assembly['backward'];
   }
   if($print == 2) {
-    $prints_array['pairings'] = $note_assembly['pairings'];
+    //$prints_array['pairings'] = $note_assembly['pairings'];
     /*
      * JOINWAVS
-     * 
-     $prints_array['forward'] = $note_assembly['forward'];
-    $prints_array['backward'] = $note_assembly['backward'];*/
+     */
+    $print_array['forward'] = $note_assembly['forward'];
+    $print_array['backward'] = $note_assembly['backward'];
   }
   if($print == 3) {
-    $prints_array['complete'] = $note_assembly['complete'];
+    //$prints_array['complete'] = $note_assembly['complete'];
     /*
      * JOINWAVS
-     * 
-    $prints_array['forward'] = $note_assembly['forward'];
-    $prints_array['backward'] = $note_assembly['backward'];*/
+     */
+    $print_array['forward'] = $note_assembly['forward'];
+    $print_array['backward'] = $note_assembly['backward'];
   }
   //dpm($prints_array);
   
@@ -5893,7 +6028,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     
   foreach ($print_array as $ke => $directions) {
     
-    // Calculate variable dependent fields
+    /* Calculate variable dependent fields
     if ($ke == 'pairings') {
       $channels = 2; //Stereo
     }
@@ -5902,7 +6037,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     }
     elseif ($ke == 'forward' || $ke == 'backward') {
       $channels = 1; //Mono
-    }
+    }*/
+    
+    $channels = 1;
     
     if (isset($directions)) {
       foreach ($directions as $direction => $collection) {
@@ -5973,9 +6110,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             {
               if(!array_key_exists($currKey, $fieldFormatMap))
               {
-                $message = 'Unrecognized header key value';
+                $message = 'Unrecognized header key value ' . $currKey;
                 \Drupal::logger('jellomatrix')->error($message);
-                //die('Unrecognized field '.$currKey);
+                die('Unrecognized field '.$currKey);
               }
               
               $currPackFlag = $fieldFormatMap[$currKey];
@@ -5987,9 +6124,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             {
               if(!array_key_exists($currKey, $fieldFormatMap))
               {
-                $message = 'Unrecognized fmtChunk key value';
+                $message = 'Unrecognized fmtChunk key value ' . $currKey;
                 \Drupal::logger('jellomatrix')->error($message);
-                //die('Unrecognized field '.$currKey);
+                die('Unrecognized field '.$currKey);
               }
               
               $currPackFlag = $fieldFormatMap[$currKey];
@@ -6038,7 +6175,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                */
               if ($currHz == 0) {
-                $currHz = .0001;
+                $currHz = .00001;
               }
               
               $waveIncrement = $sampleRate/($sampleRate/$currHz);
@@ -6088,13 +6225,14 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             
           }
         }
+        // BOOKMARK set this to one to test again
         if ($channels > 1) {
           
           //Path to output file
           $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
           
           //Open a handle to our file in write mode, truncate the file if it exists
-          $fileHandle = fopen($filePath, 'wb');
+          $fileHandle = fopen($filePath, 'a');
           
           /* JOINWAV
            $channels = 1; //Mono*/
@@ -6104,9 +6242,11 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           $sampleRate = 44100; //CD quality
           $blockAlign = ($channels * ($bitDepth/8));
           $averageBytesPerSecond = $sampleRate * $blockAlign;
+          
+          
+          $input = $collection;
          
           if ($channels == 2) {
-            $input = $collection;
             /*
              * Header chunk
              * dwFileLength will be calculated at the end, based upon the length of the audio data
@@ -6166,7 +6306,6 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             ];
           }
           if ($channels == 6) {
-            $input = $collection;
             /*
              * Header chunk
              * dwFileLength will be calculated at the end, based upon the length of the audio data
@@ -6259,9 +6398,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           {
             if(!array_key_exists($currKey, $fieldFormatMap))
             {
-              $message = 'Unrecognized header key value';
+              $message = 'Unrecognized header key value ' .$currKey;
               \Drupal::logger('jellomatrix')->error($message);
-              //die('Unrecognized field '.$currKey);
+              die('Unrecognized field '.$currKey);
             }
             
             $currPackFlag = $fieldFormatMap[$currKey];
@@ -6273,9 +6412,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           {
             if(!array_key_exists($currKey, $fieldFormatMap))
             {
-              $message = 'Unrecognized fmtChunk key value';
+              $message = 'Unrecognized fmtChunk key value ' . $currKey;
               \Drupal::logger('jellomatrix')->error($message);
-              //die('Unrecognized field '.$currKey);
+              die('Unrecognized field '.$currKey);
             }
             
             $currPackFlag = $fieldFormatMap[$currKey];
@@ -6338,23 +6477,23 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                  * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                  */
                 if ($currHz == 0) {
-                  $currHz = .0001;
+                  $currHz = .00001;
                 }
                 
                 if (isset($currHz2) && $currHz2 == 0) {
-                  $currHz2 = .0001;
+                  $currHz2 = .00001;
                 }
                 if (isset($currHz3) && $currHz3 == 0) {
-                  $currHz3 = .013;
+                  $currHz3 = .00001;
                 }
                 if (isset($currHz4) && $currHz4 == 0) {
-                  $currHz4 = .0001;
+                  $currHz4 = .00001;
                 }
                 if (isset($currHz5) && $currHz5 == 0) {
-                  $currHz5 = .0001;
+                  $currHz5 = .00001;
                 }
                 if (isset($currHz6) && $currHz6 == 0) {
-                  $currHz6 = .0001;
+                  $currHz6 = .00001;
                 }
                 
                 $waveIncrement = $sampleRate/($sampleRate/$currHz);
@@ -6397,8 +6536,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                     $x2+=$waveIncrement2;
                     
                     //Write the sample and increment our byte counts
+                    // BOOKMARK ERROR HERE
                     $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude2));
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
                     
                     $dataChunk['dwChunkSize'] += $currBytesWritten;
                     
@@ -6432,12 +6572,13 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                     $x6+=$waveIncrement6;
                     
                     //Write the sample and increment our byte counts
+                    // BOOKMARK ERROR HERE
                     $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude2));
-                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude3));
-                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude4));
-                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude5));
-                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude6));
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude3));
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude4));
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude5));
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude6));
                     
                     $dataChunk['dwChunkSize'] += $currBytesWritten;
                     
