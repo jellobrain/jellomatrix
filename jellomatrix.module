@@ -6611,7 +6611,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
   }
   /*
    * JOINWAVS
-   */
+   *
    if ($print == 2) {
     $r_set = [];
     $rl_set = [];
@@ -6659,7 +6659,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     $pathHandle = fopen($path, 'wb');
     fwrite(fopen($path, 'wb'),$c);
     fclose($pathHandle);
-  }
+  }*/
 }
 
 function jellomatrix_joinwavs($wavs) {
