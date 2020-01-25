@@ -6041,7 +6041,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 $currHz = .783;
               }
               
-              $waveIncrement = 360/($sampleRate/$currHz);
+              $waveIncrement = $sampleRate/($sampleRate/$currHz);
               
               /*
                * Run the sine function until we have written all the samples to fill the current note time
@@ -6357,7 +6357,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                   $currHz6 = .783;
                 }
                 
-                $waveIncrement = 360/($sampleRate/$currHz);
+                $waveIncrement = $sampleRate/($sampleRate/$currHz);
                 
                 if ($channels == 2) {
                   $waveIncrement2 = 360/($sampleRate/$currHz2);
