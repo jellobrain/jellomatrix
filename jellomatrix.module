@@ -6360,14 +6360,14 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 $waveIncrement = $sampleRate/($sampleRate/$currHz);
                 
                 if ($channels == 2) {
-                  $waveIncrement2 = 360/($sampleRate/$currHz2);
+                  $waveIncrement2 = $sampleRate/($sampleRate/$currHz2);
                 }
                 if ($channels == 6) {
-                  $waveIncrement2 = 360/($sampleRate/$currHz2);
-                  $waveIncrement3 = 360/($sampleRate/$currHz3);
-                  $waveIncrement4 = 360/($sampleRate/$currHz4);
-                  $waveIncrement5 = 360/($sampleRate/$currHz5);
-                  $waveIncrement6 = 360/($sampleRate/$currHz6);
+                  $waveIncrement2 = $sampleRate/($sampleRate/$currHz2);
+                  $waveIncrement3 = $sampleRate/($sampleRate/$currHz3);
+                  $waveIncrement4 = $sampleRate/($sampleRate/$currHz4);
+                  $waveIncrement5 = $sampleRate/($sampleRate/$currHz5);
+                  $waveIncrement6 = $sampleRate/($sampleRate/$currHz6);
                 }
                 
                 /*
