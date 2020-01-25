@@ -6038,7 +6038,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                */
               if ($currHz == 0) {
-                $currHz = .01;
+                $currHz = .0001;
               }
               
               $waveIncrement = $sampleRate/($sampleRate/$currHz);
@@ -6338,23 +6338,23 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                  * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                  */
                 if ($currHz == 0) {
-                  $currHz = .01;
+                  $currHz = .0001;
                 }
                 
                 if (isset($currHz2) && $currHz2 == 0) {
-                  $currHz2 = .01;
+                  $currHz2 = .0001;
                 }
                 if (isset($currHz3) && $currHz3 == 0) {
                   $currHz3 = .013;
                 }
                 if (isset($currHz4) && $currHz4 == 0) {
-                  $currHz4 = .01;
+                  $currHz4 = .0001;
                 }
                 if (isset($currHz5) && $currHz5 == 0) {
-                  $currHz5 = .01;
+                  $currHz5 = .0001;
                 }
                 if (isset($currHz6) && $currHz6 == 0) {
-                  $currHz6 = .01;
+                  $currHz6 = .0001;
                 }
                 
                 $waveIncrement = $sampleRate/($sampleRate/$currHz);
