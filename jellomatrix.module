@@ -6026,7 +6026,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
               //dpm($currNote);
               $currHz = (int)$currNote[0];
               
-              $currMillis = 2000;
+              $currMillis = 1000;
               
               /*
                * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
@@ -6088,7 +6088,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             
           }
         }
-        if ($channels >= 1) {
+        if ($channels > 1) {
           
           //Path to output file
           $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
@@ -6307,171 +6307,163 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
           $maxAmplitude = 127;
           
           //Loop through input
-          foreach($input as $currNote) {
-            //dpm($currNote);
-            $currHz = (int)$currNote[0];
-            
-            if ($channels == 2) {
-              $currHz2 = (int)$currNote[1];
-            }
-            elseif ($channels == 6) {
-              $currHz2 = (int)$currNote[1];
-              $currHz3 = (int)$currNote[2];
-              $currHz4 = (int)$currNote[3];
-              $currHz5 = (int)$currNote[4];
-              $currHz6 = (int)$currNote[5];
-            }
-            
-            
-            $currMillis = 2000;
-            
-            /*
-             * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
-             * 1000/$sampleRate
-             */
-            $timeIncrement = 1000/$sampleRate;
-            
-            /*
-             * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-             */
-            if ($currHz == 0) {
-              $currHz = .783;
-            }
-            
-            if (isset($currHz2) && $currHz2 == 0) {
-              $currHz2 = .783;
-            }
-            if (isset($currHz3) && $currHz3 == 0) {
-              $currHz3 = .783;
-            }
-            if (isset($currHz4) && $currHz4 == 0) {
-              $currHz4 = .783;
-            }
-            if (isset($currHz5) && $currHz5 == 0) {
-              $currHz5 = .783;
-            }
-            if (isset($currHz6) && $currHz6 == 0) {
-              $currHz6 = .783;
-            }
-            
-            $waveIncrement = 360/($sampleRate/$currHz);
-            
-            if ($channels == 2) {
-              $waveIncrement2 = 360/($sampleRate/$currHz2);
-            }
-            if ($channels == 6) {
-              $waveIncrement2 = 360/($sampleRate/$currHz2);
-              $waveIncrement3 = 360/($sampleRate/$currHz3);
-              $waveIncrement4 = 360/($sampleRate/$currHz4);
-              $waveIncrement5 = 360/($sampleRate/$currHz5);
-              $waveIncrement6 = 360/($sampleRate/$currHz6);
-            }
-            
-            /*
-             * Run the sine function until we have written all the samples to fill the current note time
-             */
-            $elapsed = 0;
-            
-            $x = 0;
-            $x2 = 0;
-            $x3 = 0;
-            $x4 = 0;
-            $x5 = 0;
-            $x6 = 0;
-            
-            if ($channels == 2) {
-              while($elapsed<$currMillis) {
+          foreach($input as $array) {
+            foreach($array as $currSet) {
+              foreach($currSet as $currNote) {
+              
+                //dpm($currNote);
+                $currHz = (int)$currNote[0];
+                
+                if ($channels == 2) {
+                  $currHz2 = (int)$currNote[1];
+                }
+                elseif ($channels == 6) {
+                  $currHz2 = (int)$currNote[1];
+                  $currHz3 = (int)$currNote[2];
+                  $currHz4 = (int)$currNote[3];
+                  $currHz5 = (int)$currNote[4];
+                  $currHz6 = (int)$currNote[5];
+                }
+                
+                
+                $currMillis = 2000;
+                
                 /*
-                 * The sine wave math
-                 * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                 * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
+                 * 1000/$sampleRate
                  */
+                $timeIncrement = 1000/$sampleRate;
                 
-                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
-                
-                //Increment our position in the wave
-                $x+=$waveIncrement;
-                $x2+=$waveIncrement2;
-                
-                //Write the sample and increment our byte counts
-                $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
-                
-                $dataChunk['dwChunkSize'] += $currBytesWritten;
-                $dataChunk['dwChunkSize'] += $currBytesWritten2;
-                
-                $dwFileLength  += $currBytesWritten;
-                $dwFileLength  += $currBytesWritten2;
-                
-                
-                //Update the time counter
-                $elapsed += $timeIncrement;
-              }
-            }
-            if ($channels == 6) {
-              while($elapsed<$currMillis) {
                 /*
-                 * The sine wave math
-                 * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                 * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                  */
+                if ($currHz == 0) {
+                  $currHz = .783;
+                }
                 
-                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
-                $currAmplitude3 = ($maxAmplitude)-number_format(sin(deg2rad($x3))*($maxAmplitude*.95));
-                $currAmplitude4 = ($maxAmplitude)-number_format(sin(deg2rad($x4))*($maxAmplitude*.95));
-                $currAmplitude5 = ($maxAmplitude)-number_format(sin(deg2rad($x5))*($maxAmplitude*.95));
-                $currAmplitude6 = ($maxAmplitude)-number_format(sin(deg2rad($x6))*($maxAmplitude*.95));
+                if (isset($currHz2) && $currHz2 == 0) {
+                  $currHz2 = .783;
+                }
+                if (isset($currHz3) && $currHz3 == 0) {
+                  $currHz3 = .783;
+                }
+                if (isset($currHz4) && $currHz4 == 0) {
+                  $currHz4 = .783;
+                }
+                if (isset($currHz5) && $currHz5 == 0) {
+                  $currHz5 = .783;
+                }
+                if (isset($currHz6) && $currHz6 == 0) {
+                  $currHz6 = .783;
+                }
                 
-                //Increment our position in the wave
-                $x+=$waveIncrement;
-                $x2+=$waveIncrement2;
-                $x3+=$waveIncrement;
-                $x4+=$waveIncrement2;
-                $x5+=$waveIncrement;
-                $x6+=$waveIncrement2;
+                $waveIncrement = 360/($sampleRate/$currHz);
                 
-                //Write the sample and increment our byte counts
-                $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
-                $currBytesWritten3 = fwrite($fileHandle, pack('c', $currAmplitude3));
-                $currBytesWritten4 = fwrite($fileHandle, pack('c', $currAmplitude4));
-                $currBytesWritten5 = fwrite($fileHandle, pack('c', $currAmplitude5));
-                $currBytesWritten6 = fwrite($fileHandle, pack('c', $currAmplitude6));
+                if ($channels == 2) {
+                  $waveIncrement2 = 360/($sampleRate/$currHz2);
+                }
+                if ($channels == 6) {
+                  $waveIncrement2 = 360/($sampleRate/$currHz2);
+                  $waveIncrement3 = 360/($sampleRate/$currHz3);
+                  $waveIncrement4 = 360/($sampleRate/$currHz4);
+                  $waveIncrement5 = 360/($sampleRate/$currHz5);
+                  $waveIncrement6 = 360/($sampleRate/$currHz6);
+                }
                 
-                $dataChunk['dwChunkSize'] += $currBytesWritten;
-                $dataChunk['dwChunkSize'] += $currBytesWritten2;
-                $dataChunk['dwChunkSize'] += $currBytesWritten3;
-                $dataChunk['dwChunkSize'] += $currBytesWritten4;
-                $dataChunk['dwChunkSize'] += $currBytesWritten5;
-                $dataChunk['dwChunkSize'] += $currBytesWritten6;
+                /*
+                 * Run the sine function until we have written all the samples to fill the current note time
+                 */
+                $elapsed = 0;
                 
-                $dwFileLength  += $currBytesWritten;
-                $dwFileLength  += $currBytesWritten2;
-                $dwFileLength  += $currBytesWritten3;
-                $dwFileLength  += $currBytesWritten4;
-                $dwFileLength  += $currBytesWritten5;
-                $dwFileLength  += $currBytesWritten6;
+                $x = 0;
+                $x2 = 0;
+                $x3 = 0;
+                $x4 = 0;
+                $x5 = 0;
+                $x6 = 0;
                 
-                
-                //Update the time counter
-                $elapsed += $timeIncrement;
+                if ($channels == 2) {
+                  while($elapsed<$currMillis) {
+                    /*
+                     * The sine wave math
+                     * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                     */
+                    
+                    $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                    $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
+                    
+                    //Increment our position in the wave
+                    $x+=$waveIncrement;
+                    $x2+=$waveIncrement2;
+                    
+                    //Write the sample and increment our byte counts
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude2));
+                    
+                    $dataChunk['dwChunkSize'] += $currBytesWritten;
+                    
+                    $dwFileLength  += $currBytesWritten;
+                    
+                    
+                    //Update the time counter
+                    $elapsed += $timeIncrement;
+                  }
+                }
+                if ($channels == 6) {
+                  while($elapsed<$currMillis) {
+                    /*
+                     * The sine wave math
+                     * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                     */
+                    
+                    $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+                    $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
+                    $currAmplitude3 = ($maxAmplitude)-number_format(sin(deg2rad($x3))*($maxAmplitude*.95));
+                    $currAmplitude4 = ($maxAmplitude)-number_format(sin(deg2rad($x4))*($maxAmplitude*.95));
+                    $currAmplitude5 = ($maxAmplitude)-number_format(sin(deg2rad($x5))*($maxAmplitude*.95));
+                    $currAmplitude6 = ($maxAmplitude)-number_format(sin(deg2rad($x6))*($maxAmplitude*.95));
+                    
+                    //Increment our position in the wave
+                    $x+=$waveIncrement;
+                    $x2+=$waveIncrement2;
+                    $x3+=$waveIncrement3;
+                    $x4+=$waveIncrement4;
+                    $x5+=$waveIncrement5;
+                    $x6+=$waveIncrement6;
+                    
+                    //Write the sample and increment our byte counts
+                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude2));
+                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude3));
+                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude4));
+                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude5));
+                    $currBytesWritten += fwrite($fileHandle, pack('c', $currAmplitude6));
+                    
+                    $dataChunk['dwChunkSize'] += $currBytesWritten;
+                    
+                    $dwFileLength  += $currBytesWritten;
+                    
+                    
+                    //Update the time counter
+                    $elapsed += $timeIncrement;
+                  }
+                }
               }
+              
+              /*
+               * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
+               * sGroupID and sRiffType fields in the header.
+               */
+              fseek($fileHandle, 4);
+              fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
+              
+              //Seek to our dwChunkSize and overwrite it with our final value
+              fseek($fileHandle, $dataChunkSizePosition);
+              fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+              fclose($fileHandle);
+            
             }
           }
-          
-          /*
-           * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
-           * sGroupID and sRiffType fields in the header.
-           */
-          fseek($fileHandle, 4);
-          fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
-          
-          //Seek to our dwChunkSize and overwrite it with our final value
-          fseek($fileHandle, $dataChunkSizePosition);
-          fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-          fclose($fileHandle);
-            
-          
         }
       }
     }
