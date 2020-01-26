@@ -166,11 +166,10 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $scale = $scales['h'];
     
     if (!empty($spliced_matrix)) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir/*, $scales*/));
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir/*, $scales*/));
     }
-    
     if (isset($hscaled)) {
-      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'yes', $hscaled);
+      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'yes', $hscaled);
     }
     
     if (!empty($scale_increments) && isset($scaled)) {
@@ -217,12 +216,12 @@ class JelloMatrixOffsetResultForm extends FormBase {
     unset($scale);
     $scale = $scales['b'];
     
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir));
+    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
+      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
     }
     
     if (isset($bscaled)) {
-      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'no', $bscaled);
+      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $bscaled);
     }
     if (!empty($scale_increments) && isset($bscaled)) {
       $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $bscaled, $primes, $tone, $interval);
