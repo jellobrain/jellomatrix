@@ -2316,11 +2316,8 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                   // designation and might wanted to get tested later as a TODO.
                   // 2=right value, 1=left value
 
-                  if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == '2') {
-                    $pole = 2;
-                  }
-                  if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == '1') {
-                    $pole = 1;
+                  if (isset($current_position['pole_shift'])) {
+                    $pole = $current_position['pole_shift'];
                   }
                   
                   // BOOKMARK issue with offset
