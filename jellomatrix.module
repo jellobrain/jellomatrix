@@ -2043,8 +2043,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $wave_detection['scales'] = $scales;
   }
   
-  /*unset($scales);
-  //unset($scaled);
+  unset($scales);
+  unset($scaled);
   unset($hscale);
   unset($hscaled);
   unset($fscale);
@@ -2058,7 +2058,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
   unset($b_scale_sum_ratios);
   unset($h_increment);
   unset($f_increment);
-  unset($b_increment);*/
+  unset($b_increment);
   
   return $wave_detection;
 }
@@ -2398,7 +2398,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                     //dpm($current_position);
                     //dpm($next_adjacent_position);
 
-                    if (!empty($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $next_position['tone']) {
+                    if (!empty($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $next_position['tone'] && isset($spliced_matrix[$key][$twok_i_p + 1])) {
                       $next_next_position = $next_adjacent_position;
                       $next_next_next_position = $spliced_matrix[$key][$twok_i_p + 1];
                       $nadjacent++;
@@ -2410,7 +2410,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                     if (!empty($next_position) && $stop == 0) {
                       //dpm($i . '/' . $v_dir . '/tone/' . $next_adjacent_position['tone'] . '/sp/' . $next_adjacent_position['scale_position'] . '/col/' . $next_adjacent_position['column'] . '/row/' . $next_adjacent_position['row']);
                       //dpm($i . '/' . $v_dir . '/tone/' . $spliced_matrix[$key][$twok_i_p + 1]['tone'] . '/sp/' . $spliced_matrix[$key][$twok_i_p + 1]['scale_position'] . '/col/' . $spliced_matrix[$key][$twok_i_p + 1]['column'] . '/row/' . $spliced_matrix[$key][$twok_i_p + 1]['row']);
-                      if (!empty($next_adjacent_position['tone']) && $next_position['tone'] == $next_adjacent_position['tone']) {
+                      if (!empty($next_adjacent_position['tone']) && $next_position['tone'] == $next_adjacent_position['tone'] && isset($spliced_matrix[$key + 1][$twok_i_p + 1])) {
                         $next_next_position = $spliced_matrix[$key + 1][$twok_i_p + 1];
                         $nadjacent++;
 
@@ -2703,15 +2703,15 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                     //dpm($scale);
 
                     $check = $tone;
-                    /*if($current_position['scale'] == $check) {
-                      if ($next_position['scale'] != $check - 1) {
+                    if(isset($current_position['scale']) && $current_position['scale'] == $check) {
+                      if (isset($next_position['scale']) && $next_position['scale'] != $check - 1) {
                         $current_position['scale'] = 0;
                       }
-                      if($next_position['scale'] == $check  && $next_next_position['scale'] != $check - 1 && $next_next_position['scale'] != $check) {
+                      if(isset($next_position['scale']) && isset($next_next_position['scale']) && $next_position['scale'] == $check  && $next_next_position['scale'] != $check - 1 && $next_next_position['scale'] != $check) {
                         $current_position['scale'] = 0;
                         $next_position['scale'] = 0;
                       }
-                    }*/
+                    }
                     //dpm( 'scale: ' . $scale[0] . ', ' . $scale[1] . ', ' . $scale[2] . ', ' . $scale[3] . ', ' . $scale[4] . ', ' . $scale[5] . ', ' . $scale[6] . ', ' . $scale[7] . ', ' . $scale[8] . ', ' . $scale[9] . ', ' . $scale[10] . ', ' . $scale[11]);
                     /*dpm($i . 'current (row/col/position/tone): ' . $current_position['row'] . '/<strong>' . $current_position['column'] . '</strong>/' .
                       $current_position['scale_position'] . '/' . $current_position['tone'] .'<br/>next (row/col/position/tone): ' . $next_position['row'] . '/<strong>' . $next_position['column'] . '</strong>/' .
@@ -2768,7 +2768,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
                               $j++;
                               $jount = 1;
                             }
@@ -2802,7 +2802,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2]) {
-                            if (isset($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s + 2]) {
+                            if (isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
@@ -2814,7 +2814,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 2;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
                               $j++;
                               $jount = 1;
                             }
@@ -2824,8 +2824,8 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone'])  && $next_position['tone'] == $scale[$s + 1]) {
-                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s + 1]) {
-                            if (isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s + 2]) {
+                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                            if (isset($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s + 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
@@ -2834,7 +2834,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 2;
                               $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
@@ -2845,21 +2845,21 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                         }
                       }
                       //BOOKMARK    
-                      /*elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                      elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
-                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s + 1]) {
-                            if (isset($next_next_next_position['tone']) && $next_next_next_position['tone'] != $scale[$s + 2]) {
+                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                              if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s + 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
                               $jount++;
-                              $calc_scale[$j][$jount]['scale'] = $s + 1;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
                               $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
                               $jount++;
-                              $calc_scale[$j][$jount]['scale'] = $s + 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
-                              $calc_scale[$j][$jount]['scale'] = $s + 2;
+                              $calc_scale[$j][$jount]['scale'] = $s - 2;
                               $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
                               $jount++;
                               $j++;
@@ -2867,7 +2867,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                             }
                           }
                         }
-                      }*/
+                      }
                     }
 
                     $jount = 1;
@@ -2899,7 +2899,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
-                            if (isset($next_next_adjacent_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 1]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
@@ -2911,7 +2911,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
                               $j++;
                               $jount = 1;
                             }
@@ -2946,7 +2946,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2]) {
-                            if (isset($next_next_adjacent_position['tone'])  && $next_next_adjacent_position['tone'] == $scale[$s - 2]) {
+                            if (isset($next_next_next_position['tone'])  && $next_next_next_position['tone'] == $scale[$s - 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
@@ -2958,7 +2958,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 2;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
                               $jount++;
                               $j++;
                               $jount = 1;
@@ -2969,8 +2969,8 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
-                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s - 1]) {
-                            if (isset($next_next_next_position['tone']) && $next_next_next_position['tone'] == $scale[$s - 2]) {
+                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
@@ -2979,7 +2979,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 2;
                               $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
@@ -2991,10 +2991,10 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                         }
                       }
                           
-                      /*elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
+                      elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
-                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s - 1]) {
-                            if (isset($next_next_next_position['tone']) && $next_next_next_position['tone'] != $scale[$s - 2]) {
+                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                            if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s - 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
@@ -3003,7 +3003,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_adjacent_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 2;
                               $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
@@ -3013,7 +3013,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                             }
                           }
                         }
-                      }*/
+                      }
                     }
 
 
