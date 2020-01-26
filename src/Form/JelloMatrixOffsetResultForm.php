@@ -164,6 +164,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'h';
     unset($scale);
     $scale = $scales['h'];
+    
     if (!empty($spliced_matrix)) {
       extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir/*, $scales*/));
     }
@@ -189,6 +190,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'f';
     unset($scale);
     $scale = $scales['f'];
+    
     if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
       extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
     }
@@ -214,9 +216,11 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'b';
     unset($scale);
     $scale = $scales['b'];
+    
     if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir))) {
       extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $scale, $dir));
     }
+    
     if (isset($bscaled)) {
       $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'no', $bscaled);
     }
@@ -229,9 +233,9 @@ class JelloMatrixOffsetResultForm extends FormBase {
   
     $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
     $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
-    $output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print);
-    $output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
-    $output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    //$output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    //$output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    //$output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     $output .= '</div>';
   
   
