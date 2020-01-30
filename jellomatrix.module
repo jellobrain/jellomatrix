@@ -8,7 +8,6 @@ function save_imagepng($canvas,$file){
   // Write buffer to file.
   file_put_contents($file, ob_get_contents(), FILE_BINARY);
   // Clear and turn off buffer.
-  chmod($file, 777);
   ob_end_clean();
 }
 
@@ -73,7 +72,6 @@ function jellomatrix_circle_detection($increment, $tone, $interval, $radius, $di
   header('Content-Type: image/png');
   save_imagepng($canvas, "./sites/default/files/" . $direction . "_circle.png");
   imagepng($canvas, "./sites/default/files/" . $direction . "_circle.png");
-  chmod("./sites/default/files/" . $direction . "_circle.png", 777);
 
   $url = "./sites/default/files/" . $direction . "_circle.png";
   imagecreatefromstring(file_get_contents($url));
@@ -108,7 +106,7 @@ function jellomatrix_circle_grid($tone, $interval, $radius) {
   }
   save_imagepng($canvas,"./sites/default/files/circle_grid.png");
   imagepng( $canvas, "./sites/default/files/circle_grid.png" );
-  chmod("./sites/default/files/circle_grid.png", 777);
+
 
   $url = "./sites/default/files/circle_grid.png";
   imagecreatefromstring(file_get_contents($url));
