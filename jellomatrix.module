@@ -2315,9 +2315,12 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                   // occurrences of the wave which cannot exceed the value of the tone (this might be arbitrary as a
                   // designation and might wanted to get tested later as a TODO.
                   // 2=right value, 1=left value
-
-                  if (isset($current_position['pole_shift'])) {
-                    $pole = $current_position['pole_shift'];
+                  //dpm($current_position['pole_shift']);
+                  if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == 2) {
+                    $pole = 0;
+                  }
+                  if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == 1) {
+                    $pole = 1;
                   }
                   
                   // BOOKMARK issue with offset
@@ -2382,6 +2385,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                       $nadjacent++;
 
                     }
+                    
                     if (!empty($spliced_matrix[$key + 1][$k_i_p]['tone']) && $spliced_matrix[$key][$k + 1]['tone'] != $spliced_matrix[$key][$k]['tone'] && $v_dir == 'down') {
                       $next_position = $spliced_matrix[$key + 1][$k_i_p];
                       if (!empty($spliced_matrix[$key + 1][$k_i_p + 1])) {
@@ -2394,9 +2398,6 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                         $next_adjacent_position = $spliced_matrix[$key - 1][$k_i_p + 1];
                       }
                     }
-
-                    //dpm($current_position);
-                    //dpm($next_adjacent_position);
 
                     if (!empty($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $next_position['tone'] && isset($spliced_matrix[$key][$twok_i_p + 1])) {
                       $next_next_position = $next_adjacent_position;
@@ -2668,14 +2669,6 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                         }
                       }
                     }
-
-
-                    //dpm($spliced_matrix[$key][$k]['pole_shift']);
-                    //dpm('jumpColumns' . $v_dir . '(' . $i . ') ' . $k . ', ' . $k_i_p . ', ' . $twok_i_p . ', ' . $threek_i_p);
-                    //dpm('jumpColumns' . $v_dir . '(' . $i . ') ' . $current_position['scale_position'] . ', ' . $next_position['scale_position'] . ', ' . $next_next_position['scale_position'] . ', ' . $next_next_next_position['scale_position']);
-                    //dpm('jumpp(' . $i . ') ' . $k . ', ' . $k_i_pp . ', ' . $twok_i_pp . ', ' . $threek_i_pp);
-                    //dpm('jumpnp(' . $i . ') ' . $k . ', ' . $k_i_pnp . ', ' . $twok_i_pnp . ', ' . $threek_i_pnp);
-                    //dpm('jumpk(' . $i . ') ' . $twokk_i_p . ', ' . $threekk_i_p);
                   }
 
                   if (!empty($next_position)) {
@@ -2702,7 +2695,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
 
                     //dpm($scale);
 
-                    $check = $tone;
+                    /*$check = $tone;
                     if(isset($current_position['scale']) && $current_position['scale'] == $check) {
                       if (isset($next_position['scale']) && $next_position['scale'] != $check - 1) {
                         $current_position['scale'] = 0;
@@ -2711,20 +2704,37 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                         $current_position['scale'] = 0;
                         $next_position['scale'] = 0;
                       }
-                    }
+                    }*/
+
+					//  YAY Test works
+                    dpm('<strong>TONE:</strong> jump ' . $i . ' direction ' . $v_dir . ' <strong>current ' . $current_position['tone'] . ' next ' . $next_position['tone'] . '</strong> nextA ' . $next_adjacent_position['tone'] . ' <strong>nextnext ' . $next_next_position['tone'] .  '</strong> nextnextAA ' . $next_next_adjacent_position['tone'] . ' <strong>nextnextnext ' . $next_next_next_position['tone'] .  '</strong> nextnextnextAAA ' . $next_next_next_adjacent_position['tone']);
+                    dpm('<strong>SP:</strong> jump ' . $i . ' direction ' . $v_dir . ' <strong>current ' . $current_position['scale_position'] . ' next ' . $next_position['scale_position'] . '</strong> nextA ' . $next_adjacent_position['scale_position'] . ' <strong>nextnext ' . $next_next_position['scale_position'] .  '</strong> nextnextAA ' . $next_next_adjacent_position['scale_position'] . ' <strong>nextnextnext ' . $next_next_next_position['scale_position'] .  '</strong> nextnextnextAAA ' . $next_next_next_adjacent_position['scale_position']);
+                    
+                    //dpm($spliced_matrix[$key][$k]['pole_shift']);
+                    //dpm('jumpColumns' . $v_dir . '(' . $i . ') ' . $k . ', ' . $k_i_p . ', ' . $twok_i_p . ', ' . $threek_i_p);
+                    //if (isset($next_next_next_position['scale'])) {
+						//dpm('jumpColumns' . $v_dir . '(' . $i . ') ' . $current_position['scale'] . ', ' . $next_position['scale'] . ', ' . $next_next_position['scale'] . ', ' . $next_next_next_position['scale']);
+                    //}
+                    
+                    //dpm('jumpp(' . $i . ') ' . $k . ', ' . $k_i_pp . ', ' . $twok_i_pp . ', ' . $threek_i_pp);
+                    //dpm('jumpnp(' . $i . ') ' . $k . ', ' . $k_i_pnp . ', ' . $twok_i_pnp . ', ' . $threek_i_pnp);
+                    //dpm('jumpk(' . $i . ') ' . $twokk_i_p . ', ' . $threekk_i_p);
+                    
                     //dpm( 'scale: ' . $scale[0] . ', ' . $scale[1] . ', ' . $scale[2] . ', ' . $scale[3] . ', ' . $scale[4] . ', ' . $scale[5] . ', ' . $scale[6] . ', ' . $scale[7] . ', ' . $scale[8] . ', ' . $scale[9] . ', ' . $scale[10] . ', ' . $scale[11]);
-                    /*dpm($i . 'current (row/col/position/tone): ' . $current_position['row'] . '/<strong>' . $current_position['column'] . '</strong>/' .
-                      $current_position['scale_position'] . '/' . $current_position['tone'] .'<br/>next (row/col/position/tone): ' . $next_position['row'] . '/<strong>' . $next_position['column'] . '</strong>/' .
-                      $next_position['scale_position'] . '/' . $next_position['tone'] . ' - next_adjacent (row/col/position/tone): ' . $next_adjacent_position['row'] . '/' .
-                      $next_adjacent_position['column'] . '/' . $next_adjacent_position['scale_position'] . '/' . $next_adjacent_position['tone'] . '<br/>nextnext (row/col/position/tone): ' .
-                      $next_next_position['row'] . '/<strong>' . $next_next_position['column'] . '</strong>/' .
-                      $next_next_position['scale_position'] . '/' . $next_next_position['tone'] . ' - nextnext_adjacent (row/col/position/tone): ' . $next_next_adjacent_position['row'] . '/' .
-                      $next_next_adjacent_position['column'] . '/' . $next_next_adjacent_position['scale_position'] . '/' . $next_next_adjacent_position['tone'] . '<br/>nextnextnext (row/col/position/tone): ' .
-                      $next_next_next_position['row'] . '/<strong>' . $next_next_next_position['column'] . '</strong>/' .
-                      $next_next_next_position['scale_position'] . '/' . $next_next_next_position['tone'] . ' - nextnextnext_adjacent (row/col/position/tone): ' . $next_next_next_adjacent_position['row'] . '/' .
-                      $next_next_next_adjacent_position['column'] . '/' . $next_next_next_adjacent_position['scale_position']. '/' . $next_next_next_adjacent_position['tone']);
-                    dpm($next_next_position);*/
-                    //dpm( 'scale: ' . $scale[0] . ', ' . $scale[1] . ', ' . $scale[2] . ', ' . $scale[3]);
+                    /*if (!empty($next_position['scale_position']) && !empty($next_next_position['scale_position']) && !empty($next_next_next_position['scale_position'])) {
+						dpm($i . 'current (row/col/position/tone): ' . $current_position['row'] . '/' . $current_position['column'] . '/<strong>' .
+						  $current_position['scale_position'] . '</strong>/' . $current_position['tone'] .'<br/>next (row/col/position/tone): ' . $next_position['row'] . '/' . $next_position['column'] . '/<strong>' .
+						  $next_position['scale_position'] . '</strong>/' . $next_position['tone'] . ' - next_adjacent (row/col/position/tone): ' . $next_adjacent_position['row'] . '/' .
+						  $next_adjacent_position['column'] . '/<strong>' . $next_adjacent_position['scale_position'] . '</strong>/' . $next_adjacent_position['tone'] . '<br/>nextnext (row/col/position/tone): ' .
+						  $next_next_position['row'] . '/' . $next_next_position['column'] . '/<strong>' .
+						  $next_next_position['scale_position'] . '</strong>/' . $next_next_position['tone'] . ' - nextnext_adjacent (row/col/position/tone): ' . $next_next_adjacent_position['row'] . '/' .
+						  $next_next_adjacent_position['column'] . '/<strong>' . $next_next_adjacent_position['scale_position'] . '</strong>/' . $next_next_adjacent_position['tone'] . '<br/>nextnextnext (row/col/position/tone): ' .
+						  $next_next_next_position['row'] . '/' . $next_next_next_position['column'] . '/<strong>' .
+						  $next_next_next_position['scale_position'] . '</strong>/' . $next_next_next_position['tone'] . ' - nextnextnext_adjacent (row/col/position/tone): ' . $next_next_next_adjacent_position['row'] . '/' .
+						  $next_next_next_adjacent_position['column'] . '/<strong>' . $next_next_next_adjacent_position['scale_position']. '</strong>/' . $next_next_next_adjacent_position['tone']);
+						//dpm($next_next_position);
+						//dpm( 'scale: ' . $scale[0] . ', ' . $scale[1] . ', ' . $scale[2] . ', ' . $scale[3]);
+					}*/
 
 
                     $jount = 1;
@@ -2768,7 +2778,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 1;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];  //my change from next*3
                               $j++;
                               $jount = 1;
                             }
@@ -2814,7 +2824,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 2;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];  //changed on the other one.
                               $j++;
                               $jount = 1;
                             }
@@ -2837,7 +2847,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s + 2;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];  // my change from next*3
                               $j++;
                               $jount = 1;
                             }
@@ -2847,13 +2857,13 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                       //BOOKMARK    
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
-                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
+                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s + 1]) {
                               if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s + 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
                               $calc_scale[$j][$jount]['tone'] = $current_position['tone'];
                               $jount++;
-                              $calc_scale[$j][$jount]['scale'] = $s - 1;
+                              $calc_scale[$j][$jount]['scale'] = $s - 1;  // this was a negative value for all of these but they were not consisten with the if statement above.
                               $calc_scale[$j][$jount]['tone'] = $next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 1;
@@ -2935,7 +2945,6 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 3;
                               $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                              $jount++;
                               $j++;
                               $jount = 1;
                             }
@@ -2958,8 +2967,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 2;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                              $jount++;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone']; // my change
                               $j++;
                               $jount = 1;
                             }
@@ -2969,7 +2977,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
-                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s - 1]) {
                             if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] == $scale[$s - 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
@@ -2982,8 +2990,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $calc_scale[$j][$jount]['tone'] = $next_next_position['tone'];
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 2;
-                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                              $jount++;
+                              $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];  //my change
                               $j++;
                               $jount = 1;
                             }
@@ -2993,7 +3000,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
-                          if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
+                          if (isset($next_adjacent_position['tone']) && $next_adjacent_position['tone'] == $scale[$s - 1]) {
                             if (isset($next_next_next_position['tone']) && $next_next_adjacent_position['tone'] != $scale[$s - 2]) {
                               $scale_record[] = $current_position['tone'];
                               $calc_scale[$j][$jount]['scale'] = $s;
@@ -3007,7 +3014,6 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                               $jount++;
                               $calc_scale[$j][$jount]['scale'] = $s - 2;
                               $calc_scale[$j][$jount]['tone'] = $next_next_next_position['tone'];
-                              $jount++;
                               $j++;
                               $jount = 1;
                             }
@@ -3068,117 +3074,109 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                     //  Okay, for the issue of unidirectional waves appearing, this is where they might get culled.  I amn switching the directions and testing to see what happens.
                     // The most basic use cases first.
                     if (isset($calc_scale[1][1]) && isset($calc_scale[1][2]) && isset($calc_scale[1][3])) {
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
-                        $h_dir = 'forward'; //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
+                            $h_dir = 'forward'; //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
-                        $h_dir = 'reversed';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
+                            $h_dir = 'forward'; //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'forward'; //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale']) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
+                            $h_dir = 'forward';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'reversed';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale']) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
+                            $h_dir = 'forward';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'reversed';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale']) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
+                            $h_dir = 'forward';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'forward';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
+                            $h_dir = 'reversed';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
-                        $h_dir = 'reversed';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
+                            $h_dir = 'reversed';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
-                        $h_dir = 'forward';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale']) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
+                            $h_dir = 'reversed';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
-                        $h_dir = 'reversed';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale']) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
+                            $h_dir = 'reversed';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
-                        $h_dir = 'forward';  //TODO: changed to opposite
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                      
+                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1) {
+                        if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale']) {
+                          if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
+                            $h_dir = 'reversed';  //TODO: changed to opposite
+                            $tempcolor = array_pop($color_array);
+                            $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                            $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
+                          }
+                        }
                       }
-
-                      // Now the wavelengths that are 3 high.
-                      /*if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
-                        $h_dir = 'forward';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
-                        $h_dir = 'reversed';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'forward';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'reversed';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      // Now the wavelengths that are 2 high.
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] - 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'forward';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
-                        $h_dir = 'reversed';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] - 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] - 1) {
-                        $h_dir = 'forward';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }
-                      if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1 && $calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1 && $calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
-                        $h_dir = 'reversed';
-                        $tempcolor = array_pop($color_array);
-                        $scale_increments[] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                        $spliced_matrix[$key][$k]['wave'][] = $calc_scale[1][1]['tone'] . ':' . $i . ':' . $v_dir . ':' . $h_dir . ':' . $tempcolor;
-                      }*/
                     }
                     // TODO test
                     //unset($calc_scale);
