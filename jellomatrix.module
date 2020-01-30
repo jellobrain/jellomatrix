@@ -7,6 +7,7 @@ function save_imagepng($canvas,$file){
   imagePNG($canvas);
   // Write buffer to file.
   file_put_contents($file, ob_get_contents(), FILE_BINARY);
+  chmod($file, 0777);
   // Clear and turn off buffer.
   ob_end_clean();
 }
@@ -72,6 +73,7 @@ function jellomatrix_circle_detection($increment, $tone, $interval, $radius, $di
   header('Content-Type: image/png');
   save_imagepng($canvas, "./sites/default/files/" . $direction . "_circle.png");
   imagepng($canvas, "./sites/default/files/" . $direction . "_circle.png");
+  chmod("./sites/default/files/" . $direction . "_circle.png", 0777);
 
   $url = "./sites/default/files/" . $direction . "_circle.png";
   imagecreatefromstring(file_get_contents($url));
@@ -106,6 +108,7 @@ function jellomatrix_circle_grid($tone, $interval, $radius) {
   }
   save_imagepng($canvas,"./sites/default/files/circle_grid.png");
   imagepng( $canvas, "./sites/default/files/circle_grid.png" );
+  chmod("./sites/default/files/circle_grid.png", 0777);
 
 
   $url = "./sites/default/files/circle_grid.png";
@@ -2044,7 +2047,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $wave_detection['scales'] = $scales;
   }
   
-  unset($scales);
+  /*unset($scales);
   unset($scaled);
   unset($hscale);
   unset($hscaled);
@@ -2059,7 +2062,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
   unset($b_scale_sum_ratios);
   unset($h_increment);
   unset($f_increment);
-  unset($b_increment);
+  unset($b_increment);*/
   
   return $wave_detection;
 }
