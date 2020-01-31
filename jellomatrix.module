@@ -2134,10 +2134,10 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
   //dpm($tone);
   $color_array = [];
   $color_array = [
-    0 => 'gold',
-    1 => 'powderblue',
-    2 => 'orange',
-    3 => 'plum',
+    0 => 'powderblue',
+    1 => 'orange',
+    2 => 'plum',
+    3 => 'olive',
     4 => 'darkorange',
     5 => 'steelblue',
     6 => 'dodgerblue',
@@ -2150,7 +2150,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
     13 => 'lightpink',
     14 => 'lightblue',
     15 => 'steelblue',
-    16 => 'olive',
+    16 => 'gold',
     17 => 'tomato',
     18 => 'greenyellow',
     19 => 'olivedrab',
