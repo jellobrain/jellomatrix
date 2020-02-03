@@ -6584,6 +6584,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                       $dwFileLength += $currBytesWritten;
 
 
+
                       //Update the time counter
                       $elapsed += $timeIncrement;
                     }
@@ -6611,6 +6612,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
   }
 
   if ($print == 4) {
+    $fileHandles = [];
     $rife = [];
     $rife[] = $frequency;
     $old_frequency = $frequency;
@@ -6791,12 +6793,39 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
       fclose($fileHandle);
 
+      $fileHandles[] = $fileHandle;
     }
+  }
+  if ($print == 5) {
+    $fileHandles = [];
+    $rife = [];
+    $rife[] = $frequency;
+    $old_frequency = $frequency;
+    for ($w = 0; $w <= 2; $w++) {
+      $new_frequency = (int) $old_frequency * 11;
+      $rife[] = $new_frequency;
+      $old_frequency = $new_frequency;
+    }
+    foreach ($rife as $eleventh) {
+      $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'eleventh_harmonic.wav';
+    }
+
+    $combined_wav_data = jellomatrix_joinwavs($fileHandles, $frequency);
+    /*$touch = touch('sites/default/files/rife_complete_base_' . $frequency . '.wav');
+    $data = base64_decode($combined_wav_data);
+    file_put_contents($touch, $data);*/
+
+    $path = 'sites/default/files/rife_complete_base_' . $frequency . '.wav';
+    $handle = fopen($path, "wb");
+    fwrite($handle, $combined_wav_data);
+    fclose($handle);
+
+
   }
 
   /*
    * JOINWAVS
-   *
+   */
    if ($print == 2) {
     
     if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav')) {
@@ -6807,7 +6836,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
-      fwrite(fopen($path, 'wb'),$r);
+      fwrite($pathHandle,$r);
       fclose($pathHandle);
     }
     
@@ -6819,7 +6848,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
-      fwrite(fopen($path, 'wb'),$rl);
+      fwrite($pathHandle,$rl);
       fclose($pathHandle);
     }
     
@@ -6831,7 +6860,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
-      fwrite(fopen($path, 'wb'),$lr);
+      fwrite($pathHandle,$lr);
       fclose($pathHandle);
     }
   }
@@ -6861,46 +6890,36 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     
     $path = 'sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
     $pathHandle = fopen($path, 'wb');
-    fwrite(fopen($path, 'wb'),$c);
+    fwrite($pathHandle,$c);
     fclose($pathHandle);
-  }*/
+  }
 }
 
-function jellomatrix_joinwavs($wavs) {
-  /*              'sGroupID' => 'A4',
-                  'dwFileLength'=> 'V',
-                  'sRiffType' => 'A4',
-                  'dwChunkSize' => 'V',
-                  'wFormatTag' => 'v',
-                  'wChannels' => 'v',
-                  'dwSamplesPerSec' => 'V',
-                  'dwAvgBytesPerSec' => 'V',
-                  'wBlockAlign' => 'v',
-                  'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.*/
-  
-  $fields = join('/',array( 'H8ChunkID', 'VChunkSize', 'H8Format',
-      'H8Subchunk1ID', 'VSubchunk1Size',
-      'vAudioFormat', 'vNumChannels', 'VSampleRate',
-      'VByteRate', 'vBlockAlign', 'vBitsPerSample' ));
+function jellomatrix_joinwavs($wavs, $frequency) {
+  $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
+    'H8Subchunk1ID', 'VSubchunk1Size',
+    'vAudioFormat', 'vNumChannels', 'VSampleRate',
+    'VByteRate', 'vBlockAlign', 'vBitsPerSample'));
   $data = '';
-  foreach($wavs as $wav){
-    $fp     = fopen($wav,'rb');
-    $header = fread($fp,36);
-    $info   = unpack($fields,$header);
-    // read optional extra stuff
-    if($info['Subchunk1Size'] > 16){
-      $header .= fread($fp,($info['Subchunk1Size']-16));
+  foreach ($wavs as $wav) {
+    $fp = fopen($wav, 'rb');
+    $header = fread($fp, 36);
+    $info = unpack($fields, $header);
+    if ($info['Subchunk1Size'] > 16) {
+      $header .= fread($fp, ($info['Subchunk1Size'] - 16));
     }
     // read SubChunk2ID
-    $header .= fread($fp,4);
+    $header .= fread($fp, 4);
     // read Subchunk2Size
-    $size  = unpack('vsize',fread($fp, 4));
-    $size  = $size['size'];
+    $size = unpack('vsize', fread($fp, 4));
+    $size = $size['size'];
     // read data
-    $data .= fread($fp,$size);
+    $data .= fread($fp, $size);
   }
-  return $header.pack('V',strlen($data)).$data;
+  return $header . pack('V', strlen($data)) . $data;
 }
+
+
 
 function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print) {
   $lambdoma_map = [];
