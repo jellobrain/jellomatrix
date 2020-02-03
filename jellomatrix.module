@@ -4372,7 +4372,7 @@ function jellomatrix_harmonics($frequency) {
       $freq = 10000000;
     }
     if ($explode[1] != 0 && $explode[0] == 0) {
-      $freq = .00001;
+      $freq = .0000001;
     }
     if (isset($freq)) {
       $harmonics[$key] .= ':' . $freq;
