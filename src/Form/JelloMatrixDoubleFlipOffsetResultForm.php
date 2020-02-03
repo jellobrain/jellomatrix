@@ -65,7 +65,7 @@ class JelloMatrixDoubleFlipOffsetResultForm extends FormBase {
     $user = \Drupal::currentUser();
     $roles = $user->getRoles();
     if (in_array('administrator', $roles)) {
-      $print_options = ['none', 'singles', 'pairings', 'complete'/*, 'all'*/];
+      $print_options = ['none', 'singles', 'pairings', 'complete', 'rife'];
       $form['print'] = array(
           '#title' => t('Do you want to reload and create audio files?  Which?'),
           '#description' => t(''),

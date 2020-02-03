@@ -2137,13 +2137,13 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
     0 => 'powderblue',
     1 => 'orange',
     2 => 'plum',
-    3 => 'olive',
+    3 => 'seagreen',
     4 => 'darkorange',
     5 => 'steelblue',
     6 => 'dodgerblue',
     7 => 'indianred',
     8 => 'darkolivegreen',
-    9 => 'seagreen',
+    9 => 'olive',
     10 => 'coral',
     11 => 'pink',
     12 => 'darkgreen',
@@ -4365,14 +4365,20 @@ function jellomatrix_harmonics($frequency) {
   $explode = [];
   foreach ($harmonics as $key => $harmonic) {
     $explode = explode(':', $harmonic);
-    if ($explode[1] >= 1) {
+    if ($explode[1] >= 1 && $explode[0] != 0) {
       $freq = ($explode[0]/$explode[1])*$frequency;
+    }
+    if ($explode[1] == 0 && $explode[0] != 0) {
+      $freq = 147741;
+    }
+    if ($explode[1] != 0 && $explode[0] == 0) {
+      $freq = .00001;
     }
     if (isset($freq)) {
       $harmonics[$key] .= ':' . $freq;
     }
     else {
-      $harmonics[$key] .= ':INF';
+      $harmonics[$key] .= ':147741';
     }   
   }
   //dpm($harmonics);
@@ -6027,56 +6033,56 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       }
     }
   }
-    
-  foreach ($print_array as $ke => $directions) {
-    
-    /* Calculate variable dependent fields
-    if ($ke == 'pairings') {
-      $channels = 2; //Stereo
-    }
-    elseif ($ke == 'complete') {
-      $channels = 6; //Mono
-    }
-    elseif ($ke == 'forward' || $ke == 'backward') {
-      $channels = 1; //Mono
-    }*/
-    
-    $channels = 1;
-    
-    if (isset($directions)) {
-      foreach ($directions as $direction => $collection) {
-        
-        if ($channels == 1) {
-          
-          foreach ($collection as $freqs) {
-            
-            //Path to output file
-            $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
-            
-            //Open a handle to our file in write mode, truncate the file if it exists
-            $fileHandle = fopen($filePath, 'wb');
-            
-            $chunksize = 16;
-            $bitDepth = 8; //8bit
-            $sampleRate = 44100; //CD quality
-            $blockAlign = ($channels * ($bitDepth/8));
-            $averageBytesPerSecond = $sampleRate * $blockAlign;
-            
-            $input = $freqs;
-            /*
-             * Header chunk
-             * dwFileLength will be calculated at the end, based upon the length of the audio data
-             */
-            $header = [
+  if(!empty($print_array)) {
+    foreach ($print_array as $ke => $directions) {
+
+      /* Calculate variable dependent fields
+      if ($ke == 'pairings') {
+        $channels = 2; //Stereo
+      }
+      elseif ($ke == 'complete') {
+        $channels = 6; //Mono
+      }
+      elseif ($ke == 'forward' || $ke == 'backward') {
+        $channels = 1; //Mono
+      }*/
+
+      $channels = 1;
+
+      if (isset($directions)) {
+        foreach ($directions as $direction => $collection) {
+
+          if ($channels == 1) {
+
+            foreach ($collection as $freqs) {
+
+              //Path to output file
+              $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
+
+              //Open a handle to our file in write mode, truncate the file if it exists
+              $fileHandle = fopen($filePath, 'wb');
+
+              $chunksize = 16;
+              $bitDepth = 8; //8bit
+              $sampleRate = 44100; //CD quality
+              $blockAlign = ($channels * ($bitDepth / 8));
+              $averageBytesPerSecond = $sampleRate * $blockAlign;
+
+              $input = $freqs;
+              /*
+               * Header chunk
+               * dwFileLength will be calculated at the end, based upon the length of the audio data
+               */
+              $header = [
                 'sGroupID' => 'RIFF',
                 'dwFileLength' => 0,
                 'sRiffType' => 'WAVE'
-            ];
-            
-            /*
-             * Format chunk
-             */
-            $fmtChunk = [
+              ];
+
+              /*
+               * Format chunk
+               */
+              $fmtChunk = [
                 'sGroupID' => 'fmt',
                 'dwChunkSize' => $chunksize,
                 'wFormatTag' => 1,
@@ -6085,15 +6091,15 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 'dwAvgBytesPerSec' => $averageBytesPerSecond,
                 'wBlockAlign' => $blockAlign,
                 'dwBitsPerSample' => $bitDepth
-            ];
-            
-            /*
-             * Map all fields to pack flags
-             * WAV format uses little-endian byte order
-             */
-            $fieldFormatMap = [
+              ];
+
+              /*
+               * Map all fields to pack flags
+               * WAV format uses little-endian byte order
+               */
+              $fieldFormatMap = [
                 'sGroupID' => 'A4',
-                'dwFileLength'=> 'V',
+                'dwFileLength' => 'V',
                 'sRiffType' => 'A4',
                 'dwChunkSize' => 'V',
                 'wFormatTag' => 'v',
@@ -6102,172 +6108,168 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 'dwAvgBytesPerSec' => 'V',
                 'wBlockAlign' => 'v',
                 'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
-            ];
-            /*
-             * Pack and write our values
-             * Keep track of how many bytes we write so we can update the dwFileLength in the header
-             */
-            $dwFileLength = 0;
-            foreach($header as $currKey=>$currValue)
-            {
-              if(!array_key_exists($currKey, $fieldFormatMap))
-              {
-                $message = 'Unrecognized header key value ' . $currKey;
-                \Drupal::logger('jellomatrix')->error($message);
-                die('Unrecognized field '.$currKey);
+              ];
+              /*
+               * Pack and write our values
+               * Keep track of how many bytes we write so we can update the dwFileLength in the header
+               */
+              $dwFileLength = 0;
+              foreach ($header as $currKey => $currValue) {
+                if (!array_key_exists($currKey, $fieldFormatMap)) {
+                  $message = 'Unrecognized header key value ' . $currKey;
+                  \Drupal::logger('jellomatrix')->error($message);
+                  die('Unrecognized field ' . $currKey);
+                }
+
+                $currPackFlag = $fieldFormatMap[$currKey];
+                $currOutput = pack($currPackFlag, $currValue);
+                $dwFileLength += fwrite($fileHandle, $currOutput);
               }
-              
-              $currPackFlag = $fieldFormatMap[$currKey];
-              $currOutput = pack($currPackFlag, $currValue);
-              $dwFileLength += fwrite($fileHandle, $currOutput);
-            }
-            
-            foreach($fmtChunk as $currKey=>$currValue)
-            {
-              if(!array_key_exists($currKey, $fieldFormatMap))
-              {
-                $message = 'Unrecognized fmtChunk key value ' . $currKey;
-                \Drupal::logger('jellomatrix')->error($message);
-                die('Unrecognized field '.$currKey);
+
+              foreach ($fmtChunk as $currKey => $currValue) {
+                if (!array_key_exists($currKey, $fieldFormatMap)) {
+                  $message = 'Unrecognized fmtChunk key value ' . $currKey;
+                  \Drupal::logger('jellomatrix')->error($message);
+                  die('Unrecognized field ' . $currKey);
+                }
+
+                $currPackFlag = $fieldFormatMap[$currKey];
+                $currOutput = pack($currPackFlag, $currValue);
+                $dwFileLength += fwrite($fileHandle, $currOutput);
               }
-              
-              $currPackFlag = $fieldFormatMap[$currKey];
-              $currOutput = pack($currPackFlag, $currValue);
-              $dwFileLength += fwrite($fileHandle, $currOutput);
-            }
-            /*
-             * Set up our data chunk
-             * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
-             * after audio data has been written
-             */
-            $dataChunk = [
+              /*
+               * Set up our data chunk
+               * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
+               * after audio data has been written
+               */
+              $dataChunk = [
                 'sGroupID' => 'data',
                 'dwChunkSize' => 0
-            ];
-            
-            //Write sGroupID
-            $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
-            
-            //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
-            $dataChunkSizePosition = $dwFileLength;
-            
-            //Write our empty dwChunkSize field
-            $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-            
-            /*
-             8-bit audio: -128 to 127 (because of 2’s complement)
-             */
-            $maxAmplitude = 127;
-            
-          
-            //Loop through input
-            foreach($input as $currNote) {
-              //dpm($currNote);
-              $currHz = (int)$currNote[0];
-              
-              $currMillis = 1000;
-              
+              ];
+
+              //Write sGroupID
+              $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
+
+              //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
+              $dataChunkSizePosition = $dwFileLength;
+
+              //Write our empty dwChunkSize field
+              $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+
               /*
-               * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
-               * 1000/$sampleRate
+               8-bit audio: -128 to 127 (because of 2’s complement)
                */
-              $timeIncrement = 1000/$sampleRate;
-              
-              /*
-               * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-               */
-              if ($currHz == 0) {
-                $currHz = .00001;
-              }
-              
-              $waveIncrement = $sampleRate/($sampleRate/$currHz);
-              
-              /*
-               * Run the sine function until we have written all the samples to fill the current note time
-               */
-              $elapsed = 0;
-              
-              $x = 0;
-              
-              while($elapsed<$currMillis) {
+              $maxAmplitude = 127;
+
+
+              //Loop through input
+              foreach ($input as $currNote) {
+                //dpm($currNote);
+                $currHz = (int)$currNote[0];
+
+                $currMillis = 1000;
+
                 /*
-                 * The sine wave math
-                 * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                 * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
+                 * 1000/$sampleRate
                  */
-                
-                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                
-                //Increment our position in the wave
-                $x+=$waveIncrement;
-                
-                //Write the sample and increment our byte counts
-                $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                
-                $dataChunk['dwChunkSize'] += $currBytesWritten;
-                $dwFileLength  += $currBytesWritten;
-                
-                
-                //Update the time counter
-                $elapsed += $timeIncrement;
+                $timeIncrement = 1000 / $sampleRate;
+
+                /*
+                 * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
+                 */
+                if ($currHz == 0) {
+                  $currHz = .00001;
+                }
+
+                $waveIncrement = $sampleRate / ($sampleRate / $currHz);
+
+                /*
+                 * Run the sine function until we have written all the samples to fill the current note time
+                 */
+                $elapsed = 0;
+
+                $x = 0;
+
+                while ($elapsed < $currMillis) {
+                  /*
+                   * The sine wave math
+                   * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                   */
+
+                  $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+
+                  //Increment our position in the wave
+                  $x += $waveIncrement;
+
+                  //Write the sample and increment our byte counts
+                  $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+
+                  $dataChunk['dwChunkSize'] += $currBytesWritten;
+                  $dwFileLength += $currBytesWritten;
+
+
+                  //Update the time counter
+                  $elapsed += $timeIncrement;
+                }
               }
+
+
+              /*
+               * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
+               * sGroupID and sRiffType fields in the header.
+               */
+              fseek($fileHandle, 4);
+              fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength - 8)));
+
+              //Seek to our dwChunkSize and overwrite it with our final value
+              fseek($fileHandle, $dataChunkSizePosition);
+              fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+              fclose($fileHandle);
+
             }
-            
-            
-            /*
-             * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
-             * sGroupID and sRiffType fields in the header.
-             */
-            fseek($fileHandle, 4);
-            fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
-            
-            //Seek to our dwChunkSize and overwrite it with our final value
-            fseek($fileHandle, $dataChunkSizePosition);
-            fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-            fclose($fileHandle);
-            
           }
-        }
-        // BOOKMARK set this to one to test again
-        if ($channels > 1) {
-          
-          //Path to output file
-          $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
-          
-          //Open a handle to our file in write mode, truncate the file if it exists
-          $fileHandle = fopen($filePath, 'wb');
-          
-          /* JOINWAV
-           $channels = 1; //Mono*/
-          
-          $chunksize = 16;
-          $bitDepth = 8; //8bit
-          $sampleRate = 44100; //CD quality
-          $blockAlign = ($channels * ($bitDepth/8));
-          $averageBytesPerSecond = $sampleRate * $blockAlign;
-          
-          
-          $input = $collection;
-         
-          if ($channels == 2) {
-            /*
-             * Header chunk
-             * dwFileLength will be calculated at the end, based upon the length of the audio data
-             */
-            $header = [
+          // BOOKMARK set this to one to test again
+          if ($channels > 1) {
+
+            //Path to output file
+            $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
+
+            //Open a handle to our file in write mode, truncate the file if it exists
+            $fileHandle = fopen($filePath, 'wb');
+
+            /* JOINWAV
+             $channels = 1; //Mono*/
+
+            $chunksize = 16;
+            $bitDepth = 8; //8bit
+            $sampleRate = 44100; //CD quality
+            $blockAlign = ($channels * ($bitDepth / 8));
+            $averageBytesPerSecond = $sampleRate * $blockAlign;
+
+
+            $input = $collection;
+
+            if ($channels == 2) {
+              /*
+               * Header chunk
+               * dwFileLength will be calculated at the end, based upon the length of the audio data
+               */
+              $header = [
                 'sGroupID' => 'RIFF',
                 'dwFileLength' => 0,
                 'sRiffType' => 'WAVE'
-            ];
-            
-            /*
-             * Format chunk
-             */
-            $subChunkSize = 4;
-            $subChunkIDSize = 4;
-            $subChunk = 4;
-            $chunksize = 4;
-            $format = 4;
-            $fmtChunk = [
+              ];
+
+              /*
+               * Format chunk
+               */
+              $subChunkSize = 4;
+              $subChunkIDSize = 4;
+              $subChunk = 4;
+              $chunksize = 4;
+              $format = 4;
+              $fmtChunk = [
                 'subChunkID1' => 'fmt',
                 'subChunk1' => $subChunk,
                 'subChunk1Size' => $subChunkSize,
@@ -6281,16 +6283,16 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 'wBlockAlign' => $blockAlign,
                 'dwBitsPerSample' => $bitDepth,
                 'sGroupID' => 'fmt',
-                'dwChunkSize' => $chunksize+$format+($subChunkSize*$channels)+($subChunkIDSize*$channels)+($subChunk*$channels)
-            ];
-            
-            /*
-             * Map all fields to pack flags
-             * WAV format uses little-endian byte order
-             */
-            $fieldFormatMap = [
+                'dwChunkSize' => $chunksize + $format + ($subChunkSize * $channels) + ($subChunkIDSize * $channels) + ($subChunk * $channels)
+              ];
+
+              /*
+               * Map all fields to pack flags
+               * WAV format uses little-endian byte order
+               */
+              $fieldFormatMap = [
                 'sGroupID' => 'A4',
-                'dwFileLength'=> 'V',
+                'dwFileLength' => 'V',
                 'sRiffType' => 'A4',
                 'dwChunkSize' => 'V',
                 'wFormatTag' => 'v',
@@ -6305,28 +6307,28 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 'subChunk2' => 'V',
                 'subChunkID1' => 'A4',
                 'subChunkID2' => 'A4'
-            ];
-          }
-          if ($channels == 6) {
-            /*
-             * Header chunk
-             * dwFileLength will be calculated at the end, based upon the length of the audio data
-             */
-            $header = [
+              ];
+            }
+            if ($channels == 6) {
+              /*
+               * Header chunk
+               * dwFileLength will be calculated at the end, based upon the length of the audio data
+               */
+              $header = [
                 'sGroupID' => 'RIFF',
                 'dwFileLength' => 0,
                 'sRiffType' => 'WAVE'
-            ];
-            
-            /*
-             * Format chunk
-             */
-            $subChunkSize = 4;
-            $subChunkIDSize = 4;
-            $subChunk = 4;
-            $chunksize = 4;
-            $format = 4;
-            $fmtChunk = [
+              ];
+
+              /*
+               * Format chunk
+               */
+              $subChunkSize = 4;
+              $subChunkIDSize = 4;
+              $subChunk = 4;
+              $chunksize = 4;
+              $format = 4;
+              $fmtChunk = [
                 'subChunkID1' => 'fmt',
                 'subChunk1' => $subChunk,
                 'subChunk1Size' => $subChunkSize,
@@ -6352,16 +6354,16 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 'wBlockAlign' => $blockAlign,
                 'dwBitsPerSample' => $bitDepth,
                 'sGroupID' => 'fmt',
-                'dwChunkSize' => $chunksize+$format+($subChunkSize*$channels)+($subChunkIDSize*$channels)+($subChunk*$channels)
-            ];
-            
-            /*
-             * Map all fields to pack flags
-             * WAV format uses little-endian byte order
-             */
-            $fieldFormatMap = [
+                'dwChunkSize' => $chunksize + $format + ($subChunkSize * $channels) + ($subChunkIDSize * $channels) + ($subChunk * $channels)
+              ];
+
+              /*
+               * Map all fields to pack flags
+               * WAV format uses little-endian byte order
+               */
+              $fieldFormatMap = [
                 'sGroupID' => 'A4',
-                'dwFileLength'=> 'V',
+                'dwFileLength' => 'V',
                 'sRiffType' => 'A4',
                 'dwChunkSize' => 'V',
                 'wFormatTag' => 'v',
@@ -6388,229 +6390,410 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 'subChunk6' => 'V',
                 'subChunkID5' => 'A4',
                 'subChunkID6' => 'A4'
-            ];
-          }
-          
-          /*
-           * Pack and write our values
-           * Keep track of how many bytes we write so we can update the dwFileLength in the header
-           */
-          $dwFileLength = 0;
-          foreach($header as $currKey=>$currValue)
-          {
-            if(!array_key_exists($currKey, $fieldFormatMap))
-            {
-              $message = 'Unrecognized header key value ' .$currKey;
-              \Drupal::logger('jellomatrix')->error($message);
-              die('Unrecognized field '.$currKey);
+              ];
             }
-            
-            $currPackFlag = $fieldFormatMap[$currKey];
-            $currOutput = pack($currPackFlag, $currValue);
-            $dwFileLength += fwrite($fileHandle, $currOutput);
-          }
-          
-          foreach($fmtChunk as $currKey=>$currValue)
-          {
-            if(!array_key_exists($currKey, $fieldFormatMap))
-            {
-              $message = 'Unrecognized fmtChunk key value ' . $currKey;
-              \Drupal::logger('jellomatrix')->error($message);
-              die('Unrecognized field '.$currKey);
+
+            /*
+             * Pack and write our values
+             * Keep track of how many bytes we write so we can update the dwFileLength in the header
+             */
+            $dwFileLength = 0;
+            foreach ($header as $currKey => $currValue) {
+              if (!array_key_exists($currKey, $fieldFormatMap)) {
+                $message = 'Unrecognized header key value ' . $currKey;
+                \Drupal::logger('jellomatrix')->error($message);
+                die('Unrecognized field ' . $currKey);
+              }
+
+              $currPackFlag = $fieldFormatMap[$currKey];
+              $currOutput = pack($currPackFlag, $currValue);
+              $dwFileLength += fwrite($fileHandle, $currOutput);
             }
-            
-            $currPackFlag = $fieldFormatMap[$currKey];
-            $currOutput = pack($currPackFlag, $currValue);
-            $dwFileLength += fwrite($fileHandle, $currOutput);
-          }
-          /*
-           * Set up our data chunk
-           * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
-           * after audio data has been written
-           */
-          $dataChunk = [
+
+            foreach ($fmtChunk as $currKey => $currValue) {
+              if (!array_key_exists($currKey, $fieldFormatMap)) {
+                $message = 'Unrecognized fmtChunk key value ' . $currKey;
+                \Drupal::logger('jellomatrix')->error($message);
+                die('Unrecognized field ' . $currKey);
+              }
+
+              $currPackFlag = $fieldFormatMap[$currKey];
+              $currOutput = pack($currPackFlag, $currValue);
+              $dwFileLength += fwrite($fileHandle, $currOutput);
+            }
+            /*
+             * Set up our data chunk
+             * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
+             * after audio data has been written
+             */
+            $dataChunk = [
               'sGroupID' => 'data',
               'dwChunkSize' => 0
-          ];
-          
-          //Write sGroupID
-          $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
-          
-          //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
-          $dataChunkSizePosition = $dwFileLength;
-          
-          //Write our empty dwChunkSize field
-          $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-          
-          /*
-           8-bit audio: -128 to 127 (because of 2’s complement)
-           */
-          $maxAmplitude = 127;
-          
-          //Loop through input
-          foreach($input as $array) {
-            foreach($array as $currSet) {
-              foreach($currSet as $currNote) {
-              
-                //dpm($currNote);
-                $currHz = (int)$currNote[0];
-                
-                if ($channels == 2) {
-                  $currHz2 = (int)$currNote[1];
-                }
-                elseif ($channels == 6) {
-                  $currHz2 = (int)$currNote[1];
-                  $currHz3 = (int)$currNote[2];
-                  $currHz4 = (int)$currNote[3];
-                  $currHz5 = (int)$currNote[4];
-                  $currHz6 = (int)$currNote[5];
-                }
-                
-                
-                $currMillis = 2000;
-                
-                /*
-                 * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
-                 * 1000/$sampleRate
-                 */
-                $timeIncrement = 1000/$sampleRate;
-                
-                /*
-                 * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-                 */
-                if ($currHz == 0) {
-                  $currHz = .00001;
-                }
-                
-                if (isset($currHz2) && $currHz2 == 0) {
-                  $currHz2 = .00001;
-                }
-                if (isset($currHz3) && $currHz3 == 0) {
-                  $currHz3 = .00001;
-                }
-                if (isset($currHz4) && $currHz4 == 0) {
-                  $currHz4 = .00001;
-                }
-                if (isset($currHz5) && $currHz5 == 0) {
-                  $currHz5 = .00001;
-                }
-                if (isset($currHz6) && $currHz6 == 0) {
-                  $currHz6 = .00001;
-                }
-                
-                $waveIncrement = $sampleRate/($sampleRate/$currHz);
-                
-                if ($channels == 2) {
-                  $waveIncrement2 = $sampleRate/($sampleRate/$currHz2);
-                }
-                if ($channels == 6) {
-                  $waveIncrement2 = $sampleRate/($sampleRate/$currHz2);
-                  $waveIncrement3 = $sampleRate/($sampleRate/$currHz3);
-                  $waveIncrement4 = $sampleRate/($sampleRate/$currHz4);
-                  $waveIncrement5 = $sampleRate/($sampleRate/$currHz5);
-                  $waveIncrement6 = $sampleRate/($sampleRate/$currHz6);
-                }
-                
-                /*
-                 * Run the sine function until we have written all the samples to fill the current note time
-                 */
-                $elapsed = 0;
-                
-                $x = 0;
-                $x2 = 0;
-                $x3 = 0;
-                $x4 = 0;
-                $x5 = 0;
-                $x6 = 0;
-                
-                if ($channels == 2) {
-                  while($elapsed<$currMillis) {
-                    /*
-                     * The sine wave math
-                     * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-                     */
-                    
-                    $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                    $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
-                    
-                    //Increment our position in the wave
-                    $x+=$waveIncrement;
-                    $x2+=$waveIncrement2;
-                    
-                    //Write the sample and increment our byte counts
-                    // BOOKMARK ERROR HERE
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
-                    
-                    $dataChunk['dwChunkSize'] += $currBytesWritten;
-                    
-                    $dwFileLength  += $currBytesWritten;
-                    
-                    
-                    //Update the time counter
-                    $elapsed += $timeIncrement;
+            ];
+
+            //Write sGroupID
+            $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
+
+            //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
+            $dataChunkSizePosition = $dwFileLength;
+
+            //Write our empty dwChunkSize field
+            $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+
+            /*
+             8-bit audio: -128 to 127 (because of 2’s complement)
+             */
+            $maxAmplitude = 127;
+
+            //Loop through input
+            foreach ($input as $array) {
+              foreach ($array as $currSet) {
+                foreach ($currSet as $currNote) {
+
+                  //dpm($currNote);
+                  $currHz = (int)$currNote[0];
+
+                  if ($channels == 2) {
+                    $currHz2 = (int)$currNote[1];
+                  } elseif ($channels == 6) {
+                    $currHz2 = (int)$currNote[1];
+                    $currHz3 = (int)$currNote[2];
+                    $currHz4 = (int)$currNote[3];
+                    $currHz5 = (int)$currNote[4];
+                    $currHz6 = (int)$currNote[5];
+                  }
+
+
+                  $currMillis = 2000;
+
+                  /*
+                   * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
+                   * 1000/$sampleRate
+                   */
+                  $timeIncrement = 1000 / $sampleRate;
+
+                  /*
+                   * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
+                   */
+                  if ($currHz == 0) {
+                    $currHz = .00001;
+                  }
+
+                  if (isset($currHz2) && $currHz2 == 0) {
+                    $currHz2 = .00001;
+                  }
+                  if (isset($currHz3) && $currHz3 == 0) {
+                    $currHz3 = .00001;
+                  }
+                  if (isset($currHz4) && $currHz4 == 0) {
+                    $currHz4 = .00001;
+                  }
+                  if (isset($currHz5) && $currHz5 == 0) {
+                    $currHz5 = .00001;
+                  }
+                  if (isset($currHz6) && $currHz6 == 0) {
+                    $currHz6 = .00001;
+                  }
+
+                  $waveIncrement = $sampleRate / ($sampleRate / $currHz);
+
+                  if ($channels == 2) {
+                    $waveIncrement2 = $sampleRate / ($sampleRate / $currHz2);
+                  }
+                  if ($channels == 6) {
+                    $waveIncrement2 = $sampleRate / ($sampleRate / $currHz2);
+                    $waveIncrement3 = $sampleRate / ($sampleRate / $currHz3);
+                    $waveIncrement4 = $sampleRate / ($sampleRate / $currHz4);
+                    $waveIncrement5 = $sampleRate / ($sampleRate / $currHz5);
+                    $waveIncrement6 = $sampleRate / ($sampleRate / $currHz6);
+                  }
+
+                  /*
+                   * Run the sine function until we have written all the samples to fill the current note time
+                   */
+                  $elapsed = 0;
+
+                  $x = 0;
+                  $x2 = 0;
+                  $x3 = 0;
+                  $x4 = 0;
+                  $x5 = 0;
+                  $x6 = 0;
+
+                  if ($channels == 2) {
+                    while ($elapsed < $currMillis) {
+                      /*
+                       * The sine wave math
+                       * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                       */
+
+                      $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+                      $currAmplitude2 = ($maxAmplitude) - number_format(sin(deg2rad($x2)) * ($maxAmplitude * .95));
+
+                      //Increment our position in the wave
+                      $x += $waveIncrement;
+                      $x2 += $waveIncrement2;
+
+                      //Write the sample and increment our byte counts
+                      // BOOKMARK ERROR HERE
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
+
+                      $dataChunk['dwChunkSize'] += $currBytesWritten;
+
+                      $dwFileLength += $currBytesWritten;
+
+
+                      //Update the time counter
+                      $elapsed += $timeIncrement;
+                    }
+                  }
+                  if ($channels == 6) {
+                    while ($elapsed < $currMillis) {
+                      /*
+                       * The sine wave math
+                       * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+                       */
+
+                      $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+                      $currAmplitude2 = ($maxAmplitude) - number_format(sin(deg2rad($x2)) * ($maxAmplitude * .95));
+                      $currAmplitude3 = ($maxAmplitude) - number_format(sin(deg2rad($x3)) * ($maxAmplitude * .95));
+                      $currAmplitude4 = ($maxAmplitude) - number_format(sin(deg2rad($x4)) * ($maxAmplitude * .95));
+                      $currAmplitude5 = ($maxAmplitude) - number_format(sin(deg2rad($x5)) * ($maxAmplitude * .95));
+                      $currAmplitude6 = ($maxAmplitude) - number_format(sin(deg2rad($x6)) * ($maxAmplitude * .95));
+
+                      //Increment our position in the wave
+                      $x += $waveIncrement;
+                      $x2 += $waveIncrement2;
+                      $x3 += $waveIncrement3;
+                      $x4 += $waveIncrement4;
+                      $x5 += $waveIncrement5;
+                      $x6 += $waveIncrement6;
+
+                      //Write the sample and increment our byte counts
+                      // BOOKMARK ERROR HERE
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude3));
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude4));
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude5));
+                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude6));
+
+                      $dataChunk['dwChunkSize'] += $currBytesWritten;
+
+                      $dwFileLength += $currBytesWritten;
+
+
+                      //Update the time counter
+                      $elapsed += $timeIncrement;
+                    }
                   }
                 }
-                if ($channels == 6) {
-                  while($elapsed<$currMillis) {
-                    /*
-                     * The sine wave math
-                     * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-                     */
-                    
-                    $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
-                    $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
-                    $currAmplitude3 = ($maxAmplitude)-number_format(sin(deg2rad($x3))*($maxAmplitude*.95));
-                    $currAmplitude4 = ($maxAmplitude)-number_format(sin(deg2rad($x4))*($maxAmplitude*.95));
-                    $currAmplitude5 = ($maxAmplitude)-number_format(sin(deg2rad($x5))*($maxAmplitude*.95));
-                    $currAmplitude6 = ($maxAmplitude)-number_format(sin(deg2rad($x6))*($maxAmplitude*.95));
-                    
-                    //Increment our position in the wave
-                    $x+=$waveIncrement;
-                    $x2+=$waveIncrement2;
-                    $x3+=$waveIncrement3;
-                    $x4+=$waveIncrement4;
-                    $x5+=$waveIncrement5;
-                    $x6+=$waveIncrement6;
-                    
-                    //Write the sample and increment our byte counts
-                    // BOOKMARK ERROR HERE
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude3));
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude4));
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude5));
-                    $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude6));
-                    
-                    $dataChunk['dwChunkSize'] += $currBytesWritten;
-                    
-                    $dwFileLength  += $currBytesWritten;
-                    
-                    
-                    //Update the time counter
-                    $elapsed += $timeIncrement;
-                  }
-                }
+
+                /*
+                 * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
+                 * sGroupID and sRiffType fields in the header.
+                 */
+                fseek($fileHandle, 4);
+                fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength - 8)));
+
+                //Seek to our dwChunkSize and overwrite it with our final value
+                fseek($fileHandle, $dataChunkSizePosition);
+                fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+                fclose($fileHandle);
+
               }
-              
-              /*
-               * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
-               * sGroupID and sRiffType fields in the header.
-               */
-              fseek($fileHandle, 4);
-              fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength-8)));
-              
-              //Seek to our dwChunkSize and overwrite it with our final value
-              fseek($fileHandle, $dataChunkSizePosition);
-              fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-              fclose($fileHandle);
-            
             }
           }
         }
       }
     }
   }
+
+  if ($print == 4) {
+    $rife = [];
+    $rife[] = $frequency;
+    $old_frequency = $frequency;
+    for ($w = 0; $w <= 2; $w++) {
+      $new_frequency = (int) $old_frequency * 11;
+      $rife[] = $new_frequency;
+      $old_frequency = $new_frequency;
+    }
+    foreach ($rife as $eleventh_harmonic) {
+      //Path to output file
+      $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base' . $frequency . 'eleventh_harmonic.wav';
+
+      //Open a handle to our file in write mode, truncate the file if it exists
+      $fileHandle = fopen($filePath, 'wb');
+      $channels = 1;
+      $chunksize = 16;
+      $bitDepth = 8; //8bit
+      $sampleRate = 44100; //CD quality
+      $blockAlign = ($channels * ($bitDepth / 8));
+      $averageBytesPerSecond = $sampleRate * $blockAlign;
+
+      $input = $eleventh_harmonic;
+      /*
+       * Header chunk
+       * dwFileLength will be calculated at the end, based upon the length of the audio data
+       */
+      $header = [
+        'sGroupID' => 'RIFF',
+        'dwFileLength' => 0,
+        'sRiffType' => 'WAVE'
+      ];
+
+      /*
+       * Format chunk
+       */
+      $fmtChunk = [
+        'sGroupID' => 'fmt',
+        'dwChunkSize' => $chunksize,
+        'wFormatTag' => 1,
+        'wChannels' => $channels,
+        'dwSamplesPerSec' => $sampleRate,
+        'dwAvgBytesPerSec' => $averageBytesPerSecond,
+        'wBlockAlign' => $blockAlign,
+        'dwBitsPerSample' => $bitDepth
+      ];
+
+      /*
+       * Map all fields to pack flags
+       * WAV format uses little-endian byte order
+       */
+      $fieldFormatMap = [
+        'sGroupID' => 'A4',
+        'dwFileLength' => 'V',
+        'sRiffType' => 'A4',
+        'dwChunkSize' => 'V',
+        'wFormatTag' => 'v',
+        'wChannels' => 'v',
+        'dwSamplesPerSec' => 'V',
+        'dwAvgBytesPerSec' => 'V',
+        'wBlockAlign' => 'v',
+        'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+      ];
+      /*
+       * Pack and write our values
+       * Keep track of how many bytes we write so we can update the dwFileLength in the header
+       */
+      $dwFileLength = 0;
+      foreach ($header as $currKey => $currValue) {
+        if (!array_key_exists($currKey, $fieldFormatMap)) {
+          $message = 'Unrecognized header key value ' . $currKey;
+          \Drupal::logger('jellomatrix')->error($message);
+          die('Unrecognized field ' . $currKey);
+        }
+
+        $currPackFlag = $fieldFormatMap[$currKey];
+        $currOutput = pack($currPackFlag, $currValue);
+        $dwFileLength += fwrite($fileHandle, $currOutput);
+      }
+
+      foreach ($fmtChunk as $currKey => $currValue) {
+        if (!array_key_exists($currKey, $fieldFormatMap)) {
+          $message = 'Unrecognized fmtChunk key value ' . $currKey;
+          \Drupal::logger('jellomatrix')->error($message);
+          die('Unrecognized field ' . $currKey);
+        }
+
+        $currPackFlag = $fieldFormatMap[$currKey];
+        $currOutput = pack($currPackFlag, $currValue);
+        $dwFileLength += fwrite($fileHandle, $currOutput);
+      }
+      /*
+       * Set up our data chunk
+       * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
+       * after audio data has been written
+       */
+      $dataChunk = [
+        'sGroupID' => 'data',
+        'dwChunkSize' => 0
+      ];
+
+      //Write sGroupID
+      $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
+
+      //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
+      $dataChunkSizePosition = $dwFileLength;
+
+      //Write our empty dwChunkSize field
+      $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+
+      /*
+       8-bit audio: -128 to 127 (because of 2’s complement)
+       */
+      $maxAmplitude = 127;
+
+
+      //Loop through input
+      for ($z = 0; $z < 60; $z++) {
+        //dpm($currNote);
+        $currHz = (int)$input;
+
+        $currMillis = 1000;
+
+        /*
+         * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
+         * 1000/$sampleRate
+         */
+        $timeIncrement = 1000 / $sampleRate;
+
+        /*
+         * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
+         */
+        if ($currHz == 0) {
+          $currHz = .00001;
+        }
+
+        $waveIncrement = $sampleRate / ($sampleRate / $currHz);
+
+        /*
+         * Run the sine function until we have written all the samples to fill the current note time
+         */
+        $elapsed = 0;
+
+        $x = 0;
+
+        while ($elapsed < $currMillis) {
+          /*
+           * The sine wave math
+           * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+           */
+
+          $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+
+          //Increment our position in the wave
+          $x += $waveIncrement;
+
+          //Write the sample and increment our byte counts
+          $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+
+          $dataChunk['dwChunkSize'] += $currBytesWritten;
+          $dwFileLength += $currBytesWritten;
+
+
+          //Update the time counter
+          $elapsed += $timeIncrement;
+        }
+      }
+
+
+      /*
+       * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
+       * sGroupID and sRiffType fields in the header.
+       */
+      fseek($fileHandle, 4);
+      fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength - 8)));
+
+      //Seek to our dwChunkSize and overwrite it with our final value
+      fseek($fileHandle, $dataChunkSizePosition);
+      fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+      fclose($fileHandle);
+
+    }
+  }
+
   /*
    * JOINWAVS
    *

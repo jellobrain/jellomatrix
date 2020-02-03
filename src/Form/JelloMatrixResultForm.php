@@ -61,7 +61,7 @@ class JelloMatrixResultForm extends FormBase {
     $user = \Drupal::currentUser();
     $roles = $user->getRoles();
     if (in_array('administrator', $roles)) {
-      $print_options = ['none', 'singles', 'pairings', 'complete'/*, 'all'*/];
+      $print_options = ['none', 'singles', 'pairings', 'complete', 'rife'];
       $form['print'] = array(
           '#title' => t('Do you want to reload and create audio files?  Which?'),
           '#description' => t(''),
@@ -168,6 +168,7 @@ class JelloMatrixResultForm extends FormBase {
     if (!empty($spliced_matrix)) {
       extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir/*, $scales*/));
     }
+
     
     if (isset($hscaled)) {
       $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'yes', $hscaled);
@@ -190,10 +191,10 @@ class JelloMatrixResultForm extends FormBase {
     $dir = 'f';
     unset($scale);
     $scale = $scales['f'];
-    
     if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
       extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
     }
+
     
     if (isset($fscaled)) {
       $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $fscaled);

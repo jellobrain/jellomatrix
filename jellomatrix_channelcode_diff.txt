@@ -1,0 +1,562 @@
+diff --git a/jellomatrix.module b/jellomatrix.module
+index 60b7e645..3f528f54 100644
+--- a/jellomatrix.module
++++ b/jellomatrix.module
+@@ -5713,6 +5713,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
+         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+           $class = $exploded[2];
+           $freq = $exploded[3];
++   
+           //$output .= '<td>' . $u . '</td>';
+         }
+         if ($class == 'white') {
+@@ -5832,23 +5833,24 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
+ }
+ 
+ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency, $print) {
++  //var_dump(debug_backtrace());
+   $prints_array = [];
+   if($print == 1) {
+     $prints_array['forward'] = $note_assembly['forward'];
+     $prints_array['backward'] = $note_assembly['backward'];
+   }
+   if($print == 2) {
+-    $prints_array['pairings'] = $note_assembly['pairings'];
++    //$prints_array['pairings'] = $note_assembly['pairings'];
++    $prints_array['forward'] = $note_assembly['forward'];
++    $prints_array['backward'] = $note_assembly['backward'];
+   }
+   if($print == 3) {
+-    $prints_array['complete'] = $note_assembly['complete'];
++    //$prints_array['complete'] = $note_assembly['complete'];
++    $prints_array['forward'] = $note_assembly['forward'];
++    $prints_array['backward'] = $note_assembly['backward'];
+   }
+-  dpm($prints_array);
+-  
++  //dpm($prints_array);
+   
+-  //if($print == 'all') {
+-    //$print_array = $note_assembly;
+-  //}
+   if (!empty($prints_array)) {
+     $print_array =[];
+     foreach ($prints_array as $ke => $directions) {
+@@ -5857,8 +5859,8 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+           foreach ($collection as $pos => $freqs) {
+             if ($pos != 0) {
+               foreach ($freqs as $position => $freaq) {
+-                $print_array[$ke][$direction][$position][0] = $prints_array[$ke][$direction][0][$position];
+-                $print_array[$ke][$direction][$position][1] = $freaq;
++                $print_array[$ke][$direction][$pos][$position][0][] = (int) $prints_array[$ke][$direction][0][$position];
++                $print_array[$ke][$direction][$pos][$position][0][] = (int) $freaq;
+               }
+             }
+           }
+@@ -5866,26 +5868,29 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+       }
+       if (isset($ke) && $ke == 'complete') {
+         foreach ($directions as $direction => $collection) {
+-          $cnt = 1;
+           foreach ($collection as $pos => $freqs) {
+             if ($pos == 0) {
+               foreach ($freqs as $position => $freaq) {
+-                $print_array[$ke][$direction][$position][0] = $prints_array[$ke][$direction][0][$position];
++                $print_array[$ke][$direction][$pos][$position][0][] = (int) $prints_array[$ke][$direction][0][$position];
+               }
+             }
+             if ($pos > 0) {
+               foreach ($freqs as $position => $freaq) {
+-                $print_array[$ke][$direction][$position][$pos] = $freaq;
+-                $cnt++;
++                $print_array[$ke][$direction][0][$position][0][] = (int) $freaq;
+               }
+             }
+           }
+         }
+       }
+-      dpm($print_array);
+-      foreach ($print_array as $ke => $directions) {
+-        if (isset($directions)) {
+-          foreach ($directions as $freqs) {
++    }
++    $print_array['forward'] = $prints_array['forward'];
++    $print_array['backward'] = $prints_array['backward'];
++    
++    foreach ($print_array as $ke => $directions) {
++      if (isset($directions)) {
++        foreach ($directions as $direction => $collection) {
++          foreach ($collection as $freqs) {
++            //dpm($freqs);
+             
+             //Path to output file
+             $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
+@@ -5893,16 +5898,8 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+             //Open a handle to our file in write mode, truncate the file if it exists
+             $fileHandle = fopen($filePath, 'wb');
+             
+-            // Calculate variable dependent fields
+-            if ($ke == 'pairings') {
+-              $channels = 2; //Stereo
+-            }
+-            elseif ($ke == 'complete') {
+-              $channels = 6; //Mono
+-            }
+-            elseif ($ke == 'forward' || $ke == 'backward') {
+-              $channels = 1; //Mono
+-            }
++            $channels = 1; //Mono
++            
+             $chunksize = 16;
+             $bitDepth = 8; //8bit
+             $sampleRate = 44100; //CD quality
+@@ -5954,149 +5951,6 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+                   'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+               ];
+             }
+-            if ($channels == 2) {
+-              /*
+-               * Header chunk
+-               * dwFileLength will be calculated at the end, based upon the length of the audio data
+-               */
+-              $header = [
+-                  'sGroupID' => 'RIFF',
+-                  'dwFileLength' => 0,
+-                  'sRiffType' => 'WAVE'
+-              ];
+-              
+-              /*
+-               * Format chunk
+-               */
+-              $subChunkSize = 4;
+-              $subChunkIDSize = 4;
+-              $subChunk = 4;
+-              $chunksize = 4;
+-              $format = 4;
+-              $fmtChunk = [
+-                  'subChunkID1' => 'fmt',
+-                  'subChunk1' => $subChunk,
+-                  'dwsubChunk1Size' => $subChunkSize,
+-                  'subChunk2' => $subChunk,
+-                  'subChunkID2' => 'fmt',
+-                  'dwsubChunk2Size' => $subChunkSize,
+-                  'wFormatTag' => 1,
+-                  'wChannels' => $channels,
+-                  'dwSamplesPerSec' => $sampleRate,
+-                  'dwAvgBytesPerSec' => $averageBytesPerSecond,
+-                  'wBlockAlign' => $blockAlign,
+-                  'dwBitsPerSample' => $bitDepth,
+-                  'sGroupID' => 'fmt',
+-                  'dwChunkSize' => $chunksize+$format+($subChunkSize*$channels)+($subChunkIDSize*$channels)+($subChunk*$channels)
+-              ];
+-              
+-              /*
+-               * Map all fields to pack flags
+-               * WAV format uses little-endian byte order
+-               */
+-              $fieldFormatMap = [
+-                  'sGroupID' => 'A4',
+-                  'dwFileLength'=> 'V',
+-                  'sRiffType' => 'A4',
+-                  'dwChunkSize' => 'V',
+-                  'wFormatTag' => 'v',
+-                  'wChannels' => 'v',
+-                  'dwSamplesPerSec' => 'V',
+-                  'dwAvgBytesPerSec' => 'V',
+-                  'wBlockAlign' => 'v',
+-                  'dwBitsPerSample' => 'v', //Some resources say this is a uint but it's not - stay woke.
+-                  'subChunk1Size' => 'V',
+-                  'subChunk2Size' => 'V',
+-                  'subChunk1' => 'V',
+-                  'subChunk2' => 'V',
+-                  'subChunkID1' => 'A4',
+-                  'subChunkID2' => 'A4'
+-              ];
+-            }
+-            if ($channels == 6) {
+-              /*
+-               * Header chunk
+-               * dwFileLength will be calculated at the end, based upon the length of the audio data
+-               */
+-              $header = [
+-                  'sGroupID' => 'RIFF',
+-                  'dwFileLength' => 0,
+-                  'sRiffType' => 'WAVE'
+-              ];
+-              
+-              /*
+-               * Format chunk
+-               */
+-              $subChunkSize = 4;
+-              $subChunkIDSize = 4;
+-              $subChunk = 4;
+-              $chunksize = 4;
+-              $format = 4;
+-              $fmtChunk = [
+-                  'subChunkID1' => 'fmt',
+-                  'subChunk1' => $subChunk,
+-                  'dwsubChunk1Size' => $subChunkSize,
+-                  'subChunk2' => $subChunk,
+-                  'subChunkID2' => 'fmt',
+-                  'dwsubChunk2Size' => $subChunkSize,
+-                  'subChunkID3' => 'fmt',
+-                  'subChunk3' => $subChunk,
+-                  'dwsubChunk3Size' => $subChunkSize,
+-                  'subChunk4' => $subChunk,
+-                  'subChunkID4' => 'fmt',
+-                  'dwsubChunk4Size' => $subChunkSize,
+-                  'subChunkID5' => 'fmt',
+-                  'subChunk5' => $subChunk,
+-                  'dwsubChunk5Size' => $subChunkSize,
+-                  'subChunk6' => $subChunk,
+-                  'subChunkID6' => 'fmt',
+-                  'dwsubChunk6Size' => $subChunkSize,
+-                  'wFormatTag' => 1,
+-                  'wChannels' => $channels,
+-                  'dwSamplesPerSec' => $sampleRate,
+-                  'dwAvgBytesPerSec' => $averageBytesPerSecond,
+-                  'wBlockAlign' => $blockAlign,
+-                  'dwBitsPerSample' => $bitDepth,
+-                  'sGroupID' => 'fmt',
+-                  'dwChunkSize' => $chunksize+$format+($subChunkSize*$channels)+($subChunkIDSize*$channels)+($subChunk*$channels)
+-              ];
+-              
+-              /*
+-               * Map all fields to pack flags
+-               * WAV format uses little-endian byte order
+-               */
+-              $fieldFormatMap = [
+-                  'sGroupID' => 'A4',
+-                  'dwFileLength'=> 'V',
+-                  'sRiffType' => 'A4',
+-                  'dwChunkSize' => 'V',
+-                  'wFormatTag' => 'v',
+-                  'wChannels' => 'v',
+-                  'dwSamplesPerSec' => 'V',
+-                  'dwAvgBytesPerSec' => 'V',
+-                  'wBlockAlign' => 'v',
+-                  'dwBitsPerSample' => 'v', //Some resources say this is a uint but it's not - stay woke.
+-                  'subChunk1Size' => 'V',
+-                  'subChunk2Size' => 'V',
+-                  'subChunk1' => 'V',
+-                  'subChunk2' => 'V',
+-                  'subChunkID1' => 'A4',
+-                  'subChunkID2' => 'A4',
+-                  'subChunk3Size' => 'V',
+-                  'subChunk4Size' => 'V',
+-                  'subChunk3' => 'V',
+-                  'subChunk4' => 'V',
+-                  'subChunkID3' => 'A4',
+-                  'subChunkID4' => 'A4',
+-                  'subChunk5Size' => 'V',
+-                  'subChunk6Size' => 'V',
+-                  'subChunk5' => 'V',
+-                  'subChunk6' => 'V',
+-                  'subChunkID5' => 'A4',
+-                  'subChunkID6' => 'A4'
+-              ];
+-            }
+-            
+             
+             /*
+              * Pack and write our values
+@@ -6150,34 +6004,12 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+              8-bit audio: -128 to 127 (because of 2’s complement)
+              */
+             $maxAmplitude = 127;
+-            $currHz;
+-            if ($channels == 2) {
+-              $currHz2 = '';
+-            }
+-            if ($channels == 6) {
+-              $currHz2;
+-              $currHz3;
+-              $currHz4;
+-              $currHz5;
+-              $currHz6;
+-            }
+             
+             //Loop through input
+             foreach($input as $currNote) {
+               //dpm($currNote);
+               $currHz = (int)$currNote[0];
+               
+-              if ($channels == 2) {
+-                $currHz2 = (int)$currNote[1];
+-              }
+-              elseif ($channels == 6) {
+-                $currHz = (int)$currNote[0];
+-                $currHz2 = (int)$currNote[1];
+-                $currHz3 = (int)$currNote[2];
+-                $currHz4 = (int)$currNote[3];
+-                $currHz5 = (int)$currNote[4];
+-                $currHz6 = (int)$currNote[5];
+-              }
+               $currMillis = 1000;
+               
+               /*
+@@ -6192,137 +6024,34 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+               if ($currHz == 0) {
+                 $currHz = 7.83;
+               }
+-              if (isset($currHz2) && $currHz2 == 0) {
+-                $currHz2 = 7.83;
+-              }
+-              if (isset($currHz3) && $currHz3 == 0) {
+-                $currHz3 = 7.83;
+-              }
+-              if (isset($currHz4) && $currHz4 == 0) {
+-                $currHz4 = 7.83;
+-              }
+-              if (isset($currHz5) && $currHz5 == 0) {
+-                $currHz5 = 7.83;
+-              }
+-              if (isset($currHz6) && $currHz6 == 0) {
+-                $currHz6 = 7.83;
+-              }
+               $waveIncrement = 360/($sampleRate/$currHz);
+-              if ($channels == 2) {
+-                $waveIncrement2 = 360/($sampleRate/$currHz2);
+-              }
+-              if ($channels == 6) {
+-                $waveIncrement3 = 360/($sampleRate/$currHz3);
+-                $waveIncrement4 = 360/($sampleRate/$currHz4);
+-                $waveIncrement5 = 360/($sampleRate/$currHz5);
+-                $waveIncrement6 = 360/($sampleRate/$currHz6);
+-              }
+               
+               /*
+                * Run the sine function until we have written all the samples to fill the current note time
+                */
+               $elapsed = 0;
+               $x = 0;
+-              $x2 = 0;
+-              $x3 = 0;
+-              $x4 = 0;
+-              $x5 = 0;
+-              $x6 = 0;
+               
+-              if ($channels == 1) {
+-                while($elapsed<$currMillis) {
+-                  /*
+-                   * The sine wave math
+-                   * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
+-                   */
+-                  
+-                  $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+-                  
+-                  //Increment our position in the wave
+-                  $x+=$waveIncrement;
+-                  
+-                  //Write the sample and increment our byte counts
+-                  $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+-                  
+-                  $dataChunk['dwChunkSize'] += $currBytesWritten;
+-                  $dwFileLength  += $currBytesWritten;
+-                  
+-                  
+-                  //Update the time counter
+-                  $elapsed += $timeIncrement;
+-                }
+-              }
+-              elseif ($channels == 2) {
+-                while($elapsed<$currMillis) {
+-                  //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
+-                  
+-                  $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+-                  $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
+-                  
+-                  //$stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
+-                  
+-                  //Increment our position in the wave
+-                  $x+=$waveIncrement;
+-                  $x2+=$waveIncrement2;
+-                  
+-                  //Write the sample and increment our byte counts
+-                  $currBytesWritten1 = fwrite($fileHandle, pack('c', $currAmplitude));
+-                  sleep(3);
+-                  $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
+-                  sleep(3);
+-                  
+-                  $currBytesWritten = $currBytesWritten1+$currBytesWritten2;
+-                  
+-                  
+-                  $dataChunk['dwChunkSize'] += $currBytesWritten;
+-                  $dwFileLength  += $currBytesWritten;
+-                  
+-                  //Update the time counter
+-                  $elapsed += $timeIncrement;
+-                }
+-              }
+-              elseif ($channels == 6) {
+-                while($elapsed<$currMillis) {
+-                  //TODO: I think the issue here is wave increment verus sample count.  I think somehow they are the same thing...
+-                  $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
+-                  $currAmplitude2 = ($maxAmplitude)-number_format(sin(deg2rad($x2))*($maxAmplitude*.95));
+-                  $currAmplitude3 = ($maxAmplitude)-number_format(sin(deg2rad($x3))*($maxAmplitude*.95));
+-                  $currAmplitude4 = ($maxAmplitude)-number_format(sin(deg2rad($x4))*($maxAmplitude*.95));
+-                  $currAmplitude5 = ($maxAmplitude)-number_format(sin(deg2rad($x5))*($maxAmplitude*.95));
+-                  $currAmplitude6 = ($maxAmplitude)-number_format(sin(deg2rad($x6))*($maxAmplitude*.95));
+-                  
+-                  //$stereoAmplitude = jellomatrix_interleave($currAmplitude, $currAmplitude2);
+-                  
+-                  //Increment our position in the wave
+-                  $x+=$waveIncrement;
+-                  $x2+=$waveIncrement2;
+-                  $x3+=$waveIncrement3;
+-                  $x4+=$waveIncrement4;
+-                  $x5+=$waveIncrement5;
+-                  $x6+=$waveIncrement6;
+-                  
+-                  //Write the sample and increment our byte counts
+-                  $currBytesWritten1 = fwrite($fileHandle, pack('c', $currAmplitude));
+-                  sleep(3);
+-                  $currBytesWritten2 = fwrite($fileHandle, pack('c', $currAmplitude2));
+-                  sleep(3);
+-                  $currBytesWritten3 = fwrite($fileHandle, pack('c', $currAmplitude3));
+-                  sleep(3);
+-                  $currBytesWritten4 = fwrite($fileHandle, pack('c', $currAmplitude4));
+-                  sleep(3);
+-                  $currBytesWritten5 = fwrite($fileHandle, pack('c', $currAmplitude5));
+-                  sleep(3);
+-                  $currBytesWritten6 = fwrite($fileHandle, pack('c', $currAmplitude6));
+-                  sleep(3);
+-                  
+-                  $currBytesWritten = $currBytesWritten1+$currBytesWritten2+$currBytesWritten3+$currBytesWritten4+$currBytesWritten5+$currBytesWritten6;
+-                  
+-                  $dataChunk['dwChunkSize'] += $currBytesWritten;
+-                  $dwFileLength  += $currBytesWritten;
+-                  
+-                  //Update the time counter
+-                  $elapsed += $timeIncrement;
+-                }
++              while($elapsed<$currMillis) {
++                /*
++                 * The sine wave math
++                 * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
++                 */
++                
++                $currAmplitude = ($maxAmplitude)-number_format(sin(deg2rad($x))*($maxAmplitude*.95));
++                
++                //Increment our position in the wave
++                $x+=$waveIncrement;
++                
++                //Write the sample and increment our byte counts
++                $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
++                
++                $dataChunk['dwChunkSize'] += $currBytesWritten;
++                $dwFileLength  += $currBytesWritten;
++                
++                
++                //Update the time counter
++                $elapsed += $timeIncrement;
+               }
+             }
+             
+@@ -6337,36 +6066,84 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
+             fseek($fileHandle, $dataChunkSizePosition);
+             fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+             fclose($fileHandle);
+-            
+           }
+         }
+       }
+     }
+   }
+-}
+-
+-function jellomatrix_interleave($l,$r){
+-  $data=array();
+-  $ix=0;
+-  for($i=0;$i<count($l);$i++){
+-    $data[$ix++]=$l[$i];
+-    $data[$ix++]=$r[$i];
++  if ($print == 2) {
++    $r_set = [];
++    $rl_set = [];
++    $lr_set = [];
++    $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
++    $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
++    $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
++    $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
++    $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
++    $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
++    
++    $r = jellomatrix_joinwavs($r_set);
++    $rl = jellomatrix_joinwavs($rl_set);
++    $lr = jellomatrix_joinwavs($lr_set);
++    
++    $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
++    $pathHandle = fopen($path, 'wb');
++    fwrite(fopen($path, 'wb'),$r);
++    fclose($pathHandle);
++    
++    $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
++    $pathHandle = fopen($path, 'wb');
++    fwrite(fopen($path, 'wb'),$rl);
++    fclose($pathHandle);
++    
++    $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
++    $pathHandle = fopen($path, 'wb');
++    fwrite(fopen($path, 'wb'),$lr);
++    fclose($pathHandle);
++    
++    
++  }
++  if ($print == 3) {
++    $c_set = [];
++    $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
++    $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
++    $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
++    $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
++    $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
++    $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
++    
++    $c = jellomatrix_joinwavs($c_set);
++    
++    $path = 'sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
++    $pathHandle = fopen($path, 'wb');
++    fwrite(fopen($path, 'wb'),$c);
++    fclose($pathHandle);
+   }
+-  return $data;
+ }
+ 
+-function jellomatrix_interleave_complete($a, $b, $c, $d, $e, $f){
+-  $data=array();
+-  $ix=0;
+-  for($i=0;$i<count($a);$i++){
+-    $data[$ix++]=$a[$i];
+-    $data[$ix++]=$b[$i];
+-    $data[$ix++]=$c[$i];
+-    $data[$ix++]=$d[$i];
+-    $data[$ix++]=$e[$i];
+-    $data[$ix++]=$f[$i];
+-  }
+-  return $data;
++function jellomatrix_joinwavs($wavs) {
++  $fields = join('/',array( 'H8ChunkID', 'VChunkSize', 'H8Format',
++      'H8Subchunk1ID', 'VSubchunk1Size',
++      'vAudioFormat', 'vNumChannels', 'VSampleRate',
++      'VByteRate', 'vBlockAlign', 'vBitsPerSample' ));
++  $data = '';
++  foreach($wavs as $wav){
++    $fp     = fopen($wav,'rb');
++    $header = fread($fp,36);
++    $info   = unpack($fields,$header);
++    // read optional extra stuff
++    if($info['Subchunk1Size'] > 16){
++      $header .= fread($fp,($info['Subchunk1Size']-16));
++    }
++    // read SubChunk2ID
++    $header .= fread($fp,4);
++    // read Subchunk2Size
++    $size  = unpack('vsize',fread($fp, 4));
++    $size  = $size['size'];
++    // read data
++    $data .= fread($fp,$size);
++  }
++  return $header.pack('V',strlen($data)).$data;
+ }
+ 
+ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print) {
