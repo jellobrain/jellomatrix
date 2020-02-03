@@ -4378,7 +4378,7 @@ function jellomatrix_harmonics($frequency) {
       $harmonics[$key] .= ':' . $freq;
     }
     else {
-      $harmonics[$key] .= ':147741';
+      $harmonics[$key] .= ':10000000';
     }   
   }
   //dpm($harmonics);
