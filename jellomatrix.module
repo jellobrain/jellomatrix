@@ -5759,7 +5759,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $output .= $rd;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -5772,6 +5772,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5785,13 +5786,13 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -5802,7 +5803,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $output .= $rld;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -5814,6 +5815,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5827,13 +5829,13 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -5843,7 +5845,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $output .= $lrd;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -5856,6 +5858,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
    
           //$output .= '<td>' . $u . '</td>';
         }
@@ -5870,13 +5873,13 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -5984,12 +5987,12 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     $print_array['backward'] = $note_assembly['backward'];
   }
   if($print == 2) {
-    //$prints_array['pairings'] = $note_assembly['pairings'];
+    $prints_array['pairings'] = $note_assembly['pairings'];
     /*
      * JOINWAVS
      */
-    $print_array['forward'] = $note_assembly['forward'];
-    $print_array['backward'] = $note_assembly['backward'];
+    //$print_array['forward'] = $note_assembly['forward'];
+    //$print_array['backward'] = $note_assembly['backward'];
   }
   if($print == 3) {
     //$prints_array['complete'] = $note_assembly['complete'];
@@ -6036,7 +6039,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
   if(!empty($print_array)) {
     foreach ($print_array as $ke => $directions) {
 
-      /* Calculate variable dependent fields
+      //Calculate variable dependent fields
       if ($ke == 'pairings') {
         $channels = 2; //Stereo
       }
@@ -6045,9 +6048,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       }
       elseif ($ke == 'forward' || $ke == 'backward') {
         $channels = 1; //Mono
-      }*/
+      }
 
-      $channels = 1;
+      //$channels = 1;
 
       if (isset($directions)) {
         foreach ($directions as $direction => $collection) {
@@ -6181,6 +6184,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 if ($currHz == 0) {
                   $currHz = .00001;
                 }
+                if ($currHz >= 10000) {
+                  $currHz = .00001;
+                }
 
                 $waveIncrement = $sampleRate / ($sampleRate / $currHz);
 
@@ -6230,7 +6236,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             }
           }
           // BOOKMARK set this to one to test again
-          if ($channels > 1) {
+          /*if ($channels > 1) {
 
             //Path to output file
             $filePath = 'sites/default/files/' . $ke . $tone . '_' . $interval . $direction . $frequency . '.wav';
@@ -6239,7 +6245,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             $fileHandle = fopen($filePath, 'wb');
 
             /* JOINWAV
-             $channels = 1; //Mono*/
+             $channels = 1; //Mono
 
             $chunksize = 16;
             $bitDepth = 8; //8bit
@@ -6254,7 +6260,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
               /*
                * Header chunk
                * dwFileLength will be calculated at the end, based upon the length of the audio data
-               */
+               *
               $header = [
                 'sGroupID' => 'RIFF',
                 'dwFileLength' => 0,
@@ -6263,7 +6269,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 
               /*
                * Format chunk
-               */
+               *
               $subChunkSize = 4;
               $subChunkIDSize = 4;
               $subChunk = 4;
@@ -6289,7 +6295,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
               /*
                * Map all fields to pack flags
                * WAV format uses little-endian byte order
-               */
+               *
               $fieldFormatMap = [
                 'sGroupID' => 'A4',
                 'dwFileLength' => 'V',
@@ -6313,7 +6319,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
               /*
                * Header chunk
                * dwFileLength will be calculated at the end, based upon the length of the audio data
-               */
+               *
               $header = [
                 'sGroupID' => 'RIFF',
                 'dwFileLength' => 0,
@@ -6322,7 +6328,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 
               /*
                * Format chunk
-               */
+               *
               $subChunkSize = 4;
               $subChunkIDSize = 4;
               $subChunk = 4;
@@ -6360,7 +6366,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
               /*
                * Map all fields to pack flags
                * WAV format uses little-endian byte order
-               */
+               *
               $fieldFormatMap = [
                 'sGroupID' => 'A4',
                 'dwFileLength' => 'V',
@@ -6396,7 +6402,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
             /*
              * Pack and write our values
              * Keep track of how many bytes we write so we can update the dwFileLength in the header
-             */
+             *
             $dwFileLength = 0;
             foreach ($header as $currKey => $currValue) {
               if (!array_key_exists($currKey, $fieldFormatMap)) {
@@ -6425,7 +6431,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
              * Set up our data chunk
              * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
              * after audio data has been written
-             */
+             *
             $dataChunk = [
               'sGroupID' => 'data',
               'dwChunkSize' => 0
@@ -6442,7 +6448,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 
             /*
              8-bit audio: -128 to 127 (because of 2’s complement)
-             */
+             *
             $maxAmplitude = 127;
 
             //Loop through input
@@ -6469,12 +6475,12 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                   /*
                    * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
                    * 1000/$sampleRate
-                   */
+                   *
                   $timeIncrement = 1000 / $sampleRate;
 
                   /*
                    * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-                   */
+                   *
                   if ($currHz == 0) {
                     $currHz = .00001;
                   }
@@ -6510,7 +6516,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 
                   /*
                    * Run the sine function until we have written all the samples to fill the current note time
-                   */
+                   *
                   $elapsed = 0;
 
                   $x = 0;
@@ -6525,7 +6531,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                       /*
                        * The sine wave math
                        * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-                       */
+                       *
 
                       $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
                       $currAmplitude2 = ($maxAmplitude) - number_format(sin(deg2rad($x2)) * ($maxAmplitude * .95));
@@ -6553,7 +6559,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                       /*
                        * The sine wave math
                        * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-                       */
+                       *
 
                       $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
                       $currAmplitude2 = ($maxAmplitude) - number_format(sin(deg2rad($x2)) * ($maxAmplitude * .95));
@@ -6594,7 +6600,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
                 /*
                  * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
                  * sGroupID and sRiffType fields in the header.
-                 */
+                 *
                 fseek($fileHandle, 4);
                 fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength - 8)));
 
@@ -6605,7 +6611,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 
               }
             }
-          }
+          }*/
         }
       }
     }
@@ -6811,9 +6817,6 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     }
 
     $combined_wav_data = jellomatrix_joinwavs($fileHandles, $frequency);
-    /*$touch = touch('sites/default/files/rife_complete_base_' . $frequency . '.wav');
-    $data = base64_decode($combined_wav_data);
-    file_put_contents($touch, $data);*/
 
     $path = 'sites/default/files/rife_complete_base_' . $frequency . '.wav';
     $handle = fopen($path, "wb");
@@ -6832,7 +6835,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       $r_set = [];
       $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
       $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
-      $r = jellomatrix_joinwavs($r_set);
+      $r = jellomatrix_joinwavs($r_set, $frequency);
 
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
@@ -6844,7 +6847,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       $rl_set = [];
       $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
       $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
-      $rl = jellomatrix_joinwavs($rl_set);
+      $rl = jellomatrix_joinwavs($rl_set, $frequency);
       
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
@@ -6856,7 +6859,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       $lr_set = [];
       $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
       $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
-      $lr = jellomatrix_joinwavs($lr_set);
+      $lr = jellomatrix_joinwavs($lr_set, $frequency);
       
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
@@ -6886,7 +6889,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
     }
     
-    $c = jellomatrix_joinwavs($c_set);
+    $c = jellomatrix_joinwavs($c_set, $frequency);
     
     $path = 'sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
     $pathHandle = fopen($path, 'wb');
@@ -6896,6 +6899,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
 }
 
 function jellomatrix_joinwavs($wavs, $frequency) {
+
   $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
     'H8Subchunk1ID', 'VSubchunk1Size',
     'vAudioFormat', 'vNumChannels', 'VSampleRate',
@@ -6905,6 +6909,7 @@ function jellomatrix_joinwavs($wavs, $frequency) {
     $fp = fopen($wav, 'rb');
     $header = fread($fp, 36);
     $info = unpack($fields, $header);
+
     if ($info['Subchunk1Size'] > 16) {
       $header .= fread($fp, ($info['Subchunk1Size'] - 16));
     }
@@ -6927,7 +6932,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output = '';
   // Now output the differences between different integers.
   $output .= '<div class="endtable begintext"><h2>ODD+EVEN: Derivatives</h2>';
-  $output .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios of repeating increments create.</><div class="endtext"><br></div>';
+  $output .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios of repeating increments create.<br><div class="endtext"><br></div>';
 
   foreach($increments as $k=>$increment) {
     if ($k == 'row') {
@@ -7397,7 +7402,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
     }
   }
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -7410,6 +7415,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7423,13 +7429,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -7439,7 +7445,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output .= $rd;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -7452,6 +7458,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7465,13 +7472,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -7481,7 +7488,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output .= $rd2;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -7495,6 +7502,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7508,13 +7516,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -7936,7 +7944,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   }
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
 
     $output .= '<tr>';
@@ -7950,6 +7958,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7963,13 +7972,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -7979,7 +7988,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output .= $rd;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -7992,6 +8001,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8005,13 +8015,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -8021,7 +8031,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output .= $rd2;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -8034,6 +8044,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8047,13 +8058,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -8885,7 +8896,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   }
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -8898,6 +8909,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8911,13 +8923,13 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -8928,7 +8940,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   $output .= $rld;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -8941,6 +8953,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8954,13 +8967,13 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -8971,7 +8984,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   $output .= $lrd;
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -8984,6 +8997,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8997,13 +9011,13 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -9490,7 +9504,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
   }
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -9503,6 +9517,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -9516,13 +9531,13 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
@@ -9962,7 +9977,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
   //dpm($map);
 
   
-  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the notes in the harmonics table/s above:</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+  $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
@@ -9975,6 +9990,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
           $class = $exploded[2];
           $freq = $exploded[3];
+          $kay = $exploded[4] . ':' . $n;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -9988,13 +10004,13 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
       }
       $output .= '<td class ="' . $class . '">' . $u . '/' . $l . '<br>';
       if (isset($freq) && $freq != 'INF' && $class != 'white' && $class != 'lightgray') {
-        $output .= intval($freq) . 'Hz</td>';
+        $output .= intval($freq) . 'Hz<br>' . $kay . '</td>';
       }
       elseif (isset($freq) && $freq == 'INF') {
         $output .= 'INF</td>';
       }
       else {
-        $output .= '-</td>';
+        $output .= '-<br>-</td>';
       }
     }
     $output .= '</tr>';
