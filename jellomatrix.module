@@ -4452,6 +4452,7 @@ function jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, 
   $output .= '&nbsp;<img src="/sites/default/files/f_circle.png?t='. time().'" />';
   $output .= '&nbsp;<img src="/sites/default/files/b_circle.png?t='. time().'" /></p><div class="endtext"><br></div></div>';
   $output .= '<p><strong>' . $scaled . '...</strong></p><hr class="hr"><p><br/></p><div class="endtext"><br></div>';
+  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
 
   return $output;
 }
@@ -4598,6 +4599,7 @@ function jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, 
 function jellomatrix_output_splicegrid_waveforms($spliced_matrix, $splied_matrix_reversed, $primes, $tone, $interval, $boolean, $scaled/*, $scales*/)
 {
   $output = '';
+  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
   if (!empty($spliced_matrix_reversed)) {
     foreach ($spliced_matrix_reversed as $spliced_row_reversed) {
       foreach ($spliced_row_reversed as $item) {
@@ -4872,6 +4874,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $note_assembly = [];
   $lambdoma_map = [];
   $output = '';
+  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
   // First output the original harmonics with $columns and $rows.
   // Now output the differences between different integers.
   $output .= '<div class="endtable begintext"><h2>ODD/EVEN: Differences and Harmonics</h2>';
