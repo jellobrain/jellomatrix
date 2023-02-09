@@ -167,3 +167,30 @@
 
 .wavelength-calculation { border: 2px solid; border-color: red; width: auto; padding: 10px 15px; display: block; }
 .form-item-offset { padding: 20px; border: 1px #333 solid; }
+
+
+.zcee { color: #eee; background: darkred; }
+.zceesharp { color: #000; background: orangered; }
+.zdee { color: #000; background: orange; }
+.zeeeflat { color: #000; background: gold; }
+.zeee { color: #000; background: yellowgreen; }
+.zeff { color: #eee; background: green; }
+.zeffsharp { color: #eee; background: forestgreen; }
+.zgee { color: #eee; background: teal; }
+.zgeesharp { color: #eee; background: blue; }
+.zay { color: #eee; background: blueviolet; }
+.zbeeflat { color: #000; background: violet; }
+.zbee { color: #eee; background: darkviolet; }
+
+.cee { color: #eee; background: darkred; }
+.ceesharp { color: #000; background: orangered; }
+.dee { color: #000; background: orange; }
+.eeeflat { color: #000; background: gold; }
+.eee { color: #000; background: yellowgreen; }
+.eff { color: #eee; background: green; }
+.effsharp { color: #eee; background: forestgreen; }
+.gee { color: #eee; background: teal; }
+.geesharp { color: #eee; background: blue; }
+.ay { color: #eee; background: blueviolet; }
+.beeflat { color: #000; background: violet; }
+.bee { color: #eee; background: darkviolet; }

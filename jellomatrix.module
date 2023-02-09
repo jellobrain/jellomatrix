@@ -6,7 +6,7 @@ function save_imagepng($canvas,$file){
   // Output to buffer.
   imagePNG($canvas);
   // Write buffer to file.
-  file_put_contents($file, ob_get_contents(), FILE_BINARY);
+  file_put_contents($file, ob_get_contents());
   chmod($file, 0777);
   // Clear and turn off buffer.
   ob_end_clean();
@@ -899,9 +899,9 @@ function jellomatrix_doubleflip_spliced_offset($prime_matrix, $response_matrix, 
 }
 
 function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_matrix) {
-  
+
   $prime_series = array();
-  
+
   $prime_series_calculator = (($tone + 1) / 2);
   for ($t = 0; $t < $tone; $t++) {
     if ($t == 0) {
@@ -916,19 +916,19 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
       $next = $progression;
     }
   }
-  
+
   // Interesting to note that this can be taken away as it does not seem to matter.
   // Except on certain ones which it does matter one way or another on.
   $prime_series_reversed = array_reverse($prime_series);
-  
+
   foreach ($spliced_matrix as $key => $spliced_row) {
     $fount = 1;
     foreach ($spliced_row as $k => $item) {
       if (isset($spliced_matrix[$key][$k + 1]['tone'])) {
         if ($spliced_matrix[$key][$k + 1]['tone'] == $spliced_matrix[$key][$k]['tone']) {
           $spliced_matrix[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix[$key][$k + 1]['pole_shift'] = '2';  
-          $spliced_matrix[$key][$k]['pole_shift'] = '1';  
+          $spliced_matrix[$key][$k + 1]['pole_shift'] = '2';
+          $spliced_matrix[$key][$k]['pole_shift'] = '1';
           if ($fount == 1) {
             $spliced_matrix[$key][$k]['first'] = 1;
           }
@@ -938,14 +938,14 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
           $return = (2*$tone) - 1;
           if (isset($spliced_matrix[$key][$return]['tone']) && $spliced_matrix[$key][$return]['tone'] == $spliced_matrix[$key][$k]['tone'] && $k == 1 && $fount == 1) {
             $spliced_matrix[$key][$k]['wave_limit'] = 'active';
-            $spliced_matrix[$key][$k]['pole_shift'] = '2';  
+            $spliced_matrix[$key][$k]['pole_shift'] = '2';
             if ($fount == 1) {
               $spliced_matrix[$key][$k]['first'] = 1;
             }
             $fount++;
           }
         }
-        
+
         foreach ($prime_series as $position => $note) {
           if ($item['tone'] == $note) {
             // We don't want to start at zero.
@@ -957,8 +957,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
         if ($spliced_matrix[$key][$k - 1]['tone'] == $spliced_matrix[$key][$k]['tone']) {
           $fount++;
           $spliced_matrix[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix[$key][$k - 1]['pole_shift'] = '1';  
-          $spliced_matrix[$key][$k]['pole_shift'] = '2';  
+          $spliced_matrix[$key][$k - 1]['pole_shift'] = '1';
+          $spliced_matrix[$key][$k]['pole_shift'] = '2';
         }
         foreach ($prime_series as $position => $note) {
           if ($item['tone'] == $note) {
@@ -972,8 +972,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
         if ($spliced_matrix[$key][$bridge_kplus]['tone'] == $spliced_matrix[$key][$k]['tone']) {
           $fount++;
           $spliced_matrix[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix[$key][$bridge_kplus]['pole_shift'] = '2';  
-          $spliced_matrix[$key][$k]['pole_shift'] = '1';  
+          $spliced_matrix[$key][$bridge_kplus]['pole_shift'] = '2';
+          $spliced_matrix[$key][$k]['pole_shift'] = '1';
         }
         foreach ($prime_series as $position => $note) {
           if ($item['tone'] == $note) {
@@ -987,8 +987,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
         if ($spliced_matrix[$key][$bridge_kminus]['tone'] == $spliced_matrix[$key][$k]['tone']) {
           $fount++;
           $spliced_matrix[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix[$key][$bridge_kminus]['pole_shift'] = '1';  
-          $spliced_matrix[$key][$k]['pole_shift'] = '2';  
+          $spliced_matrix[$key][$bridge_kminus]['pole_shift'] = '1';
+          $spliced_matrix[$key][$k]['pole_shift'] = '2';
         }
         foreach ($prime_series as $position => $note) {
           if ($item['tone'] == $note) {
@@ -1000,7 +1000,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     }
     unset($fount);
   }
-  
+
   foreach ($spliced_matrix as $key => $spliced_row) {
     foreach ($spliced_row as $k => $item) {
       if (!isset($item['scale_position'])) {
@@ -1167,7 +1167,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
                   if (isset($spliced_matrix[$key + 1][$k + 2]['phase_color'])) {
                     $spliced_matrix[$key + 1][$k + 2]['phase_color'] = 'purple';
                   } else {
-                    
+
                     $spliced_matrix[$key + 1][$k + 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
                 }
@@ -1367,18 +1367,18 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
       }
     }
   }
-  
+
   // NOW USING THE REVERSE PRIME SERIES.
   $spliced_matrix_reversed = $spliced_matrix;
-  
+
   foreach ($spliced_matrix_reversed as $key => $spliced_row) {
     $dount = 1;
     foreach ($spliced_row as $k => $item) {
       if (isset($spliced_matrix_reversed[$key][$k + 1]['tone'])) {
         if ($spliced_matrix_reversed[$key][$k + 1]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
           $spliced_matrix_reversed[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix_reversed[$key][$k + 1]['pole_shift'] = '2';  
-          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '1';  
+          $spliced_matrix_reversed[$key][$k + 1]['pole_shift'] = '2';
+          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '1';
           if ($dount == 1) {
             $spliced_matrix[$key][$k]['first'] = 1;
           }
@@ -1395,8 +1395,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
         if ($spliced_matrix_reversed[$key][$k - 1]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
           $dount++;
           $spliced_matrix_reversed[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix_reversed[$key][$k - 1]['pole_shift'] = '1';  
-          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '2';  
+          $spliced_matrix_reversed[$key][$k - 1]['pole_shift'] = '1';
+          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '2';
         }
         foreach ($prime_series_reversed as $position => $note) {
           if ($item['tone'] == $note) {
@@ -1410,8 +1410,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
         if ($spliced_matrix_reversed[$key][$bridge_kplus]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
           $dount++;
           $spliced_matrix_reversed[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix_reversed[$key][$bridge_kplus]['pole_shift'] = '2';  
-          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '1';  
+          $spliced_matrix_reversed[$key][$bridge_kplus]['pole_shift'] = '2';
+          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '1';
         }
         foreach ($prime_series_reversed as $position => $note) {
           if ($item['tone'] == $note) {
@@ -1425,8 +1425,8 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
         if ($spliced_matrix_reversed[$key][$bridge_kminus]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
           $dount++;
           $spliced_matrix_reversed[$key][$k]['wave_limit'] = 'active';
-          $spliced_matrix_reversed[$key][$bridge_kminus]['pole_shift'] = '1';  
-          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '2';  
+          $spliced_matrix_reversed[$key][$bridge_kminus]['pole_shift'] = '1';
+          $spliced_matrix_reversed[$key][$k]['pole_shift'] = '2';
         }
         foreach ($prime_series_reversed as $position => $note) {
           if ($item['tone'] == $note) {
@@ -1437,7 +1437,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
       }
     }
   }
-  
+
   foreach ($spliced_matrix_reversed as $key => $spliced_row) {
     $qount = 1;
     foreach ($spliced_row as $k => $item) {
@@ -1605,7 +1605,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
                   if (isset($spliced_matrix_reversed[$key + 1][$k + 2]['phase_color'])) {
                     $spliced_matrix_reversed[$key + 1][$k + 2]['phase_color'] = 'purple';
                   } else {
-                    
+
                     $spliced_matrix_reversed[$key + 1][$k + 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                   }
                 }
@@ -1805,14 +1805,14 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
       }
     }
   }
-  
+
   $hscale = array();
   $h_scale_sum_ratios = array();
   // Horizontal Scale
   $cs = 0;
   $array_count = 0;
-  
-  
+
+
   foreach ($prime_matrix as $k => $prime_row) {
     $cs++;
     foreach ($prime_row as $key => $value) {
@@ -1869,7 +1869,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $hscaled .= '</span>';
   }
   //dpm($hscale);
-  
+
   // Forward Slash Diagonal
   $fscale = array();
   $f_scale_sum_ratios = array();
@@ -1926,7 +1926,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $fscaled .= '</span>';
   }
   //dpm($fscale);
-  
+
   // Backward Slash Diagonal
   $bscale = array();
   $b_scale_sum_ratios = array();
@@ -1984,13 +1984,13 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
     $bscaled .= '</span>';
   }
   //dpm($bscale);
-  
-  
+
+
   $scales = array('h' => $hscale, 'f' => $fscale, 'b' => $bscale);
-  
+
   //dpm($scales);
   $wave_detection = array();
-  
+
   if (!empty($scales)) {
     $wave_detection['scales'] = $scales;
   }
@@ -2015,7 +2015,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
   if (!empty($bscaled)) {
     $wave_detection['bscaled'] = $bscaled;
   }
-  
+
   if (!empty($h_scale_sum_ratios)) {
     $wave_detection['h_scale_sum_ratios'] = $h_scale_sum_ratios;
   }
@@ -2046,7 +2046,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
   if (!empty($scales)) {
     $wave_detection['scales'] = $scales;
   }
-  
+
   /*unset($scales);
   unset($scaled);
   unset($hscale);
@@ -2063,7 +2063,7 @@ function jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_
   unset($h_increment);
   unset($f_increment);
   unset($b_increment);*/
-  
+
   return $wave_detection;
 }
 
@@ -2279,7 +2279,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
   //dpm($scales);
   //foreach ($scales as $d => $scale) {
     //if ($dir == 'h') {  // TODO
-      
+
       //dpm('dir ' . $dir);
       $wave_boundary_count = 1;
 
@@ -2295,15 +2295,15 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
               } else {
                 $spliced_matrix[$key][$k]['wave_vertical'] = 'bottom';
               }
-  
+
               // test
               if (isset($spliced_matrix[$key][$k]['wave'])) {
                 dpm('beep');
                 //unset($spliced_matrix[$key][$k]['wave']);
               }
-  
+
               $vertical_directions = array('down', 'up');
-  
+
               foreach ($vertical_directions as $v_dir) {
                 //dpm('v ' . $v_dir . ' | p ' . $p);
                 for ($i = 1; $i <= $tone; $i++) {
@@ -2326,7 +2326,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                   if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == 1) {
                     $pole = 1;
                   }
-                  
+
                   // BOOKMARK issue with offset
                   //dpm($tone);
                   $twotone = 2*$tone;
@@ -2334,7 +2334,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
 
                   //dpm($current_position);
                   if (isset($current_position['pole_shift'])) {
-                    
+
                     $k_i = $k + $i;
                     $k_i_p = $k + $i + $pole;
                     $twok_i_p = $k + (2 * $i) + $pole;
@@ -2389,7 +2389,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                       $nadjacent++;
 
                     }
-                    
+
                     if (!empty($spliced_matrix[$key + 1][$k_i_p]['tone']) && $spliced_matrix[$key][$k + 1]['tone'] != $spliced_matrix[$key][$k]['tone'] && $v_dir == 'down') {
                       $next_position = $spliced_matrix[$key + 1][$k_i_p];
                       if (!empty($spliced_matrix[$key + 1][$k_i_p + 1])) {
@@ -2713,17 +2713,17 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
 					          //  YAY Test works
                     //dpm('<strong>TONE:</strong> jump ' . $i . ' direction ' . $v_dir . ' <strong>current ' . $current_position['tone'] . ' next ' . $next_position['tone'] . '</strong> nextA ' . $next_adjacent_position['tone'] . ' <strong>nextnext ' . $next_next_position['tone'] .  '</strong> nextnextAA ' . $next_next_adjacent_position['tone'] . ' <strong>nextnextnext ' . $next_next_next_position['tone'] .  '</strong> nextnextnextAAA ' . $next_next_next_adjacent_position['tone']);
                     //dpm('<strong>SP:</strong> jump ' . $i . ' direction ' . $v_dir . ' <strong>current ' . $current_position['scale_position'] . ' next ' . $next_position['scale_position'] . '</strong> nextA ' . $next_adjacent_position['scale_position'] . ' <strong>nextnext ' . $next_next_position['scale_position'] .  '</strong> nextnextAA ' . $next_next_adjacent_position['scale_position'] . ' <strong>nextnextnext ' . $next_next_next_position['scale_position'] .  '</strong> nextnextnextAAA ' . $next_next_next_adjacent_position['scale_position']);
-                    
+
                     //dpm($spliced_matrix[$key][$k]['pole_shift']);
                     //dpm('jumpColumns' . $v_dir . '(' . $i . ') ' . $k . ', ' . $k_i_p . ', ' . $twok_i_p . ', ' . $threek_i_p);
                     //if (isset($next_next_next_position['scale'])) {
 						//dpm('jumpColumns' . $v_dir . '(' . $i . ') ' . $current_position['scale'] . ', ' . $next_position['scale'] . ', ' . $next_next_position['scale'] . ', ' . $next_next_next_position['scale']);
                     //}
-                    
+
                     //dpm('jumpp(' . $i . ') ' . $k . ', ' . $k_i_pp . ', ' . $twok_i_pp . ', ' . $threek_i_pp);
                     //dpm('jumpnp(' . $i . ') ' . $k . ', ' . $k_i_pnp . ', ' . $twok_i_pnp . ', ' . $threek_i_pnp);
                     //dpm('jumpk(' . $i . ') ' . $twokk_i_p . ', ' . $threekk_i_p);
-                    
+
                     //dpm( 'scale: ' . $scale[0] . ', ' . $scale[1] . ', ' . $scale[2] . ', ' . $scale[3] . ', ' . $scale[4] . ', ' . $scale[5] . ', ' . $scale[6] . ', ' . $scale[7] . ', ' . $scale[8] . ', ' . $scale[9] . ', ' . $scale[10] . ', ' . $scale[11]);
                     /*if (!empty($next_position['scale_position']) && !empty($next_next_position['scale_position']) && !empty($next_next_next_position['scale_position'])) {
 						dpm($i . 'current (row/col/position/tone): ' . $current_position['row'] . '/' . $current_position['column'] . '/<strong>' .
@@ -2766,7 +2766,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                      //BOOKMARK    
+                      //BOOKMARK
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
@@ -2789,7 +2789,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2]) {
@@ -2812,7 +2812,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 2]) {
@@ -2835,7 +2835,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone'])  && $next_position['tone'] == $scale[$s + 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
@@ -2858,7 +2858,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                      //BOOKMARK    
+                      //BOOKMARK
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s + 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s + 1]) {
@@ -2909,7 +2909,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
@@ -2932,7 +2932,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2]) {
@@ -2955,7 +2955,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 2]) {
@@ -2978,7 +2978,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
@@ -3001,7 +3001,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                          
+
                       elseif (isset($current_position['tone']) && !in_array($current_position['tone'], $scale_record) && $current_position['tone'] == $svalue && $s >= $interval && $s <= 2 * $interval) {
                         if (isset($next_position['tone']) && $next_position['tone'] == $scale[$s - 1]) {
                           if (isset($next_next_position['tone']) && $next_next_position['tone'] == $scale[$s - 1]) {
@@ -3128,7 +3128,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                      
+
                       if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1) {
                         if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1) {
                           if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
@@ -3159,7 +3159,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                      
+
                       if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale']) {
                         if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale'] + 1) {
                           if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale']) {
@@ -3170,7 +3170,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
                           }
                         }
                       }
-                      
+
                       if ($calc_scale[1][1]['scale'] == $calc_scale[1][2]['scale'] + 1) {
                         if ($calc_scale[1][2]['scale'] == $calc_scale[1][3]['scale']) {
                           if ($calc_scale[1][3]['scale'] == $calc_scale[1][4]['scale'] + 1) {
@@ -3191,22 +3191,22 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
           }
         }
       }
-  
-  
-  
-  
+
+
+
+
       $wave_heights = array();
-  
+
       // Find wave height;
       $wavecount = 0;
       $wave_height = 0;
       unset($first);
-      
+
       foreach ($spliced_matrix as $key => $spliced_row) {
         foreach ($spliced_row as $k => $item) {
-          
+
           if ($spliced_matrix[$key][$k]['column'] == 1) {
-  
+
             if (isset($spliced_matrix[$key][$k]['wave_limit_processed']) &&
               $spliced_matrix[$key][$k]['wave_limit_processed'] == 1 && $spliced_matrix[$key][$k]['column'] == 1) {
               $save_key = 0;
@@ -3286,7 +3286,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
           }
         }
       }
-      
+
       //dpm($wave_heights);
 
       if (!empty($spliced_matrix)) {
@@ -3637,7 +3637,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
           }
         }
       }
-  
+
       foreach ($spliced_matrix as $key => $spliced_row) {
         foreach ($spliced_row as $k => $item) {
           if (isset($spliced_matrix[$key][$k]['wavelength_even'])) {
@@ -3652,14 +3652,14 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
           }
         }
       }
-  
+
       //dpm($wave_interactions);
 
       /*if (isset($wave_interactions)) {
-    
+
         $phi = 1 / 1.618;
         $wavelength_calculation = '<div class="endtable"></div><div class="begintext"><div class="wavelength-calculation"><p>';
-    
+
         $wavelengths = array();
         foreach ($wave_interactions as $tone => $jumps) {
           //dpm($tone);
@@ -3697,7 +3697,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
           if ($owavelengths_added > 0) {
             $owavelengths_phi = ($phi * $owavelengths_mult) / abs($owavelengths_added);
           }
-      
+
           $wavelength_calculation .= '<strong>EVEN Tone ' . $tone . '</strong> with <strong>' . $ucount . '</strong> wavelength/s counted.';
           if (!empty($wavelengths['tone'])) {
             foreach ($wavelengths['tone'] as $w => $value) {
@@ -3705,7 +3705,7 @@ function jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $
             }
           }
           $wavelength_calculation .= '</strong><br/>phi(wavelengths multiplied)/wavelengths added = ' . $phi . '*' . abs($wavelengths_mult) . '/' . abs($wavelengths_added) . ' = <strong>' . $wavelengths_phi . '</strong></br>';
-      
+
           if ($owavelengths_added > 0) {
             $wavelength_calculation .= '<strong>ODD Tone ' . $tone . '</strong> with <strong>' . $ocount . '</strong> wavelength/s counted.';
             foreach ($owavelengths['tone'] as $ow => $ovalue) {
@@ -4361,7 +4361,7 @@ function jellomatrix_harmonics($frequency) {
   $harmonics[] = '14:0:infinity';
   $harmonics[] = '15:0:infinity';
   $harmonics[] = '16:0:infinity';
-  
+
   $explode = [];
   foreach ($harmonics as $key => $harmonic) {
     $explode = explode(':', $harmonic);
@@ -4379,7 +4379,7 @@ function jellomatrix_harmonics($frequency) {
     }
     else {
       $harmonics[$key] .= ':10000000';
-    }   
+    }
   }
   //dpm($harmonics);
 
@@ -4389,7 +4389,7 @@ function jellomatrix_harmonics($frequency) {
 function jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales) {
   $output = '';
 
-  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
+  $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
 
   $output .= '<div class="begintext">';
 
@@ -4452,7 +4452,7 @@ function jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, 
   $output .= '&nbsp;<img src="/sites/default/files/f_circle.png?t='. time().'" />';
   $output .= '&nbsp;<img src="/sites/default/files/b_circle.png?t='. time().'" /></p><div class="endtext"><br></div></div>';
   $output .= '<p><strong>' . $scaled . '...</strong></p><hr class="hr"><p><br/></p><div class="endtext"><br></div>';
-  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
+  $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
 
   return $output;
 }
@@ -4599,7 +4599,7 @@ function jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, 
 function jellomatrix_output_splicegrid_waveforms($spliced_matrix, $splied_matrix_reversed, $primes, $tone, $interval, $boolean, $scaled/*, $scales*/)
 {
   $output = '';
-  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
+  $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
   if (!empty($spliced_matrix_reversed)) {
     foreach ($spliced_matrix_reversed as $spliced_row_reversed) {
       foreach ($spliced_row_reversed as $item) {
@@ -4874,13 +4874,13 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $note_assembly = [];
   $lambdoma_map = [];
   $output = '';
-  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
-  // First output the original harmonics with $columns and $rows.
+  $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
+// First output the original harmonics with $columns and $rows.
   // Now output the differences between different integers.
   $output .= '<div class="endtable begintext"><h2>ODD/EVEN: Differences and Harmonics</h2>';
   $output .= '<p>These increment calculations show the relationships of the numbers in the grid by relating them to the ones in front of them (forward) and behind them (backwards) using the "tone" value as the base in the numbering system.</p><div class="endtext"><br></div>';
   $output .= '<p>The diagonal increments still go down the row, but show the relationships between the number and the one diagonally above (forward) it and below it (backward).</p><div class="endtext"><br></div>';
-  $output .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios the repeating increments create.  Here is some inspiration regarding the Lambdoma note coorespondences:</p><p><iframe width="560" height="315" src="https://www.youtube.com/embed/wZj7gUIO-2k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p><div class="endtext"><br></div>';
+  $output .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios the repeating increments create.</p><div class="endtext"><br></div>';
   foreach($increment_original as $k=>$increment) {
     if ($k == 'row') {
       $r = '<h3>Row</h3>';
@@ -4899,14 +4899,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -4953,7 +4953,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 //dpm($explode[3]);
@@ -4967,7 +4967,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -5023,7 +5023,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-          
+
               $r .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -5047,14 +5047,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -5089,7 +5089,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -5102,7 +5102,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -5158,7 +5158,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -5186,14 +5186,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $lr .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -5230,7 +5230,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -5243,7 +5243,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -5299,7 +5299,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $lr .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $lr .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -5322,14 +5322,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $lrd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -5366,7 +5366,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -5379,7 +5379,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -5435,7 +5435,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $lrd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $lrd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -5463,14 +5463,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rl .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -5507,7 +5507,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -5520,7 +5520,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -5576,7 +5576,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $rl .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rl .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -5599,14 +5599,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rld .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -5643,7 +5643,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -5656,7 +5656,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -5712,7 +5712,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
           $rld .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rld .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -5757,27 +5757,32 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       //}
     }
   }
-  
-  
+
+
 
   $output .= $r;
   $output .= $rd;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5803,11 +5808,11 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
     $output .= '</tr>';
   }
   $output .= '</table>';
-  
+
   $output .= $rl;
   $output .= $rld;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
@@ -5818,9 +5823,14 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5849,22 +5859,27 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $output .= $lr;
   $output .= $lrd;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
-   
+          $kay = $exploded[4] . ':' . $np;
+
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -5892,7 +5907,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   $output .= '</table>';
 
   $output .= '<hr class="hr">';
-  
+
   //dpm($note_assembly);
   if (isset($note_assembly['forward']['r']) && !empty($note_assembly['forward']['r'][0])) {
     $array_size  = count($note_assembly['forward']['r']);
@@ -5936,7 +5951,7 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       $note_assembly['pairings']['backslash'][] = $note_assembly['backward']['lrd'][$i];
     }
   }
-  
+
   if (isset($note_assembly['forward']['lr']) && !empty($note_assembly['forward']['lr'][0])) {
     $array_size  = count($note_assembly['forward']['lr']);
     for ($i= 0; $i<$array_size; $i++) {
@@ -5973,13 +5988,13 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
       $note_assembly['complete']['complete'][] = $note_assembly['backward']['rld'][$i];
     }
   }
-  
+
   if (!empty($note_assembly)) {
     if (isset($print) && $print != 'none') {
       jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency, $print);
     }
   }
-  
+
   return $output;
 }
 
@@ -6008,7 +6023,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     $print_array['backward'] = $note_assembly['backward'];
   }
   //dpm($prints_array);
-  
+
   if (!empty($prints_array)) {
     foreach ($prints_array as $ke => $directions) {
       if (isset($ke) && $ke == 'pairings') {
@@ -6835,7 +6850,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
    * JOINWAVS
    */
    if ($print == 2) {
-    
+
     if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav')) {
       $r_set = [];
       $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
@@ -6847,25 +6862,25 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
       fwrite($pathHandle,$r);
       fclose($pathHandle);
     }
-    
+
     if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav')) {
       $rl_set = [];
       $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
       $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
       $rl = jellomatrix_joinwavs($rl_set, $frequency);
-      
+
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
       fwrite($pathHandle,$rl);
       fclose($pathHandle);
     }
-    
+
     if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
       $lr_set = [];
       $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
       $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
       $lr = jellomatrix_joinwavs($lr_set, $frequency);
-      
+
       $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
       fwrite($pathHandle,$lr);
@@ -6874,7 +6889,7 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
   }
   if ($print == 3) {
     $c_set = [];
-    
+
     if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
       $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
     }
@@ -6893,9 +6908,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
     if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
       $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
     }
-    
+
     $c = jellomatrix_joinwavs($c_set, $frequency);
-    
+
     $path = 'sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
     $pathHandle = fopen($path, 'wb');
     fwrite($pathHandle,$c);
@@ -6956,14 +6971,14 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -7011,7 +7026,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -7024,7 +7039,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -7080,7 +7095,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $r .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -7104,14 +7119,14 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -7150,7 +7165,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -7163,7 +7178,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -7220,7 +7235,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -7245,14 +7260,14 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rd2 .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -7290,7 +7305,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
               unset($lower);
             }
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -7303,7 +7318,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -7359,7 +7374,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd2 .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -7406,21 +7421,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
       //}
     }
   }
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7449,21 +7469,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
 
   $output .= $rd;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7492,22 +7517,27 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
 
   $output .= $rd2;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
-    
+
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7589,7 +7619,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
 
             ////dpm($upper);
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -7602,7 +7632,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -7658,7 +7688,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $r .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -7711,7 +7741,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -7724,7 +7754,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -7780,7 +7810,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -7833,7 +7863,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -7846,7 +7876,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -7902,7 +7932,7 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
           $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd2 .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -7948,22 +7978,27 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
     }
   }
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
 
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -7992,21 +8027,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
 
   $output .= $rd;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8035,21 +8075,26 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
 
   $output .= $rd2;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8077,13 +8122,13 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   $output .= '</table>';
 
   //dpm($note_assembly);
-  
+
   return $output;
 }
 
 function jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print) {
 
-  $note_assembly = [];  
+  $note_assembly = [];
   $lambdoma_map = [];
   $output = '';
 
@@ -8141,7 +8186,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -8154,7 +8199,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -8210,7 +8255,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $r .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -8261,7 +8306,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -8274,7 +8319,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -8330,7 +8375,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -8358,14 +8403,14 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $lr .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -8402,7 +8447,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -8415,7 +8460,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -8471,7 +8516,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $lr .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $lr .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -8494,14 +8539,14 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $lrd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -8538,7 +8583,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -8551,7 +8596,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -8607,7 +8652,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $lrd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $lrd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -8663,7 +8708,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -8676,7 +8721,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -8732,7 +8777,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $rl .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rl .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -8784,7 +8829,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
 
             if (isset($upper)) {
               foreach ($harmonics as $note) {
-                
+
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
                   $rld .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
@@ -8796,7 +8841,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -8852,7 +8897,7 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
           $rld .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rld .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -8900,21 +8945,26 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
     }
   }
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8944,21 +8994,26 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   $output .= $rl;
   $output .= $rld;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -8988,21 +9043,26 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   $output .= $lr;
   $output .= $lrd;
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -9032,14 +9092,14 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   $output .= '<hr class="hr">';
 
   //dpm($note_assembly);$output .= '</div><hr class="hr"><br>';
-  
+
   $output .= '<h2>Solving for the 3D: extrapolating the matrix into 3 dimensions creating a fabric that is infinitely scalable in 6 directions: a sample using waveform pairs form the 13/20 matrix:</h2>';
   $output .= '<img src="/sites/default/files/2019-07/jellomatrix_1320_3d_0.png" width="100%" height="auto" /><hr>';
-  
-  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
-  
-  
- 
+
+  $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
+
+
+
   return $output;
 }
 
@@ -9068,14 +9128,14 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $r .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -9116,7 +9176,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
 
             if (isset($upper)) {
               foreach ($harmonics as $note) {
-                
+
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
                   $r .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
@@ -9128,7 +9188,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -9184,7 +9244,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $r .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -9207,14 +9267,14 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rd .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -9254,7 +9314,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
 
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -9267,7 +9327,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -9323,7 +9383,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -9346,14 +9406,14 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
               if (is_array($test)) {
                 $a = array_pop($test);
                 $b = array_pop($test);
-      
+
                 if (is_numeric($a) && ($a) % 2 == 0 && ($b) % 2 == 0) {
                   $clink = 'highlight';
                 }
                 elseif (is_numeric($a) && ($a) % 2 != 0 && ($b) % 2 != 0) {
                   $clink = 'highlight';
                 }
-              }  
+              }
               if (isset($clink) && $clink == 'highlight') {
                 $rd2 .= '<td class="tdgrid highlight">' . $item . '</td>';
               }
@@ -9392,7 +9452,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -9405,7 +9465,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -9461,7 +9521,7 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
           $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd2 .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -9508,21 +9568,26 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
     }
   }
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -9620,7 +9685,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -9633,7 +9698,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -9689,7 +9754,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
           $r .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $r .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -9742,7 +9807,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
@@ -9755,11 +9820,11 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
-                  
+
                   if ($explode[2] == 'C') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'cee';
                   }
@@ -9812,7 +9877,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
           $rd .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -9864,20 +9929,20 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
             }
 
             if (isset($upper)) {
-              
+
               foreach ($harmonics as $note) {
                 $explode = explode(':', $note);
                 if (isset($lower) && $explode[0] == $upper && $explode[1] == $lower && !empty($explode[2])) {
                   $rd2 .= '<td class="tdgrid"><strong>' . $explode[2] . '</strong></td>';
                   $note_order[]= $explode[3];
                   $lower = (int)$lower;
-                  $upper = (int)$upper; $added = $upper+$lower; 
+                  $upper = (int)$upper; $added = $upper+$lower;
                   if (is_numeric($upper) && is_numeric($lower)) {
                     $rd2 .= '<td>' . $upper . '+' . $lower . '=<strong>' . $added . '</strong></td>';
                   }
                   $lambdoma_map[$k][$ke][$key][$count]['lower'] = $explode[0];
                   $lambdoma_map[$k][$ke][$key][$count]['upper'] = $explode[1];
-                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2]; 
+                  $lambdoma_map[$k][$ke][$key][$count]['key'] = $explode[2];
                   if ($explode[2] == 'origin') {
                     $lambdoma_map[$k][$ke][$key][$count]['class'] = 'black';
                   }
@@ -9933,7 +9998,7 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
           $rd2 .= '<h3>Order of frequencies: based on a ' . $frequency . 'Hz baseline or "C"</h3><ol>';
           if (isset($note_order)) {
             foreach ($note_order as $key => $hz) {
-              
+
               $rd2 .= '<li>' . $hz . 'Hz</li>';
             }
           }
@@ -9978,24 +10043,29 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
       //}
     }
   }
-  
+
   //dpm($map);
 
-  
+
   $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
   for ($u=0; $u<=16; $u++) {
     $output .= '<tr>';
     $output .= '<td>' . $u . '</td>';
 
-    
+
     for ($l = 0; $l <= 16; $l++) {
       $class = 'white';
       foreach ($map as $n => $unexploded) {
         $exploded = explode(':', $unexploded);
         if ($exploded[0] == $l && $exploded[1] == $u && !empty($explode[2])) {
+          $np = 'b' . $n;
+          if ($n >= $tone ) {
+            $np = $n - $tone;
+            $np = 'f' . $np;
+          }
           $class = $exploded[2];
           $freq = $exploded[3];
-          $kay = $exploded[4] . ':' . $n;
+          $kay = $exploded[4] . ':' . $np;
           //$output .= '<td>' . $u . '</td>';
         }
         if ($class == 'white') {
@@ -10034,9 +10104,9 @@ function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $pri
   $output .= '<h2>Solving for the 3D: extrapolating the matrix into 3 dimensions creating a fabric that is infinitely scalable in 6 directions: a sample using waveform pairs form the 13/20 matrix:</h2>';
   $output .= '<img src="/sites/default/files/2019-07/jellomatrix_1320_3d_0.png" width="100%" height="auto" /><hr>';
 
-  $output .= '<div class="begintext"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" class="commons" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Jellomatrix Tool</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed from 2007 - current under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://jellobrain.com/jellomatrix" rel="dct:source">http://jellobrain.com/jellomatrix</a>.</div><hr class="hr">';
-  //dpm($note_assembly);
-  
+  $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
+//dpm($note_assembly);
+
   //dpm($note_assembly);
   return $output;
 }
