@@ -139,7 +139,7 @@ class JellomatrixWavePreparation {
                     $spliced_matrix[$key + 1][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
                 } else {
-                  if ($spliced_matrix[$key + 1][$k - 2]['scale_position'] == 1) {
+                  if (isset($spliced_matrix[$key + 1][$k - 2]['scale_position']) && $spliced_matrix[$key + 1][$k - 2]['scale_position'] == 1) {
                     $spliced_matrix[$key + 1][$k - 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     $spliced_matrix[$key + 1][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
@@ -152,7 +152,7 @@ class JellomatrixWavePreparation {
                     $spliced_matrix[$key - 1][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
                 } else {
-                  if ($spliced_matrix[$key - 1][$k - 2]['scale_position'] == 1) {
+                  if (isset($spliced_matrix[$key - 1][$k - 2]['scale_position']) && $spliced_matrix[$key - 1][$k - 2]['scale_position'] == 1) {
                     $spliced_matrix[$key - 1][$k - 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     $spliced_matrix[$key - 1][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
@@ -179,7 +179,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix[$new_key][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix[$new_key][$k - 2]['scale_position'] == 1) {
+                    if (isset($spliced_matrix[$new_key][$k - 2]['scale_position']) && $spliced_matrix[$new_key][$k - 2]['scale_position'] == 1) {
                       $spliced_matrix[$new_key][$k - 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       $spliced_matrix[$new_key][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
@@ -205,7 +205,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix[$key + 1][$bridge_kplus]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix[$key + 1][$bridge_kplus]['scale_position'] == 1) {
+                    if (isset($spliced_matrix[$key + 1][$bridge_kplus]['scale_position']) && $spliced_matrix[$key + 1][$bridge_kplus]['scale_position'] == 1) {
                       $spliced_matrix[$key + 1][$bridge_kplus]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       $spliced_matrix[$key + 1][$bridge_kplus]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
@@ -233,7 +233,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix[$new_key][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix[$new_key][$k - 2]['scale_position'] == 1) {
+                    if (isset($spliced_matrix[$new_key][$k - 2]['scale_position']) && $spliced_matrix[$new_key][$k - 2]['scale_position'] == 1) {
                       $spliced_matrix[$new_key][$k - 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       $spliced_matrix[$new_key][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
@@ -259,7 +259,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix[$key - 1][$bridge_kplus]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix[$key - 1][$bridge_kplus]['scale_position'] == 1) {
+                    if (isset($spliced_matrix[$key - 1][$bridge_kplus]['scale_position']) && $spliced_matrix[$key - 1][$bridge_kplus]['scale_position'] == 1) {
                       $spliced_matrix[$key - 1][$bridge_kplus]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       $spliced_matrix[$key - 1][$bridge_kplus]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
@@ -283,7 +283,7 @@ class JellomatrixWavePreparation {
                     }
                   }
                 } else {
-                  if ($spliced_matrix[$key + 1][$k + 2]['scale_position'] == $tone) {
+                  if (isset($spliced_matrix[$key + 1][$k + 2]['scale_position']) && $spliced_matrix[$key + 1][$k + 2]['scale_position'] == $tone) {
                     $spliced_matrix[$key + 1][$k + 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     if (isset($spliced_matrix[$key + 1][$k + 2]['phase_color'])) {
                       $spliced_matrix[$key + 1][$k + 2]['phase_color'] = 'purple';
@@ -305,7 +305,7 @@ class JellomatrixWavePreparation {
                     }
                   }
                 } else {
-                  if ($spliced_matrix[$key - 1][$k + 2]['scale_position'] == $tone) {
+                  if (isset($spliced_matrix[$key - 1][$k + 2]['scale_position']) && $spliced_matrix[$key - 1][$k + 2]['scale_position'] == $tone) {
                     $spliced_matrix[$key - 1][$k + 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     if (isset($spliced_matrix[$key - 1][$k + 2]['phase_color'])) {
                       $spliced_matrix[$key - 1][$k + 2]['phase_color'] = 'purple';
@@ -348,7 +348,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix[$new_key][$k + 2]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix[$new_key][$k + 2]['scale_position']) && $spliced_matrix[$new_key][$k + 2]['scale_position'] == $tone) {
                       $spliced_matrix[$new_key][$k + 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       $spliced_matrix[$new_key][$k + 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
@@ -386,7 +386,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix[$key + 1][$bridge_kplus]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix[$key + 1][$bridge_kplus]['scale_position']) && $spliced_matrix[$key + 1][$bridge_kplus]['scale_position'] == $tone) {
                       $spliced_matrix[$key + 1][$bridge_kplus]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       if (isset($spliced_matrix[$key + 1][$bridge_kplus]['phase_color'])) {
                         $spliced_matrix[$key + 1][$bridge_kplus]['phase_color'] = 'purple';
@@ -472,7 +472,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix[$key - 1][$bridge_kplus]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix[$key - 1][$bridge_kplus]['scale_position']) && $spliced_matrix[$key - 1][$bridge_kplus]['scale_position'] == $tone) {
                       $spliced_matrix[$key - 1][$bridge_kplus]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       if (isset($spliced_matrix[$key - 1][$bridge_kplus]['phase_color'])) {
                         $spliced_matrix[$key - 1][$bridge_kplus]['phase_color'] = 'purple';
@@ -577,7 +577,7 @@ class JellomatrixWavePreparation {
                     $spliced_matrix_reversed[$key + 1][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                   }
                 } else {
-                  if ($spliced_matrix_reversed[$key + 1][$k - 2]['scale_position'] == 1) {
+                  if (isset($spliced_matrix_reversed[$key + 1][$k - 2]['scale_position']) && $spliced_matrix_reversed[$key + 1][$k - 2]['scale_position'] == 1) {
                     $spliced_matrix_reversed[$key + 1][$k - 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                     $spliced_matrix_reversed[$key + 1][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                   }
@@ -590,7 +590,7 @@ class JellomatrixWavePreparation {
                     $spliced_matrix_reversed[$key - 1][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                   }
                 } else {
-                  if ($spliced_matrix_reversed[$key - 1][$k - 2]['scale_position'] == 1) {
+                  if (isset($spliced_matrix_reversed[$key - 1][$k - 2]['scale_position']) && $spliced_matrix_reversed[$key - 1][$k - 2]['scale_position'] == 1) {
                     $spliced_matrix_reversed[$key - 1][$k - 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                     $spliced_matrix_reversed[$key - 1][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                   }
@@ -617,7 +617,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix_reversed[$new_key][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$new_key][$k - 2]['scale_position'] == 1) {
+                    if (isset($spliced_matrix_reversed[$new_key][$k - 2]['scale_position']) && $spliced_matrix_reversed[$new_key][$k - 2]['scale_position'] == 1) {
                       $spliced_matrix_reversed[$new_key][$k - 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$new_key][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
@@ -643,7 +643,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix_reversed[$key + 1][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale_position'] == 1) {
+                    if (isset($spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale_position']) && $spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale_position'] == 1) {
                       $spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$key + 1][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
@@ -671,7 +671,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix_reversed[$new_key][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$new_key][$k - 2]['scale_position'] == 1) {
+                    if (isset($spliced_matrix_reversed[$new_key][$k - 2]['scale_position']) && $spliced_matrix_reversed[$new_key][$k - 2]['scale_position'] == 1) {
                       $spliced_matrix_reversed[$new_key][$k - 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$new_key][$k - 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
@@ -684,7 +684,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix_reversed[$new_key][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$new_key][$bridge_kplus]['scale_position'] == 1) {
+                    if (isset($spliced_matrix[$new_key][$bridge_kplus]['scale_position']) && $spliced_matrix_reversed[$new_key][$bridge_kplus]['scale_position'] == 1) {
                       $spliced_matrix_reversed[$new_key][$bridge_kplus]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$new_key][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
@@ -697,7 +697,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix_reversed[$key - 1][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position'] == 1) {
+                    if (isset($spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position']) && $spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position'] == 1) {
                       $spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$key - 1][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
@@ -743,7 +743,7 @@ class JellomatrixWavePreparation {
                     }
                   }
                 } else {
-                  if ($spliced_matrix_reversed[$key - 1][$k + 2]['scale_position'] == $tone) {
+                  if (isset($spliced_matrix_reversed[$key - 1][$k + 2]['scale_position']) && $spliced_matrix_reversed[$key - 1][$k + 2]['scale_position'] == $tone) {
                     $spliced_matrix_reversed[$key - 1][$k + 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                     if (isset($spliced_matrix_reversed[$key - 1][$k + 2]['phase_color'])) {
                       $spliced_matrix_reversed[$key - 1][$k + 2]['phase_color'] = 'purple';
@@ -786,7 +786,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$new_key][$k + 2]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix_reversed[$new_key][$k + 2]['scale_position']) && $spliced_matrix_reversed[$new_key][$k + 2]['scale_position'] == $tone) {
                       $spliced_matrix_reversed[$new_key][$k + 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$new_key][$k + 2]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }
@@ -824,7 +824,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale_position']) && $spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale_position'] == $tone) {
                       $spliced_matrix_reversed[$key + 1][$bridge_kplus]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       if (isset($spliced_matrix_reversed[$key + 1][$bridge_kplus]['phase_color'])) {
                         $spliced_matrix_reversed[$key + 1][$bridge_kplus]['phase_color'] = 'purple';
@@ -868,7 +868,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$new_key][$k + 2]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix_reversed[$new_key][$k + 2]['scale_position']) && $spliced_matrix_reversed[$new_key][$k + 2]['scale_position'] == $tone) {
                       $spliced_matrix_reversed[$new_key][$k + 2]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       if (isset($spliced_matrix_reversed[$new_key][$k + 2]['phase_color'])) {
                         $spliced_matrix_reversed[$new_key][$k + 2]['phase_color'] = 'purple';
@@ -910,7 +910,7 @@ class JellomatrixWavePreparation {
                       }
                     }
                   } else {
-                    if ($spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position'] == $tone) {
+                    if (isset($spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position']) && $spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position'] == $tone) {
                       $spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       if (isset($spliced_matrix_reversed[$key - 1][$bridge_kplus]['phase_color'])) {
                         $spliced_matrix_reversed[$key - 1][$bridge_kplus]['phase_color'] = 'purple';
