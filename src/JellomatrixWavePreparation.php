@@ -192,7 +192,7 @@ class JellomatrixWavePreparation {
                       $spliced_matrix[$new_key][$bridge_kplus]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
                   } else {
-                    if ($spliced_matrix[$new_key][$bridge_kplus]['scale_position'] == 1) {
+                    if (isset($spliced_matrix[$new_key][$bridge_kplus]['scale_position']) && $spliced_matrix[$new_key][$bridge_kplus]['scale_position'] == 1) {
                       $spliced_matrix[$new_key][$bridge_kplus]['scale'] = $spliced_matrix[$key][$k]['scale'];
                       $spliced_matrix[$new_key][$bridge_kplus]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                     }
