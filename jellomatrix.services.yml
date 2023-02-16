@@ -1,0 +1,39 @@
+services:
+    jellomatrix.jellomatrix_doubleflip_response_matrix:
+        class: Drupal\jellomatrix\JellomatrixDoubleflipResponseMatrix
+    jellomatrix.jellomatrix_doubleflip_response_offset_matrix:
+        class: Drupal\jellomatrix\JellomatrixDoubleflipResponseOffsetMatrix
+    jellomatrix.jellomatrix_doubleflip_spliced_matrix:
+        class: Drupal\jellomatrix\JellomatrixDoubleflipSplicedMatrix
+    jellomatrix.jellomatrix_doubleflip_spliced_offset_matrix:
+        class: Drupal\jellomatrix\JellomatrixDoubleflipSplicedOffsetMatrix
+    jellomatrix.jellomatrix_get_colors:
+        class: Drupal\jellomatrix\JellomatrixGetColors
+    jellomatrix.jellomatrix_harmonics:
+        class: Drupal\jellomatrix\JellomatrixHarmonics
+    jellomatrix.jellomatrix_increments_derivative:
+        class: Drupal\jellomatrix\JellomatrixIncrementsDerivative
+    jellomatrix.jellomatrix_increments_original:
+        class: Drupal\jellomatrix\JellomatrixIncrementsOriginal
+    jellomatrix.jellomatrix_increments_prime_derivative:
+        class: Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative
+    jellomatrix.jellomatrix_prime_matrix:
+        class: Drupal\jellomatrix\JellomatrixPrimeMatrix
+    jellomatrix.jellomatrix_prime_offset_matrix:
+        class: Drupal\jellomatrix\JellomatrixPrimeOffsetMatrix
+    jellomatrix.jellomatrix_response_matrix:
+        class: Drupal\jellomatrix\JellomatrixResponseMatrix
+    jellomatrix.jellomatrix_response_offset_matrix:
+        class: Drupal\jellomatrix\JellomatrixResponseOffsetMatrix
+    jellomatrix.jellomatrix_spliced_matrix:
+        class: Drupal\jellomatrix\JellomatrixSplicedMatrix
+    jellomatrix.jellomatrix_spliced_offset_matrix:
+        class: Drupal\jellomatrix\JellomatrixSplicedOffsetMatrix
+    jellomatrix.jellomatrix_wave_detection:
+        class: Drupal\jellomatrix\JellomatrixWaveDetection
+    jellomatrix.jellomatrix_wave_preparation:
+        class: Drupal\jellomatrix\JellomatrixWavePreparation
+    jellomatrix.jellomatrix_generate_sound_files:
+        class: Drupal\jellomatrix\JellomatrixGenerateSoundFiles
+    jellomatrix.jellomatrix_circle_grids:
+        class: Drupal\jellomatrix\JellomatrixCircleGrids

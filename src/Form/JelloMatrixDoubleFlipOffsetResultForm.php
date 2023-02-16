@@ -8,12 +8,137 @@ namespace Drupal\jellomatrix\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\jellomatrix\JellomatrixGetColors;
+use Drupal\jellomatrix\JellomatrixHarmonics;
+use Drupal\jellomatrix\JellomatrixIncrementsDerivative;
+use Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative;
+use Drupal\jellomatrix\JellomatrixIncrementsOriginal;
+use Drupal\jellomatrix\JellomatrixPrimeOffestMatrix;
+use Drupal\jellomatrix\JellomatrixDoubleflipResponseOffsetMatrix;
+use Drupal\jellomatrix\JellomatrixDoubleflipSplicedOffsetMatrix;
+use Drupal\jellomatrix\JellomatrixWaveDetection;
+use Drupal\jellomatrix\JellomatrixWavePreparation;
+use Drupal\jellomatrix\JellomatrixGenerateSoundFiles;
+use Drupal\jellomatrix\JellomatrixCircleGrids;
+
 
 /**
  * Contribute form.
  */
 class JelloMatrixDoubleFlipOffsetResultForm extends FormBase {
+  
+  /**
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $account;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixGetColors
+   */
+  protected $get_colors;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixHarmonics
+   */
+  protected $harmonics;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixIncrementsDerivative
+   */
+  protected $increments_derivative;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative
+   */
+  protected $increments_prime_derivative;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixIncrementsOriginal
+   */
+  protected $increments_original;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixPrimeMatrix
+   */
+  protected $prime_matrix;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixDoubleflipResponseMatrix
+   */
+  protected $doubleflip_response_offset_matrix;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixDoubleflipSplicedOffsetMatrix
+   */
+  protected $doubleflip_spliced_offset_matrix;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixWaveDetection
+   */
+  protected $wave_detection;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixWavePreparation
+   */
+  protected $wave_preparation;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixGenerateSoundFiles
+   */
+  protected $sound_files;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixCircleGrids
+   */
+  protected $circle_grids;
+
+
+
+  /**
+   * @param \Drupal\Core\Session\AccountInterface $account
+   */
+  public function __construct(AccountInterface $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_matrix, $doubleflip_response_offset_matrix, $doubleflip_spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids) {
+    $this->account = $account;
+    $this->get_colors = $get_colors;
+    $this->harmonics = $harmonics;
+    $this->increments_derivative = $increments_derivative;
+    $this->increments_prime_derivative = $increments_prime_derivative;
+    $this->increments_original = $increments_original;
+    $this->prime_matrix = $prime_matrix;
+    $this->doubleflip_response_offset_matrix = $doubleflip_response_offset_matrix;
+    $this->doubleflip_spliced_offset_matrix = $doubleflip_spliced_offset_matrix;
+    $this->wave_detection = $wave_detection;
+    $this->wave_preparation = $wave_preparation;
+    $this->sound_files = $sound_files;
+    $this->circle_grids = $circle_grids;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    // Instantiates this form class.
+    // Load the service required to construct this class.
+    $account = $container->get('current_user');
+    $get_colors = $container->get('jellomatrix.jellomatrix_get_colors');
+    $harmonics = $container->get('jellomatrix.jellomatrix_harmonics');
+    $increments_derivative = $container->get('jellomatrix.jellomatrix_increments_derivative');
+    $increments_prime_derivative = $container->get('jellomatrix.jellomatrix_increments_prime_derivative');
+    $increments_original = $container->get('jellomatrix.jellomatrix_increments_original');
+    $prime_matrix = $container->get('jellomatrix.jellomatrix_prime_matrix');
+    $doubleflip_response_offset_matrix = $container->get('jellomatrix.jellomatrix_doubleflip_response_offset_matrix');
+    $doubleflip_spliced_offset_matrix = $container->get('jellomatrix.jellomatrix_doubleflip_spliced_offset_matrix');
+    $wave_detection = $container->get('jellomatrix.jellomatrix_wave_detection');
+    $wave_preparation = $container->get('jellomatrix.jellomatrix_wave_preparation');
+    $sound_files = $container->get('jellomatrix.jellomatrix_generate_sound_files');
+    $circle_grids = $container->get('jellomatrix.jellomatrix_circle_grids');
+    return new static(
+        $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_matrix, $doubleflip_response_offset_matrix, $doubleflip_spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids
+    );
+  }
+
   /**
    * {@inheritdoc}
    */

@@ -1,16 +1,17 @@
 <?php
 
 namespace Drupal\jellomatrix\Form;
-
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+//use Drupal\Core\Session\AccountInterface;
+//use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @file
- * Contains \Drupal\jellomatrix\Form\JelloMatrixSidebar.
+ * Contains \Drupal\jellomatrix\Form\JelloMatrixSidebarForm.
  */
 
-class JelloMatrixSidebar extends FormBase {
+class JelloMatrixSidebarForm extends FormBase {
   /**
    * {@inheritdoc}
    */

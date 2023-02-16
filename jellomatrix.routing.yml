@@ -69,3 +69,10 @@ jellomatrix.doubleflipoffset:
     _title: 'JelloMatrix Double Flip Offset Result'
   requirements:
     _permission: 'view some jellomatrix'
+#jellomatrix.description:
+#  path: '/jellomatrix/{tone}/{interval}'
+#  defaults:
+#    _controller: '\Drupal\jellomatrix\Controller\JellomatrixBlockController::description'
+#    _title: 'Jellomatrix Intro Block Example'
+#  requirements:
+#    _permission: 'access content'

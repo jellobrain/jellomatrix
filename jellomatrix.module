@@ -1,5 +1,56 @@
 <?php
 
+/**
+ * @file
+ * Module file for jellomatrix.
+ */
+
+use Drupal\Core\Block\BlockPluginInterface;
+
+/**
+ * @defgroup jellomatrix Jellomatrix Block
+ * @ingroup jellomatrix
+ * @{
+ * Demonstrates code creation of blocks.
+ *
+ * This example demonstrates how a module can define blocks that can be
+ * displayed on various pages of a site, and how to alter blocks provided by
+ * other modules.
+ */
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * This hook allows you to modify the output of any block in the system.
+ *
+ * We are going to change the block label to uppercase if it contains the string
+ * "uppercase" or if the default block label contains this string. The default
+ * block label is set programmatically in the subject key of the block's plugin
+ * definition. The configurable block label, which can be overridden through the
+ * UI, is found in the "#configuration" key of the block's build definition.
+ * This module creates a block that demonstrates the uppercase effect in the
+ * "Example: uppercase this please" block. You can also demonstrate the effect
+ * of this hook by editing the title of an existing block or by creating a new
+ * block which where the default label has the string "uppercase" in it.
+ *
+ * Instead of hook_block_view_alter(), which is called for all blocks, you can
+ * also use hook_block_view_BASE_BLOCK_ID_alter() to alter a specific block. To
+ * only change the "example_uppercase" block we would use the function:
+ * hook_block_view_example_uppercase_alter().
+ */
+function jellomatrix_block_view_alter(array &$build, BlockPluginInterface $block) {
+  // We'll search for the string 'uppercase'.
+  $definition = $block->getPluginDefinition();
+  if ((!empty($build['#configuration']['label']) && mb_strpos($build['#configuration']['label'], 'uppercase')) || (!empty($definition['subject']) && mb_strpos($definition['subject'], 'uppercase'))) {
+    // This will uppercase the block title.
+    $build['#configuration']['label'] = mb_strtoupper($build['#configuration']['label']);
+  }
+}
+
+/**
+ * @} End of "defgroup jellomatrix".
+ */
+
 function save_imagepng($canvas,$file){
   // Store output.
   ob_start();
@@ -381,14 +432,14 @@ function jellomatrix_doubleflip_response_basetone($tone, $interval) {
 }
 
 
-/*
+/**
  *
- * name: jellomatrix_prime_offset
+ * name: jellomatrix_prime_offset_matrix
  * @param = $tone, $interval
  * @return = array()
  *
  */
-function jellomatrix_prime_offset($tone, $interval, $offset) {
+function jellomatrix_prime_offset_matrix($tone, $interval, $offset) {
   $matrix_count = 1;
   $prime_bt = array();
 
@@ -4386,6 +4437,9 @@ function jellomatrix_harmonics($frequency) {
   return $harmonics;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales) {
   $output = '';
 
@@ -4457,6 +4511,9 @@ function jellomatrix_output_basegrid($scale_increments, $prime_matrix, $primes, 
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $interval) {
   $output = '';
 
@@ -4520,6 +4577,9 @@ function jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $i
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_splicegrid_primes($spliced_matrix, $primes, $tone, $interval) {
   $output = '';
 
@@ -4558,6 +4618,9 @@ function jellomatrix_output_splicegrid_primes($spliced_matrix, $primes, $tone, $
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, $interval) {
   $output = '';
 
@@ -4595,6 +4658,9 @@ function jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, 
 
   return $output;
 }
+
+
+// BOOKMARK: OUTPUT BLOCKS
 
 function jellomatrix_output_splicegrid_waveforms($spliced_matrix, $splied_matrix_reversed, $primes, $tone, $interval, $boolean, $scaled/*, $scales*/)
 {
@@ -4810,6 +4876,9 @@ function jellomatrix_output_splicegrid_waveforms($spliced_matrix, $splied_matrix
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, $primes, $tone, $interval) {
   $output = '';
   if (isset($scaled)) {
@@ -4866,6 +4935,9 @@ function jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, 
 
   return $output;
 }
+
+
+// BOOKMARK: OUTPUT BLOCKS
 
 function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print) {
   $notea_pairing = [];
@@ -5998,6 +6070,9 @@ function jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency, $print) {
   //var_dump(debug_backtrace());
   $prints_array = [];
@@ -6918,6 +6993,9 @@ function jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $fre
   }
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_joinwavs($wavs, $frequency) {
 
   $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
@@ -6944,7 +7022,7 @@ function jellomatrix_joinwavs($wavs, $frequency) {
   return $header . pack('V', strlen($data)) . $data;
 }
 
-
+// BOOKMARK: OUTPUT BLOCKS
 
 function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print) {
   $lambdoma_map = [];
@@ -8126,6 +8204,9 @@ function jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, 
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print) {
 
   $note_assembly = [];
@@ -9103,6 +9184,9 @@ function jellomatrix_output_splicegrid_derivative_harmonics($increment_original,
   return $output;
 }
 
+
+// BOOKMARK: OUTPUT BLOCKS
+
 function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print) {
   $lambdoma_map = [];
   $note_assembly = [];
@@ -9627,6 +9711,9 @@ function jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $pr
   //dpm($note_assembly);
   return $output;
 }
+
+
+// BOOKMARK: OUTPUT BLOCKS
 
 function jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print) {
   $lambdoma_map = [];

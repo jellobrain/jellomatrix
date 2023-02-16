@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormInterface;
  *
  * @Block(
  *   id = "jellomatrix_sidebar_block",
- *   admin_label = @Translation("JelloMatrix block"),
+ *   admin_label = @Translation("JelloMatrix Sidebar Block"),
  *   category = @Translation("JelloMatrix block")
  * )
  */
@@ -18,7 +18,7 @@ class JelloMatrixSidebarBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $form = \Drupal::formBuilder()->getForm('Drupal\jellomatrix\Form\JelloMatrixSidebar');
+    $form = \Drupal::formBuilder()->getForm('Drupal\jellomatrix\Form\JelloMatrixSidebarForm');
     return $form;
    }
 }
