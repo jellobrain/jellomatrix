@@ -10,22 +10,20 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\jellomatrix\JellomatrixGetColors;
-use Drupal\jellomatrix\JellomatrixHarmonics;
-use Drupal\jellomatrix\JellomatrixIncrementsDerivative;
-use Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative;
-use Drupal\jellomatrix\JellomatrixIncrementsOriginal;
-use Drupal\jellomatrix\JellomatrixPrimeOffsetMatrix;
-use Drupal\jellomatrix\JellomatrixResponseOffsetMatrix;
-use Drupal\jellomatrix\JellomatrixSplicedOffsetMatrix;
-use Drupal\jellomatrix\JellomatrixWaveDetection;
-use Drupal\jellomatrix\JellomatrixWavePreparation;
-use Drupal\jellomatrix\JellomatrixGenerateSoundFiles;
-use Drupal\jellomatrix\JellomatrixCircleGrids;
+//use Drupal\jellomatrix\JellomatrixGetColors;
+//use Drupal\jellomatrix\JellomatrixHarmonics;
+//use Drupal\jellomatrix\JellomatrixIncrementsDerivative;
+//use Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative;
+//use Drupal\jellomatrix\JellomatrixIncrementsOriginal;
+//use Drupal\jellomatrix\JellomatrixPrimeOffsetMatrix;
+//use Drupal\jellomatrix\JellomatrixResponseOffsetMatrix;
+//use Drupal\jellomatrix\JellomatrixSplicedOffsetMatrix;
+//use Drupal\jellomatrix\JellomatrixWaveDetection;
+//use Drupal\jellomatrix\JellomatrixWavePreparation;
+//use Drupal\jellomatrix\JellomatrixGenerateSoundFiles;
+//use Drupal\jellomatrix\JellomatrixCircleGrids;
+//use Drupal\jellomatrix\JellomatrixPrimes;
 
-/**
- * Contribute form.
- */
 class JelloMatrixOffsetResultForm extends FormBase {
   
   /**
@@ -92,13 +90,18 @@ class JelloMatrixOffsetResultForm extends FormBase {
    * @var \Drupal\jellomatrix\JellomatrixCircleGrids
    */
   protected $circle_grids;
+  
+  /**
+   * @var \Drupal\jellomatrix\JellomatrixCircleGrids
+   */
+  protected $primes;
 
 
 
   /**
    * @param \Drupal\Core\Session\AccountInterface $account
    */
-  public function __construct(AccountInterface $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids) {
+  public function __construct(AccountInterface $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids, $primes) {
     $this->account = $account;
     $this->get_colors = $get_colors;
     $this->harmonics = $harmonics;
@@ -112,6 +115,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $this->wave_preparation = $wave_preparation;
     $this->sound_files = $sound_files;
     $this->circle_grids = $circle_grids;
+    $this->primes = $primes;
   }
 
   /**
@@ -126,15 +130,16 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $increments_derivative = $container->get('jellomatrix.jellomatrix_increments_derivative');
     $increments_prime_derivative = $container->get('jellomatrix.jellomatrix_increments_prime_derivative');
     $increments_original = $container->get('jellomatrix.jellomatrix_increments_original');
-    $prime_offset_matrix = $container->get('jellomatrix.jellomatrix_prime_offest_matrix');
+    $prime_offset_matrix = $container->get('jellomatrix.jellomatrix_prime_offset_matrix');
     $response_offset_matrix = $container->get('jellomatrix.jellomatrix_response_offset_matrix');
     $spliced_offset_matrix = $container->get('jellomatrix.jellomatrix_spliced_offset_matrix');
     $wave_detection = $container->get('jellomatrix.jellomatrix_wave_detection');
     $wave_preparation = $container->get('jellomatrix.jellomatrix_wave_preparation');
     $sound_files = $container->get('jellomatrix.jellomatrix_generate_sound_files');
     $circle_grids = $container->get('jellomatrix.jellomatrix_circle_grids');
+    $primes = $container->get('jellomatrix.jellomatrix_primes');
     return new static(
-        $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids
+        $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids, $primes
     );
   }
   
@@ -151,7 +156,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $tone = NULL, $interval = NULL, $offset = 0, $frequency = NULL, $print = NULL) {
     $frequency = \Drupal::request()->query->get('frequency');
     $offsetrange = range(0,$interval-2);
-    if (!isset($frequency)) {
+    if(!isset($frequency)) {
       $frequency = 264;
     }
     $print = \Drupal::request()->query->get('print');
@@ -197,6 +202,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
           '#options' => $print_options,
       );
     }
+    
     $form['tone'] = array(
       '#type' => 'hidden',
       '#value' => $tone,
@@ -224,49 +230,58 @@ class JelloMatrixOffsetResultForm extends FormBase {
     unset($response_matrix);
     unset($spliced_matrix);
     // Find the values of the arrays.
-    $prime_matrix = jellomatrix_prime_offset($tone, $interval, $offset);
-    $response_matrix = jellomatrix_response_offset($tone, $interval, $offset);
-    $spliced_matrix = jellomatrix_spliced_offset($prime_matrix, $response_matrix, $tone, $interval, $offset);
-  
-    extract(jellomatrix_wave_preparation($prime_matrix, $tone, $interval, $spliced_matrix));
+    # BOOKMARK: injection
+    $prime_matrix = $this->prime_offset_matrix->getPrimeOffsetMatrix($tone, $interval, $offset);
+    $response_matrix = $this->response_offset_matrix->getResponseOffsetMatrix($tone, $interval, $offset);
+    $spliced_matrix = $this->spliced_offset_matrix->getSplicedOffsetMatrix($prime_matrix, $response_matrix, $tone, $interval, $offset);
+
+    extract($this->wave_preparation->getWavePreparation($prime_matrix, $tone, $interval, $spliced_matrix));
 
 
     if (!empty($h_increment)) {
-      jellomatrix_circle_detection($h_increment, $tone, $interval, 100, $direction = 'h');
-      jellomatrix_circle_grid($tone, $interval, 200);
+      $circle_detection = $this->circle_grids->circleDetection($h_increment, $tone, 100, $direction = 'h');
+      $circle_grids = $this->circle_grids->circleGrid($tone, $interval, 100);
     }
     else {
       $h_increment = .1;
-      jellomatrix_circle_detection($h_increment, $tone, $interval, 100, $direction = 'h');
-      jellomatrix_circle_grid($tone, $interval, 200);
+      $circle_detection = $this->circle_grids->circleDetection($h_increment, $tone, 100, $direction = 'h');
+      $circle_grids = $this->circle_grids->circleGrid($tone, $interval, 100);
     }
 
     if (!empty($f_increment)) {
-      jellomatrix_circle_detection($f_increment, $tone, $interval, 100, $direction = 'f');
+      $circle_detection = $this->circle_grids->circleDetection($f_increment, $tone, 100, $direction = 'f');
+      $circle_grids = $this->circle_grids->circleGrid($tone, $interval, 100);
     }
     else {
       $f_increment = .1;
-      jellomatrix_circle_detection($f_increment, $tone, $interval, 100, $direction = 'f');
+      $circle_detection = $this->circle_grids->circleDetection($f_increment, $tone, 100, $direction = 'f');
+      $circle_grids = $this->circle_grids->circleGrid($tone, $interval, 100);
     }
 
     if (!empty($b_increment)) {
-      jellomatrix_circle_detection($b_increment, $tone, $interval, 100, $direction = 'b');
+      $circle_detection = $this->circle_grids->circleDetection($b_increment, $tone, 100, $direction = 'b');
+      $circle_grids = $this->circle_grids->circleGrid($tone, $interval, 100);
     }
     else {
       $b_increment = .1;
-      jellomatrix_circle_detection($b_increment, $tone, $interval, 100, $direction = 'b');
+      $circle_detection = $this->circle_grids->circleDetection($b_increment, $tone, 100, $direction = 'b');
+      $circle_grids = $this->circle_grids->circleGrid($tone, $interval, 100);
     }
 
+
+
     // Now we get the harmonics.
-    $harmonics = jellomatrix_harmonics($frequency);
-  
-    $primes = jellomatrix_primes($tone);
-  
-    $increments = jellomatrix_increments_derivative($spliced_matrix, $tone);
-  
-    $increment_original = jellomatrix_increments_original($spliced_matrix, $tone);
-  
-    $increments_prime = jellomatrix_increments_prime_derivative($prime_matrix, $tone);
+    $harmonics = $this->harmonics->getHarmonics($frequency);
+
+    $primes = $this->primes->getPrimes($tone);
+
+
+    
+    $increments = $this->increments_derivative->getIncrementsDerivative($spliced_matrix, $tone);
+
+    $increment_original = $this->increments_original->getIncrementsOriginal($spliced_matrix, $tone);
+
+    $increments_prime = $this->increments_prime_derivative->getIncrementsPrimeDerivative($prime_matrix, $tone);
   
     $spliced_matrix_saved = $spliced_matrix;
     $spliced_matrix_reversed_saved = $spliced_matrix_reversed;
@@ -290,8 +305,10 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $scale = $scales['h'];
     
     if (!empty($spliced_matrix)) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir/*, $scales*/));
+      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/));
     }
+
+    
     if (isset($hscaled)) {
       $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'yes', $hscaled);
     }
@@ -313,10 +330,10 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'f';
     unset($scale);
     $scale = $scales['f'];
-    
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
+    if (!empty($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/))) {
+      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/));
     }
+
     
     if (isset($fscaled)) {
       $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $fscaled);
@@ -340,13 +357,14 @@ class JelloMatrixOffsetResultForm extends FormBase {
     unset($scale);
     $scale = $scales['b'];
     
-    if (!empty(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir))) {
-      extract(jellomatrix_wave_detection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir));
+    if (!empty($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/))) {
+      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/));
     }
     
     if (isset($bscaled)) {
       $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $bscaled);
     }
+    
     if (!empty($scale_increments) && isset($bscaled)) {
       $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $bscaled, $primes, $tone, $interval);
     }
@@ -360,8 +378,8 @@ class JelloMatrixOffsetResultForm extends FormBase {
     //$output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     //$output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     $output .= '</div>';
-  
-  
+
+
     $form['output'] = array(
       '#type' => 'markup',
       '#markup' => $output,

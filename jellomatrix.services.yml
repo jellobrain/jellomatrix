@@ -37,3 +37,5 @@ services:
         class: Drupal\jellomatrix\JellomatrixGenerateSoundFiles
     jellomatrix.jellomatrix_circle_grids:
         class: Drupal\jellomatrix\JellomatrixCircleGrids
+    jellomatrix.jellomatrix_primes:
+        class: Drupal\jellomatrix\JellomatrixPrimes

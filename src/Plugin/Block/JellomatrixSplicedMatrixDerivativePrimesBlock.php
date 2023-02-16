@@ -33,15 +33,17 @@ class JellomatrixSplicedMatrixDerivativePrimesBlock extends BlockBase {
    */
   public function defaultConfiguration($increment_original, $harmonics, $primes, $tone, $frequency) {
     // Place block output here //
+    $intro = '';
     $output = '';
+    $append = '';
     
     $lambdoma_map = [];
     $note_assembly = [];
     $note_order = [];
 
     // Now output the differences between different integers.
-    $output .= '<div class="endtable begintext"><h2>PRIMARY MATRIX DERIVATIVES PRIMES: Derivatives</h2>';
-    $output .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios of repeating PRIMARY MATRIX increments create.</p><div class="endtext"><br></div>';
+    $intro .= '<div class="endtable begintext"><h2>PRIMARY MATRIX DERIVATIVES PRIMES: Derivatives</h2>';
+    $intro .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios of repeating PRIMARY MATRIX increments create.</p><div class="endtext"><br></div>';
 
     foreach($increments_prime as $k=>$increment_prime) {
       if ($k == 'row') {
@@ -506,16 +508,17 @@ class JellomatrixSplicedMatrixDerivativePrimesBlock extends BlockBase {
 
     $output .= '</div><hr class="hr"><br>';
 
-    $output .= '<h2>Solving for the 3D: extrapolating the matrix into 3 dimensions creating a fabric that is infinitely scalable in 6 directions: a sample using waveform pairs form the 13/20 matrix:</h2>';
-    $output .= '<img src="/sites/default/files/2019-07/jellomatrix_1320_3d_0.png" width="100%" height="auto" /><hr>';
+    $append .= '<h2>Solving for the 3D: extrapolating the matrix into 3 dimensions creating a fabric that is infinitely scalable in 6 directions: a sample using waveform pairs form the 13/20 matrix:</h2>';
+    $append .= '<img src="/sites/default/files/2019-07/jellomatrix_1320_3d_0.png" width="100%" height="auto" /><hr>';
 
-    $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
+    $append .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
   //dpm($note_assembly);
 
     //dpm($note_assembly);
     
     return [
-      'jellomatrix_intro_string' => $this->t('If this looks like the beginning of a new math, that is because it is.  It\'s actually a very old math reborn.') . '</p><p><strong>' . t('Welcome.') . '</strong> ' . t('Contact me directly at') . ' <a href="mailto:ana@jellobrain.com">ana at jellobrain dot com</a> ' . t('if you\'d like to talk about it.') . '</p><p>' . t('This tool takes two numbers and creates a matrix grid with them, and then performs all sorts of calculations including harmonics and derivative value shifts between numbers in their numerical contexts (topologies).') . '</p><p>' . t('In addition and perhaps more specifically, this tool evaluates matrices spliced with inverse (upside down) copies of themselves, and looks for waveforms in the resulting numerical topologies with the following characteristics:') . '</p><ol><li>' . t('Bands of numbers in the spliced matrix with equal values adjacent to one another...') . '</li><li>' . t('which connect in predictable sine wave forms with one another...') . '</li><li>' . t('following the order of a scale which is determined by the top row of values in the unspliced and native "seed" matrix...') . '</li><li>' . t('rhythms that are even numbered change polarity at the crests of the waveforms, while odd rhythms change polarity at each shift in position.') . '</li><li>' . t('and harmonically cycle between zero and infinity.') . '</li></ol><p>' . t('Aspects of that set of characteristics will appear even if the full pattern is not present in unison.') . '</p><p>' . t('In addition, the patterns seem to continue to contain these inherent characheristics even when the two polar grids are spliced in a way that they are offset.') . '</p><p>' . t('Following the grid drawings will lead you through the story of how they are created, and enterring a value in the form to offset the grids will generate an offset grid.'),
+      'jellomatrix_intro_string' => $intro,
+      'jellomatrix_append_string' => $append,
       'jellomatrix_block_meat' => $output,
     ];
   }
@@ -538,6 +541,12 @@ class JellomatrixSplicedMatrixDerivativePrimesBlock extends BlockBase {
       '#description' => $this->t('This text will appear in the block.'),
       '#default_value' => $this->configuration['jellomatrix_intro_string'] . '<br>' . $this->configuration['jellomatrix_block_meat'],
     ];
+    $form['jellomatrix_append_string_text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Block contents'),
+      '#description' => $this->t('This text will appear in the block.'),
+      '#default_value' => $this->configuration['jellomatrix_append_string'],
+    ];
     return $form;
   }
 
@@ -552,15 +561,18 @@ class JellomatrixSplicedMatrixDerivativePrimesBlock extends BlockBase {
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->configuration['jellomatrix_intro_string']
       = $form_state->getValue('jellomatrix_intro_string_text');
+    $this->configuration['jellomatrix_append_string']
+      = $form_state->getValue('jellomatrix_append_string_text');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build($scale) {
     return [
-      '#markup' => $this->configuration['jellomatrix_intro_string'] . '<br>' . $this->configuration['jellomatrix_block_meat'],
+      '#markup' => $this->configuration['jellomatrix_intro_string'] . '<br>' . $this->configuration['jellomatrix_block_meat'] . '<br>' . $this->configuration['jellomatrix_append_string'],
     ];
   }
+
 
 }

@@ -21,7 +21,7 @@ class JellomatrixWaveDetection {
    * @return = array()
    *
    **/
-  public function getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale, $dir) {
+  public function getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale) {
     //dpm($tone);
     $color_array = [];
     $color_array = [

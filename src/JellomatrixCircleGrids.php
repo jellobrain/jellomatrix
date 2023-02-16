@@ -32,7 +32,7 @@ class JellomatrixCircleGrids {
   }
   
 
-  public function circleDetection($increment, $tone, $interval, $radius, $direction) {
+  public function circleDetection($increment, $tone, $radius, $direction) {
 
     $circle_point_array = array();
     $slice = (360/$tone);
@@ -106,8 +106,8 @@ class JellomatrixCircleGrids {
       //$y = round(sin($i)*400)+450;
       for($l=0;$l<=$tone+2;$l++) {
         $bit = $linebit*$l*(1.5*$radius);
-        $x = round(cos(deg2rad($i))*($bit))+((1.5*$radius));
-        $y = round(sin(deg2rad($i))*($bit))+((1.5*$radius));
+        $x = round((cos(deg2rad($i))*($bit))+((1.5*$radius)));
+        $y = round((sin(deg2rad($i))*($bit))+((1.5*$radius)));
         imagefilledellipse($canvas, $x, $y, 7, 7, $red);
         imageline($canvas, (1.5*$radius), (1.5*$radius), $x, $y, $purple);
       }

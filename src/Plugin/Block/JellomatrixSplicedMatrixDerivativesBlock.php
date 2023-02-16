@@ -33,13 +33,16 @@ class JellomatrixSplicedMatrixDerivativesBlock extends BlockBase {
    */
   public function defaultConfiguration($increments, $primes, $tone, $harmonics, $frequency) {
     // Place block output here //
+    $intro = '';
     $output = '';
+    $append = '';
+    
     $lambdoma_map = [];
     $note_assembly = [];
     
     // Now output the differences between different integers.
-    $output .= '<div class="endtable begintext"><h2>ODD+EVEN: Derivatives</h2>';
-    $output .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios of repeating increments create.<br><div class="endtext"><br></div>';
+    $intro .= '<div class="endtable begintext"><h2>ODD+EVEN: Derivatives</h2>';
+    $intro .= '<p>The bold letters at the end of each row represent the Lambdona Notes that the ratios of repeating increments create.<br><div class="endtext"><br></div>';
 
     foreach($increments as $k=>$increment) {
       if ($k == 'row') {
@@ -1212,7 +1215,8 @@ class JellomatrixSplicedMatrixDerivativesBlock extends BlockBase {
 
     
     return [
-      'jellomatrix_intro_string' => $this->t('If this looks like the beginning of a new math, that is because it is.  It\'s actually a very old math reborn.') . '</p><p><strong>' . t('Welcome.') . '</strong> ' . t('Contact me directly at') . ' <a href="mailto:ana@jellobrain.com">ana at jellobrain dot com</a> ' . t('if you\'d like to talk about it.') . '</p><p>' . t('This tool takes two numbers and creates a matrix grid with them, and then performs all sorts of calculations including harmonics and derivative value shifts between numbers in their numerical contexts (topologies).') . '</p><p>' . t('In addition and perhaps more specifically, this tool evaluates matrices spliced with inverse (upside down) copies of themselves, and looks for waveforms in the resulting numerical topologies with the following characteristics:') . '</p><ol><li>' . t('Bands of numbers in the spliced matrix with equal values adjacent to one another...') . '</li><li>' . t('which connect in predictable sine wave forms with one another...') . '</li><li>' . t('following the order of a scale which is determined by the top row of values in the unspliced and native "seed" matrix...') . '</li><li>' . t('rhythms that are even numbered change polarity at the crests of the waveforms, while odd rhythms change polarity at each shift in position.') . '</li><li>' . t('and harmonically cycle between zero and infinity.') . '</li></ol><p>' . t('Aspects of that set of characteristics will appear even if the full pattern is not present in unison.') . '</p><p>' . t('In addition, the patterns seem to continue to contain these inherent characheristics even when the two polar grids are spliced in a way that they are offset.') . '</p><p>' . t('Following the grid drawings will lead you through the story of how they are created, and enterring a value in the form to offset the grids will generate an offset grid.'),
+      'jellomatrix_intro_string' => $intro,
+      'jellomatrix_append_string' => $append,
       'jellomatrix_block_meat' => $output,
     ];
   }
@@ -1235,6 +1239,12 @@ class JellomatrixSplicedMatrixDerivativesBlock extends BlockBase {
       '#description' => $this->t('This text will appear in the block.'),
       '#default_value' => $this->configuration['jellomatrix_intro_string'] . '<br>' . $this->configuration['jellomatrix_block_meat'],
     ];
+    $form['jellomatrix_append_string_text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Block contents'),
+      '#description' => $this->t('This text will appear in the block.'),
+      '#default_value' => $this->configuration['jellomatrix_append_string'],
+    ];
     return $form;
   }
 
@@ -1249,15 +1259,18 @@ class JellomatrixSplicedMatrixDerivativesBlock extends BlockBase {
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->configuration['jellomatrix_intro_string']
       = $form_state->getValue('jellomatrix_intro_string_text');
+    $this->configuration['jellomatrix_append_string']
+      = $form_state->getValue('jellomatrix_append_string_text');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build($scale) {
     return [
-      '#markup' => $this->configuration['jellomatrix_intro_string'] . '<br>' . $this->configuration['jellomatrix_block_meat'],
+      '#markup' => $this->configuration['jellomatrix_intro_string'] . '<br>' . $this->configuration['jellomatrix_block_meat'] . '<br>' . $this->configuration['jellomatrix_append_string'],
     ];
   }
+
 
 }
