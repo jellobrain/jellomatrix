@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\jellomatrix;
+namespace Drupal\jellomatrix\Services\Query;
 
 /**
  * Description of JellomatrixCircleGrids
@@ -15,10 +15,6 @@ class JellomatrixCircleGrids {
    * @return = array()
    *
    **/
-  public function getCircleGrids() {
-  
-  }
-    
   public function saveImagePng($canvas,$file){
     // Store output.
     ob_start();

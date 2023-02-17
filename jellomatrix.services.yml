@@ -1,41 +1,63 @@
 services:
     jellomatrix.jellomatrix_doubleflip_response_matrix:
-        class: Drupal\jellomatrix\JellomatrixDoubleflipResponseMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixDoubleflipResponseMatrix
     jellomatrix.jellomatrix_doubleflip_response_offset_matrix:
-        class: Drupal\jellomatrix\JellomatrixDoubleflipResponseOffsetMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixDoubleflipResponseOffsetMatrix
     jellomatrix.jellomatrix_doubleflip_spliced_matrix:
-        class: Drupal\jellomatrix\JellomatrixDoubleflipSplicedMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixDoubleflipSplicedMatrix
     jellomatrix.jellomatrix_doubleflip_spliced_offset_matrix:
-        class: Drupal\jellomatrix\JellomatrixDoubleflipSplicedOffsetMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixDoubleflipSplicedOffsetMatrix
     jellomatrix.jellomatrix_get_colors:
-        class: Drupal\jellomatrix\JellomatrixGetColors
+        class: Drupal\jellomatrix\Services\Query\JellomatrixGetColors
     jellomatrix.jellomatrix_harmonics:
-        class: Drupal\jellomatrix\JellomatrixHarmonics
+        class: Drupal\jellomatrix\Services\Query\JellomatrixHarmonics
     jellomatrix.jellomatrix_increments_derivative:
-        class: Drupal\jellomatrix\JellomatrixIncrementsDerivative
+        class: Drupal\jellomatrix\Services\Query\JellomatrixIncrementsDerivative
     jellomatrix.jellomatrix_increments_original:
-        class: Drupal\jellomatrix\JellomatrixIncrementsOriginal
+        class: Drupal\jellomatrix\Services\Query\JellomatrixIncrementsOriginal
     jellomatrix.jellomatrix_increments_prime_derivative:
-        class: Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative
+        class: Drupal\jellomatrix\Services\Query\JellomatrixIncrementsPrimeDerivative
     jellomatrix.jellomatrix_prime_matrix:
-        class: Drupal\jellomatrix\JellomatrixPrimeMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixPrimeMatrix
     jellomatrix.jellomatrix_prime_offset_matrix:
-        class: Drupal\jellomatrix\JellomatrixPrimeOffsetMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixPrimeOffsetMatrix
     jellomatrix.jellomatrix_response_matrix:
-        class: Drupal\jellomatrix\JellomatrixResponseMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixResponseMatrix
     jellomatrix.jellomatrix_response_offset_matrix:
-        class: Drupal\jellomatrix\JellomatrixResponseOffsetMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixResponseOffsetMatrix
     jellomatrix.jellomatrix_spliced_matrix:
-        class: Drupal\jellomatrix\JellomatrixSplicedMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixSplicedMatrix
     jellomatrix.jellomatrix_spliced_offset_matrix:
-        class: Drupal\jellomatrix\JellomatrixSplicedOffsetMatrix
+        class: Drupal\jellomatrix\Services\Query\JellomatrixSplicedOffsetMatrix
     jellomatrix.jellomatrix_wave_detection:
-        class: Drupal\jellomatrix\JellomatrixWaveDetection
+        class: Drupal\jellomatrix\Services\Query\JellomatrixWaveDetection
     jellomatrix.jellomatrix_wave_preparation:
-        class: Drupal\jellomatrix\JellomatrixWavePreparation
+        class: Drupal\jellomatrix\Services\Query\JellomatrixWavePreparation
     jellomatrix.jellomatrix_generate_sound_files:
-        class: Drupal\jellomatrix\JellomatrixGenerateSoundFiles
+        class: Drupal\jellomatrix\Services\Query\JellomatrixGenerateSoundFiles
     jellomatrix.jellomatrix_circle_grids:
-        class: Drupal\jellomatrix\JellomatrixCircleGrids
+        class: Drupal\jellomatrix\Services\Query\JellomatrixCircleGrids
     jellomatrix.jellomatrix_primes:
-        class: Drupal\jellomatrix\JellomatrixPrimes
+        class: Drupal\jellomatrix\Services\Query\JellomatrixPrimes
+    jellomatrix.grid_prime_matrix:
+        class: Drupal\jellomatrix\Services\Display\GridPrimeMatrix
+    jellomatrix.grid_spliced_matrix:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedMatrix
+    jellomatrix.grid_spliced_derivative_even_odd:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedDerivativeEvenOdd
+    jellomatrix.grid_spliced_derivative_harmonics:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedDerivativeHarmonics
+    jellomatrix.grid_spliced_derivative_primes:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedDerivativePrimes
+    jellomatrix.grid_spliced_derivatives:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedDerivatives
+    jellomatrix.grid_spliced_even_odd:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedEvenOdd
+    jellomatrix.grid_spliced_harmonics:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedHarmonics
+    jellomatrix.grid_spliced_primes:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedPrimes
+    jellomatrix.grid_spliced_scale_patterns:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedScalePatterns
+    jellomatrix.grid_spliced_wave_forms:
+        class: Drupal\jellomatrix\Services\Display\GridSplicedWaveForms

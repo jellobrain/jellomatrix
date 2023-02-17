@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\jellomatrix;
+namespace Drupal\jellomatrix\Services\Query;
 
 /**
- * Description of JellomatrixSplicedOffsetMatrix
+ * Description of JellomatrixDoubleflipSplicedOffsetMatrix
  *
  * @author eleven11
  */
-class JellomatrixSplicedOffsetMatrix {
+class JellomatrixDoubleflipSplicedOffsetMatrix {
   /**
-   * Returns the Spliced Offset Matrix.
-   * name: jellomatrix_spliced_offset_matrix
+   * Returns the Doubleflip Spliced Offset Matrix.
+   * name: jellomatrix_doubleflip_spliced_offset_matrix
    * @param $prime_matrix
    * @param $response_matrix
    * @param $tone
@@ -20,7 +20,7 @@ class JellomatrixSplicedOffsetMatrix {
    *
    * @internal param $ = $prime_matrix, $prime_reversed
    */
-  public function getSplicedOffsetMatrix($prime_matrix, $response_matrix, $tone, $interval, $offset) {
+  public function getDoubleflipSplicedOffsetMatrix($prime_matrix, $response_matrix, $tone, $interval, $offset) {
     $spliced_bt = array();
 
     $intoff = $interval - abs($offset);
@@ -32,7 +32,7 @@ class JellomatrixSplicedOffsetMatrix {
           $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
           $prime_splice_record = $prime_matrix[$i][$t]['spliced_count'];
           $count++;
-          $response_matrix[$i][$t]['spliced_count'] = $interval + ($response_matrix[$i][$t]['count']*$response_matrix[$i][$t]['column']);
+          $response_matrix[$i][$t]['spliced_count'] =  $interval + ($response_matrix[$i][$t]['count']*$response_matrix[$i][$t]['column']);
           $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column']+1;
           $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column']+1;
           $spliced_bt[$i][$count] = $response_matrix[$i][$t];
@@ -42,12 +42,12 @@ class JellomatrixSplicedOffsetMatrix {
         else {
           if (isset($response_splice_record)) {
             if (isset($prime_splice_record)) {
-              $prime_matrix[$i][$t]['spliced_count'] = $prime_splice_record + $interval;
+              $prime_matrix[$i][$t]['spliced_count'] =  $prime_splice_record + $interval;
               $prime_matrix[$i][$t]['column'] = ($prime_matrix[$i][$t]['column'] * 2) - 1;
               $prime_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'];
               $spliced_bt[$i][$count] = $prime_matrix[$i][$t];
               $count++;
-              $response_matrix[$i][$t]['spliced_count'] = $response_splice_record + $interval;
+              $response_matrix[$i][$t]['spliced_count'] =  $response_splice_record + $interval;
               $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column'] + 1;
               $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'] + 1;
               $spliced_bt[$i][$count] = $response_matrix[$i][$t];

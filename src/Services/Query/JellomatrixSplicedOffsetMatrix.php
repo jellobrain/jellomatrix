@@ -1,27 +1,30 @@
 <?php
 
-namespace Drupal\jellomatrix;
+namespace Drupal\jellomatrix\Services\Query;
 
 /**
- * Description of JellomatrixSplicedMatrix
+ * Description of JellomatrixSplicedOffsetMatrix
  *
  * @author eleven11
  */
-class JellomatrixSplicedMatrix {
+class JellomatrixSplicedOffsetMatrix {
   /**
-   * Returns the Spliced Matrix.
-   * name: jellomatrix_spliced_matrix
+   * Returns the Spliced Offset Matrix.
+   * name: jellomatrix_spliced_offset_matrix
    * @param $prime_matrix
    * @param $response_matrix
    * @param $tone
    * @param $interval
+   * @param $offset
    * @return array = array()
    *
    * @internal param $ = $prime_matrix, $prime_reversed
    */
-  public function getSplicedMatrix($prime_matrix, $response_matrix, $tone, $interval) {
+  public function getSplicedOffsetMatrix($prime_matrix, $response_matrix, $tone, $interval, $offset) {
     $spliced_bt = array();
-    for ($i = 1; $i <= $interval; $i++) {
+
+    $intoff = $interval - abs($offset);
+    for ($i = 1; $i <= $intoff; $i++) {
       $count = 1;
       for ($t = 1; $t <= $tone; $t++) {
         if ($prime_matrix[$i][$t]['count'] == 1) {
@@ -36,7 +39,7 @@ class JellomatrixSplicedMatrix {
           $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
           $count++;
         }
-        else { //BOOKMARK
+        else {
           if (isset($response_splice_record)) {
             if (isset($prime_splice_record)) {
               $prime_matrix[$i][$t]['spliced_count'] = $prime_splice_record + $interval;
@@ -46,7 +49,7 @@ class JellomatrixSplicedMatrix {
               $count++;
               $response_matrix[$i][$t]['spliced_count'] = $response_splice_record + $interval;
               $response_matrix[$i][$t]['column'] = $prime_matrix[$i][$t]['column'] + 1;
-              $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column']+1;
+              $response_matrix[$i][$t]['grid_x'] = $prime_matrix[$i][$t]['column'] + 1;
               $spliced_bt[$i][$count] = $response_matrix[$i][$t];
               $response_splice_record = $response_matrix[$i][$t]['spliced_count'];
               $count++;

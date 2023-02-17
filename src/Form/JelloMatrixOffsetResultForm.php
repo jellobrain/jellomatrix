@@ -10,19 +10,30 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-//use Drupal\jellomatrix\JellomatrixGetColors;
-//use Drupal\jellomatrix\JellomatrixHarmonics;
-//use Drupal\jellomatrix\JellomatrixIncrementsDerivative;
-//use Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative;
-//use Drupal\jellomatrix\JellomatrixIncrementsOriginal;
-//use Drupal\jellomatrix\JellomatrixPrimeOffsetMatrix;
-//use Drupal\jellomatrix\JellomatrixResponseOffsetMatrix;
-//use Drupal\jellomatrix\JellomatrixSplicedOffsetMatrix;
-//use Drupal\jellomatrix\JellomatrixWaveDetection;
-//use Drupal\jellomatrix\JellomatrixWavePreparation;
-//use Drupal\jellomatrix\JellomatrixGenerateSoundFiles;
-//use Drupal\jellomatrix\JellomatrixCircleGrids;
-//use Drupal\jellomatrix\JellomatrixPrimes;
+//use Drupal\jellomatrix\Services\Query\JellomatrixGetColors;
+//use Drupal\jellomatrix\Services\Query\JellomatrixHarmonics;
+//use Drupal\jellomatrix\Services\Query\JellomatrixIncrementsDerivative;
+//use Drupal\jellomatrix\Services\Query\JellomatrixIncrementsPrimeDerivative;
+//use Drupal\jellomatrix\Services\Query\JellomatrixIncrementsOriginal;
+//use Drupal\jellomatrix\Services\Query\JellomatrixPrimeOffsetMatrix;
+//use Drupal\jellomatrix\Services\Query\JellomatrixResponseOffsetMatrix;
+//use Drupal\jellomatrix\Services\Query\JellomatrixSplicedOffsetMatrix;
+//use Drupal\jellomatrix\Services\Query\JellomatrixWaveDetection;
+//use Drupal\jellomatrix\Services\Query\JellomatrixWavePreparation;
+//use Drupal\jellomatrix\Services\Query\JellomatrixGenerateSoundFiles;
+//use Drupal\jellomatrix\Services\Query\JellomatrixCircleGrids;
+//use Drupal\jellomatrix\Services\Query\JellomatrixPrimes;
+//use Drupal\jellomatrix\Services\Display\GridPrimeMatrix
+//use Drupal\jellomatrix\Services\Display\GridSplicedMatrix
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativeEvenOdd
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativeHarmonics
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativePrimes
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivatives
+//use Drupal\jellomatrix\Services\Display\GridSplicedEvenOdd
+//use Drupal\jellomatrix\Services\Display\GridSplicedHarmonics
+//use Drupal\jellomatrix\Services\Display\GridSplicedPrimes
+//use Drupal\jellomatrix\Services\Display\GridSplicedScalePatterns
+//use Drupal\jellomatrix\Services\Display\GridSplicedWaveForms
 
 class JelloMatrixOffsetResultForm extends FormBase {
   
@@ -32,76 +43,130 @@ class JelloMatrixOffsetResultForm extends FormBase {
   protected $account;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixGetColors
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixGetColors
    */
   protected $get_colors;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixHarmonics
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixHarmonics
    */
   protected $harmonics;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixIncrementsDerivative
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixIncrementsDerivative
    */
   protected $increments_derivative;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixIncrementsPrimeDerivative
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixIncrementsPrimeDerivative
    */
   protected $increments_prime_derivative;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixIncrementsOriginal
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixIncrementsOriginal
    */
   protected $increments_original;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixPrimeOffsetMatrix
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixPrimeOffsetMatrix
    */
   protected $prime_offset_matrix;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixResponseOffsetMatrix
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixResponseOffsetMatrix
    */
   protected $response_offset_matrix;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixSplicedOffsetMatrix
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixSplicedOffsetMatrix
    */
   protected $spliced_offset_matrix;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixWaveDetection
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixWaveDetection
    */
   protected $wave_detection;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixWavePreparation
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixWavePreparation
    */
   protected $wave_preparation;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixGenerateSoundFiles
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixGenerateSoundFiles
    */
   protected $sound_files;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixCircleGrids
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixCircleGrids
    */
   protected $circle_grids;
   
   /**
-   * @var \Drupal\jellomatrix\JellomatrixCircleGrids
+   * @var \Drupal\jellomatrix\Services\Query\JellomatrixPrimes
    */
   protected $primes;
-
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridPrimeMatrix
+   */
+  protected $grid_prime_matrix;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedMatrix
+   */
+  protected $grid_spliced_matrix;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedDerivativeEvenOdd
+   */
+  protected $grid_spliced_derivative_even_odd;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedDerivativeHarmonics
+   */
+  protected $grid_spliced_derivative_harmonics;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedDerivativePrimes
+   */
+  protected $grid_spliced_derivative_primes;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedDerivatives
+   */
+  protected $grid_spliced_derivatives;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedEvenOdd
+   */
+  protected $grid_spliced_even_odd;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedHarmonics
+   */
+  protected $grid_spliced_harmonics;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedPrimes
+   */
+  protected $grid_spliced_primes;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedScalePatterns
+   */
+  protected $grid_spliced_scale_patterns;
+  
+  /**
+   * @var \Drupal\jellomatrix\Services\Display\GridSplicedWaveForms
+   */
+  protected $grid_spliced_wave_forms;
 
 
   /**
    * @param \Drupal\Core\Session\AccountInterface $account
    */
-  public function __construct(AccountInterface $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids, $primes) {
+  public function __construct(AccountInterface $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids, $primes, $grid_prime_matrix, $grid_spliced_matrix, $grid_spliced_derivative_even_odd, $grid_spliced_derivative_harmonics, $grid_spliced_derivative_primes, $grid_spliced_derivatives, $grid_spliced_even_odd, $grid_spliced_harmonics, $grid_spliced_primes, $grid_spliced_scale_patterns, $grid_spliced_wave_forms) {
     $this->account = $account;
     $this->get_colors = $get_colors;
     $this->harmonics = $harmonics;
@@ -116,13 +181,24 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $this->sound_files = $sound_files;
     $this->circle_grids = $circle_grids;
     $this->primes = $primes;
+    $this->grid_prime_matrix = $grid_prime_matrix;
+    $this->grid_spliced_matrix = $grid_spliced_matrix;
+    $this->grid_spliced_derivative_even_odd = $grid_spliced_derivative_even_odd;
+    $this->grid_spliced_derivative_harmonics = $grid_spliced_derivative_harmonics;
+    $this->grid_spliced_derivative_primes = $grid_spliced_derivative_primes;
+    $this->grid_spliced_derivatives = $grid_spliced_derivatives;
+    $this->grid_spliced_even_odd = $grid_spliced_even_odd;
+    $this->grid_spliced_harmonics = $grid_spliced_harmonics;
+    $this->grid_spliced_primes = $grid_spliced_primes;
+    $this->grid_spliced_scale_patterns = $grid_spliced_scale_patterns;
+    $this->grid_spliced_wave_forms = $grid_spliced_wave_forms;
+    
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    // Instantiates this form class.
     // Load the service required to construct this class.
     $account = $container->get('current_user');
     $get_colors = $container->get('jellomatrix.jellomatrix_get_colors');
@@ -138,8 +214,20 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $sound_files = $container->get('jellomatrix.jellomatrix_generate_sound_files');
     $circle_grids = $container->get('jellomatrix.jellomatrix_circle_grids');
     $primes = $container->get('jellomatrix.jellomatrix_primes');
+    $grid_prime_matrix = $container->get('jellomatrix.grid_prime_matrix');
+    $grid_spliced_matrix = $container->get('jellomatrix.grid_spliced_matrix');
+    $grid_spliced_derivative_even_odd = $container->get('jellomatrix.grid_spliced_derivative_even_odd');
+    $grid_spliced_derivative_harmonics = $container->get('jellomatrix.grid_spliced_derivative_harmonics');
+    $grid_spliced_derivative_primes = $container->get('jellomatrix.grid_spliced_derivative_primes');
+    $grid_spliced_derivatives = $container->get('jellomatrix.grid_spliced_derivatives');
+    $grid_spliced_even_odd = $container->get('jellomatrix.grid_spliced_even_odd');
+    $grid_spliced_harmonics = $container->get('jellomatrix.grid_spliced_harmonics');
+    $grid_spliced_primes = $container->get('jellomatrix.grid_spliced_primes');
+    $grid_spliced_scale_patterns = $container->get('jellomatrix.grid_spliced_scale_patterns');
+    $grid_spliced_wave_forms = $container->get('jellomatrix.grid_spliced_wave_forms');
+    
     return new static(
-        $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids, $primes
+        $account, $get_colors, $harmonics, $increments_derivative, $increments_prime_derivative, $increments_original, $prime_offset_matrix, $response_offset_matrix, $spliced_offset_matrix, $wave_detection, $wave_preparation, $sound_files, $circle_grids, $primes, $grid_prime_matrix, $grid_spliced_matrix, $grid_spliced_derivative_even_odd, $grid_spliced_derivative_harmonics, $grid_spliced_derivative_primes, $grid_spliced_derivatives, $grid_spliced_even_odd, $grid_spliced_harmonics, $grid_spliced_primes, $grid_spliced_scale_patterns, $grid_spliced_wave_forms
     );
   }
   
@@ -163,6 +251,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     if(!isset($print)) {
       $print = 'none';
     }
+
     $form['description'] = array(
       '#type' => 'markup',
       '#title' => t('Orientation'),
@@ -216,7 +305,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
       '#value' => t('Submit'),
     );
 
-    //This function does not know how to deal yet with tones that are larger than intervals.
+    // This function does not know how to deal yet with tones that are larger than intervals.
     if ($tone > $interval) {
       $i = $interval;
       $t = $tone;
@@ -285,14 +374,14 @@ class JelloMatrixOffsetResultForm extends FormBase {
   
     $spliced_matrix_saved = $spliced_matrix;
     $spliced_matrix_reversed_saved = $spliced_matrix_reversed;
-  
-    // Now we create the first original matrix grid.
+
+  	// Now we create the first original matrix grid.
     $output = '';
+    $output .= $this->grid_prime_matrix->getGridPrimeMatrix($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
+    $output .= $this->grid_spliced_matrix->getGridSplicedMatrix($spliced_matrix, $primes, $tone, $interval);
+    $output .= $this->grid_spliced_primes->getGridSplicedPrimes($spliced_matrix, $primes, $tone, $interval);
+    $output .= $this->grid_spliced_even_odd->getGridSplicedEvenOdd($spliced_matrix, $tone, $interval);
     
-    $output .= jellomatrix_output_basegrid($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
-    $output .= jellomatrix_output_splicegrid_basic($spliced_matrix, $primes, $tone, $interval);
-    $output .= jellomatrix_output_splicegrid_primes($spliced_matrix, $primes, $tone, $interval);
-    $output .= jellomatrix_output_splicegrid_evenodd($spliced_matrix, $primes, $tone, $interval);
   
     unset($spliced_matrix);
     unset($spliced_matrix_reversed);
@@ -305,16 +394,15 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $scale = $scales['h'];
     
     if (!empty($spliced_matrix)) {
-      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/));
+      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale));
     }
-
-    
+    $boolean = 'yes';
     if (isset($hscaled)) {
-      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'yes', $hscaled);
+      $output .= $this->grid_spliced_wave_forms->getGridSplicedWaveForms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean, $scaled);
     }
     
     if (!empty($scale_increments) && isset($scaled)) {
-      $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $scaled, $primes, $tone, $interval);
+      $output .= $this->grid_spliced_scale_patterns->getGridSplicedScalePatterns($scale_increments, $scaled, $primes, $tone, $interval);
     }
     if (isset($wavelength_calculation)) {
       $output .= $wavelength_calculation;
@@ -330,17 +418,17 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'f';
     unset($scale);
     $scale = $scales['f'];
-    if (!empty($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/))) {
-      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/));
+    if (!empty($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale))) {
+      extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale));
     }
 
-    
+   
     if (isset($fscaled)) {
-      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $fscaled);
+      $output .= $this->grid_spliced_wave_forms->getGridSplicedWaveForms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'no', $fscaled);
     }
 
     if (!empty($scale_increments) && isset($fscaled)) {
-      $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $fscaled, $primes, $tone, $interval);
+      $output .= $this->grid_spliced_scale_patterns->getGridSplicedScalePatterns($scale_increments, $fscaled, $primes, $tone, $interval);
     }
     if (isset($wavelength_calculation)) {
       $output .= $wavelength_calculation;
@@ -356,27 +444,27 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $dir = 'b';
     unset($scale);
     $scale = $scales['b'];
-    
+
     if (!empty($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/))) {
       extract($this->wave_detection->getWaveDetection($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $scale/*, scales*/));
     }
     
     if (isset($bscaled)) {
-      $output .= jellomatrix_output_splicegrid_waveforms($spliced_matrix, $spliced_matrix_reversed, $primes, $tone, $interval, $boolean = 'no', $bscaled);
+      $output .= $this->grid_spliced_wave_forms->getGridSplicedWaveForms($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean = 'no', $bscaled);
     }
     
     if (!empty($scale_increments) && isset($bscaled)) {
-      $output .= jellomatrix_output_splicegrid_scalepattern($scale_increments, $bscaled, $primes, $tone, $interval);
+      $output .= $this->grid_spliced_scale_patterns->getGridSplicedScalePatterns($scale_increments, $bscaled, $primes, $tone, $interval);
     }
     if (isset($wavelength_calculation)) {
       $output .= $wavelength_calculation;
     }
   
-    $output .= jellomatrix_output_splicegrid_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
-    $output .= jellomatrix_output_splicegrid_derivative_harmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
-    //$output .= jellomatrix_output_splicegrid_derivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print);
-    //$output .= jellomatrix_output_splicegrid_derivative_oddeven($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
-    //$output .= jellomatrix_output_splicegrid_derivative_primes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    $output .= $this->grid_spliced_harmonics->getGridSplicedHarmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
+    $output .= $this->grid_spliced_derivative_harmonics->getGridSplicedDerivativeHarmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
+    //$output .= $this->grid_spliced_derivativess->getGridSplicedDerivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    //$output .= $this->grid_spliced_derivative_even_odd->getGridSplicedDerivativeEvenOdd($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
+    //$output .= $this->grid_spliced_derivative_primes->getGridSplicedDerivativePrimes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     $output .= '</div>';
 
 

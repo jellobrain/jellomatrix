@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\jellomatrix;
+namespace Drupal\jellomatrix\Services\Query;
 
 /**
  * Description of JellomatrixWaveDetection
