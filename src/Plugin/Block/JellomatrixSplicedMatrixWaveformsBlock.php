@@ -31,13 +31,8 @@ class JellomatrixSplicedMatrixWaveformsBlock extends BlockBase {
    *
    * @see \Drupal\block\BlockBase::__construct()
    */
-  public function defaultConfiguration($spliced_matrix, $tone, $interval, $boolean, $scaled/*, $scales*/) {
-    // Place block output here //
-    $intro = '';
-    $output = '';
-    $append = '';
-    
-    $intro .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
+  public function defaultConfiguration($spliced_matrix, $spliced_matrix_reversed, $tone, $interval, $boolean, $scaled) {
+    $output .= '<div class="begintext"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Jellomatrix</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.jellobrain.com" property="cc:attributionName" rel="cc:attributionURL">Ana Willem</a> is licensed since 2007 under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://www.jellobrain.com" rel="dct:source">https://www.jellobrain.com</a>.</p></div><hr class="hr">';
     if (!empty($spliced_matrix_reversed)) {
       foreach ($spliced_matrix_reversed as $spliced_row_reversed) {
         foreach ($spliced_row_reversed as $item) {
@@ -236,6 +231,16 @@ class JellomatrixSplicedMatrixWaveformsBlock extends BlockBase {
       $output .= $output_odd;
       unset($oddgrid);
     }
+    // TODO: https://api.drupal.org/api/drupal/core%21modules%21views%21src%21Plugin%21views%21area%21Text.php/function/Text%3A%3Arender/8.7.x
+    // return render($output);
+    $outputt = [];
+    $outputt = [
+      '#type' => 'processed_text',
+      '#text' => $output,
+      '#format' => 'full_html',
+    ];
+    //return render($outputt);
+    return $output;
     
     return [
       'jellomatrix_intro_string' => $intro,
