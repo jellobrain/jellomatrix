@@ -27,7 +27,10 @@ class GridSplicedEvenOdd {
       foreach ($spliced_matrix as $spliced_row) {
         foreach ($spliced_row as $item) {
           if ($item['row'] == $i) {
-            $prime = jellomatrix_primes($tone);
+            # BOOKMARK: STATIC SERVICE
+            $service = \Drupal::service('jellomatrix.jellomatrix_primes');
+            $prime = $service->getPrimes($tone);
+            #$prime = jellomatrix_primes($tone);
             if (($item['column'])%2 == 0) {
               $item['color'] = 'green-text';
             }

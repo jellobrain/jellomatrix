@@ -51,6 +51,8 @@ class GridSplicedWaveForms {
       $spliced_matrix = $spliced_matrix_reversed;
       $output .= '<p><br/></p><h2>Prime Series of Matrix is Reversed Only</h2>';
     }
+    
+    $service = \Drupal::service('jellomatrix.jellomatrix_primes');
 
     if ($boolean == 'yes') {
       // And then we create the spliced matrix grid using wave indicators for coloring
@@ -62,7 +64,9 @@ class GridSplicedWaveForms {
         foreach ($spliced_matrix as $spliced_row) {
           foreach ($spliced_row as $item) {
             if (!empty($item['row']) && $item['row'] == $i) {
-              $prime = jellomatrix_primes($tone);
+            # BOOKMARK: STATIC SERVICE
+              $prime = $service->getPrimes($tone);
+              #$prime = jellomatrix_primes($tone);
               if (($item['column']) % 2 == 0) {
                 $item['color'] = 'green-text';
               }
@@ -102,7 +106,9 @@ class GridSplicedWaveForms {
       foreach ($spliced_matrix as $spliced_row) {
         foreach ($spliced_row as $item) {
           if (!empty($item['row']) && $item['row'] == $i) {
-            $prime = jellomatrix_primes($tone);
+            # BOOKMARK: STATIC SERVICE
+              $prime = $service->getPrimes($tone);
+              #$prime = jellomatrix_primes($tone);
             if (($item['column'])%2 == 0) {
               $item['color'] = 'green-text';
             }
@@ -166,7 +172,9 @@ class GridSplicedWaveForms {
       foreach ($spliced_matrix as $spliced_row) {
         foreach ($spliced_row as $item) {
           if (!empty($item['row']) && $item['row'] == $i) {
-            $prime = jellomatrix_primes($tone);
+            # BOOKMARK: STATIC SERVICE
+            $prime = $service->getPrimes($tone);
+            #$prime = jellomatrix_primes($tone);
             if (($item['column'])%2 == 0) {
               $item['color'] = 'green-text';
             }

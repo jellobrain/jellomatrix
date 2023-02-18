@@ -1142,7 +1142,10 @@ class GridSplicedHarmonics {
 
     if (!empty($note_assembly)) {
       if (isset($print) && $print != 'none') {
-        jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency, $print);
+            # BOOKMARK: STATIC SERVICE
+        $service = \Drupal::service('jellomatrix.jellomatrix_generate_sound_files');
+        $service->getSoundFiles($note_assembly, $tone, $interval, $frequency, $print);
+        #jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency, $print);
       }
     }
 
