@@ -855,7 +855,7 @@ class JellomatrixGenerateSoundFiles {
 
       $combined_wav_data = $this->joinWaves($fileHandles, $frequency);
 
-      $path = 'sites/default/files/rife_complete_base_' . $frequency . '.wav';
+      $path = DRUPAL_ROOT . '/sites/default/files/rife_complete_base_' . $frequency . '.wav';
       $handle = fopen($path, "wb");
       fwrite($handle, $combined_wav_data);
       fclose($handle);
@@ -868,37 +868,37 @@ class JellomatrixGenerateSoundFiles {
      */
      if ($print == 2) {
 
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav')) {
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav')) {
         $r_set = [];
-        $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
-        $r_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
+        $r_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
+        $r_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
         $r = $this->joinWaves($r_set, $frequency);
 
-        $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
         fwrite($pathHandle,$r);
         fclose($pathHandle);
       }
 
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav')) {
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav')) {
         $rl_set = [];
-        $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
-        $rl_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
+        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
+        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
         $rl = $this->joinWaves($rl_set, $frequency);
 
-        $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
         fwrite($pathHandle,$rl);
         fclose($pathHandle);
       }
 
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
         $lr_set = [];
-        $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
-        $lr_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
+        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
+        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
         $lr = $this->joinWaves($lr_set, $frequency);
 
-        $path = 'sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
         fwrite($pathHandle,$lr);
         fclose($pathHandle);
@@ -907,28 +907,28 @@ class JellomatrixGenerateSoundFiles {
     if ($print == 3) {
       $c_set = [];
 
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
       }
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
       }
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
       }
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
       }
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
       }
-      if (file_exists('/home/anawil2/jellobrain.com/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = '/home/anawil2/jellobrain.com/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
       }
 
       $c = $this->joinWaves($c_set, $frequency);
 
-      $path = 'sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
+      $path = DRUPAL_ROOT . '/sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
       fwrite($pathHandle,$c);
       fclose($pathHandle);
