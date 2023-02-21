@@ -31,16 +31,16 @@ class JellomatrixGenerateSoundFiles {
       /*
        * JOINWAVS
        */
-//      $print_array['forward'] = $note_assembly['forward'];
-//      $print_array['backward'] = $note_assembly['backward'];
+      $print_array['forward'] = $note_assembly['forward'];
+      $print_array['backward'] = $note_assembly['backward'];
     }
     if($print == 3) {
       $prints_array['complete'] = $note_assembly['complete'];
       /*
        * JOINWAVS
        */
-//      $print_array['forward'] = $note_assembly['forward'];
-//      $print_array['backward'] = $note_assembly['backward'];
+      $print_array['forward'] = $note_assembly['forward'];
+      $print_array['backward'] = $note_assembly['backward'];
     }
 
     if (!empty($prints_array)) {
@@ -94,12 +94,12 @@ class JellomatrixGenerateSoundFiles {
         if (isset($directions)) {
           foreach ($directions as $direction => $collection) {
 
-            if ($channels == 1) {
+            #if ($channels == 1) {
 
               foreach ($collection as $freqs) {
 
                 //Path to output file
-                $filePath = DRUPAL_ROOT . '/sites/default/files/' . $ke . '_' . $tone . '_' . $interval . $direction . $frequency . '.wav';
+                $filePath = DRUPAL_ROOT . '/sites/default/files/' . $ke . '_' . $tone . '_' . $interval . '_' . $direction . '_' . $frequency . '.wav';
 
                 //Open a handle to our file in write mode, truncate the file if it exists
                 $fileHandle = fopen($filePath, 'wb');
@@ -278,12 +278,12 @@ class JellomatrixGenerateSoundFiles {
                 fclose($fileHandle);
 
               }
-            }
+            #}
             // BOOKMARK set this to one to test again
-            /*if ($channels > 1) {
+            if ($channels > 1) {
 
               //Path to output file
-              $filePath = DRUPAL_ROOT . '/sites/default/files/' . $ke . '_' . $tone . '_' . $interval . $direction . $frequency . '.wav';
+              $filePath = DRUPAL_ROOT . '/sites/default/files/' . $ke . '_' . $tone . '_' . $interval . '_' . $direction . '_' . $frequency . '.wav';
 
               //Open a handle to our file in write mode, truncate the file if it exists
               $fileHandle = fopen($filePath, 'wb');
@@ -291,8 +291,8 @@ class JellomatrixGenerateSoundFiles {
                   throw new RuntimeException('Unable to open log file for writing');
               }
 
-              /* JOINWAV
-               $channels = 1; //Mono
+              /* JOINWAV */
+               #$channels = 1; //Mono
 
               $chunksize = 16;
               $bitDepth = 8; //8bit
@@ -307,7 +307,7 @@ class JellomatrixGenerateSoundFiles {
                 /*
                  * Header chunk
                  * dwFileLength will be calculated at the end, based upon the length of the audio data
-                 *
+                 */
                 $header = [
                   'sGroupID' => 'RIFF',
                   'dwFileLength' => 0,
@@ -316,7 +316,7 @@ class JellomatrixGenerateSoundFiles {
 
                 /*
                  * Format chunk
-                 *
+                 */
                 $subChunkSize = 4;
                 $subChunkIDSize = 4;
                 $subChunk = 4;
@@ -342,7 +342,7 @@ class JellomatrixGenerateSoundFiles {
                 /*
                  * Map all fields to pack flags
                  * WAV format uses little-endian byte order
-                 *
+                 */
                 $fieldFormatMap = [
                   'sGroupID' => 'A4',
                   'dwFileLength' => 'V',
@@ -366,7 +366,7 @@ class JellomatrixGenerateSoundFiles {
                 /*
                  * Header chunk
                  * dwFileLength will be calculated at the end, based upon the length of the audio data
-                 *
+                 */
                 $header = [
                   'sGroupID' => 'RIFF',
                   'dwFileLength' => 0,
@@ -375,7 +375,7 @@ class JellomatrixGenerateSoundFiles {
 
                 /*
                  * Format chunk
-                 *
+                 */
                 $subChunkSize = 4;
                 $subChunkIDSize = 4;
                 $subChunk = 4;
@@ -413,7 +413,7 @@ class JellomatrixGenerateSoundFiles {
                 /*
                  * Map all fields to pack flags
                  * WAV format uses little-endian byte order
-                 *
+                 */
                 $fieldFormatMap = [
                   'sGroupID' => 'A4',
                   'dwFileLength' => 'V',
@@ -449,7 +449,7 @@ class JellomatrixGenerateSoundFiles {
               /*
                * Pack and write our values
                * Keep track of how many bytes we write so we can update the dwFileLength in the header
-               *
+               */
               $dwFileLength = 0;
               foreach ($header as $currKey => $currValue) {
                 if (!array_key_exists($currKey, $fieldFormatMap)) {
@@ -478,7 +478,7 @@ class JellomatrixGenerateSoundFiles {
                * Set up our data chunk
                * As we write data, the dwChunkSize in this struct will be updated, be sure to pack and overwrite
                * after audio data has been written
-               *
+               */
               $dataChunk = [
                 'sGroupID' => 'data',
                 'dwChunkSize' => 0
@@ -495,7 +495,7 @@ class JellomatrixGenerateSoundFiles {
               
               /*
                8-bit audio: -128 to 127 (because of 2’s complement)
-               *
+               */
               $maxAmplitude = 127;
 
               //Loop through input
@@ -522,12 +522,12 @@ class JellomatrixGenerateSoundFiles {
                     /*
                      * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
                      * 1000/$sampleRate
-                     *
+                     */
                     $timeIncrement = 1000 / $sampleRate;
 
                     /*
                      * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-                     *
+                     */
                     if ($currHz == 0) {
                       $currHz = .00001;
                     }
@@ -563,7 +563,7 @@ class JellomatrixGenerateSoundFiles {
 
                     /*
                      * Run the sine function until we have written all the samples to fill the current note time
-                     *
+                     */
                     $elapsed = 0;
 
                     $x = 0;
@@ -578,19 +578,23 @@ class JellomatrixGenerateSoundFiles {
                         /*
                          * The sine wave math
                          * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-                         *
+                         */
 
-                        $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+                        $currAmplitude1 = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
                         $currAmplitude2 = ($maxAmplitude) - number_format(sin(deg2rad($x2)) * ($maxAmplitude * .95));
-
+                        #$currentAmplitude = $currAmplitude1 . $currAmplitude2;
+                        
                         //Increment our position in the wave
                         $x += $waveIncrement;
                         $x2 += $waveIncrement2;
 
                         //Write the sample and increment our byte counts
                         // BOOKMARK ERROR HERE
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
+                        if (($fileHandle = fopen($filePath, "a")) !== false) {
+                          #$currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                          $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude1));
+                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude2));
+                        }
 
                         $dataChunk['dwChunkSize'] += $currBytesWritten;
 
@@ -606,15 +610,15 @@ class JellomatrixGenerateSoundFiles {
                         /*
                          * The sine wave math
                          * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
-                         *
+                         */
 
-                        $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+                        $currAmplitude1 = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
                         $currAmplitude2 = ($maxAmplitude) - number_format(sin(deg2rad($x2)) * ($maxAmplitude * .95));
                         $currAmplitude3 = ($maxAmplitude) - number_format(sin(deg2rad($x3)) * ($maxAmplitude * .95));
                         $currAmplitude4 = ($maxAmplitude) - number_format(sin(deg2rad($x4)) * ($maxAmplitude * .95));
                         $currAmplitude5 = ($maxAmplitude) - number_format(sin(deg2rad($x5)) * ($maxAmplitude * .95));
                         $currAmplitude6 = ($maxAmplitude) - number_format(sin(deg2rad($x6)) * ($maxAmplitude * .95));
-
+                        #$currAmplitude = $currAmplitude1 . $currAmplitude2 . $currAmplitude3 . $currAmplitude4 . $currAmplitude5 . $currAmplitude6;
                         //Increment our position in the wave
                         $x += $waveIncrement;
                         $x2 += $waveIncrement2;
@@ -625,12 +629,13 @@ class JellomatrixGenerateSoundFiles {
 
                         //Write the sample and increment our byte counts
                         // BOOKMARK ERROR HERE
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude2));
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude3));
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude4));
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude5));
-                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude6));
+                        #$currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                        $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude1));
+                        $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude2));
+                        $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude3));
+                        $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude4));
+                        $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude5));
+                        $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude6));
 
                         $dataChunk['dwChunkSize'] += $currBytesWritten;
 
@@ -647,7 +652,7 @@ class JellomatrixGenerateSoundFiles {
                   /*
                    * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
                    * sGroupID and sRiffType fields in the header.
-                   *
+                   */
                   fseek($fileHandle, 4);
                   fwrite($fileHandle, pack($fieldFormatMap['dwFileLength'], ($dwFileLength - 8)));
 
@@ -659,7 +664,7 @@ class JellomatrixGenerateSoundFiles {
 
                 }
               }
-            }*/
+            }
           }
         }
       }
@@ -909,13 +914,13 @@ class JellomatrixGenerateSoundFiles {
      */
      if ($print == 2) {
 
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav')) {
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
         $r_set = [];
-        $r_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
-        $r_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
+        $r_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
+        $r_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
         $r = $this->joinWaves($r_set, $frequency);
 
-        $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
         //dpm($pathHandle);
         if (false === $pathHandle) {
@@ -927,13 +932,13 @@ class JellomatrixGenerateSoundFiles {
         fclose($pathHandle);
       }
 
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav')) {
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
         $rl_set = [];
-        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
-        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
+        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' .  $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
+        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
         $rl = $this->joinWaves($rl_set, $frequency);
 
-        $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
         if (false === $pathHandle) {
             throw new RuntimeException('Unable to open log file for writing');
@@ -944,13 +949,13 @@ class JellomatrixGenerateSoundFiles {
         fclose($pathHandle);
       }
 
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
         $lr_set = [];
-        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
-        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
+        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
+        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav';
         $lr = $this->joinWaves($lr_set, $frequency);
 
-        $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
         if (false === $pathHandle) {
             throw new RuntimeException('Unable to open log file for writing');
@@ -964,28 +969,28 @@ class JellomatrixGenerateSoundFiles {
     if ($print == 3) {
       $c_set = [];
 
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'r' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
       }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. $tone . '_' . $interval . 'rd' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
       }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'rl' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
       }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'rld' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
       }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
       }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . $tone . '_' . $interval . 'lr' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
       }
 
       $c = $this->joinWaves($c_set, $frequency);
 
-      $path = DRUPAL_ROOT . '/sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
+      $path = DRUPAL_ROOT . '/sites/default/files/complete' . '_' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
       if (false === $pathHandle) {
           throw new RuntimeException('Unable to open log file for writing');
@@ -1027,6 +1032,6 @@ class JellomatrixGenerateSoundFiles {
       $data .= fread($fp, $size);
       sleep(1);
     }
-    return $header . pack('V', strlen($data)) . $data;
+    return $header . pack('V', strlen($data)) . $data; //V
   }
 }
