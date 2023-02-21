@@ -876,6 +876,7 @@ class JellomatrixGenerateSoundFiles {
       }
       fwrite($handle, $combined_wav_data);
       sleep(3); 
+      chmod($path, 0777);
       fclose($handle);
 
 
@@ -900,6 +901,7 @@ class JellomatrixGenerateSoundFiles {
         }
         fwrite($pathHandle,$r);
         sleep(3); 
+        chmod($path, 0777);
         fclose($pathHandle);
       }
 
@@ -916,6 +918,7 @@ class JellomatrixGenerateSoundFiles {
         }
         fwrite($pathHandle,$rl);
         sleep(3); 
+        chmod($path, 0777);
         fclose($pathHandle);
       }
 
@@ -932,6 +935,7 @@ class JellomatrixGenerateSoundFiles {
         }
         fwrite($pathHandle,$lr);
         sleep(3); 
+        chmod($path, 0777);
         fclose($pathHandle);
       }
     }
@@ -966,6 +970,7 @@ class JellomatrixGenerateSoundFiles {
       }
       fwrite($pathHandle,$c);
       sleep(3); 
+      chmod($path, 0777);
       fclose($pathHandle);
     }
     
