@@ -1143,8 +1143,14 @@ class GridSplicedHarmonics {
     if (!empty($note_assembly)) {
       if (isset($print) && $print != 'none') {
             # BOOKMARK: STATIC SERVICE
-        $service = \Drupal::service('jellomatrix.jellomatrix_generate_sound_files');
-        $service->getSoundFiles($note_assembly, $tone, $interval, $frequency, $print);
+        /** @var \Drupal\jellomatrix\Services\Query\JellomatrixGenerateSoundFiles $sound_files */
+        $sound_files = \Drupal::service('jellomatrix.jellomatrix_generate_sound_files');
+        if (false === $sound_files) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
+        //dpm($print);
+        $sound_files->getSoundFiles($note_assembly, $tone, $interval, $frequency, $print);
+        #chmod(DRUPAL_ROOT . '/sites/default/files/*.wav', 777);
         #jellomatrix_generate_sound_files($note_assembly, $tone, $interval, $frequency, $print);
       }
     }

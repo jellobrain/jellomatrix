@@ -198,6 +198,7 @@ class JellomatrixWaveDetection {
                 foreach ($vertical_directions as $v_dir) {
                   //dpm('v ' . $v_dir . ' | p ' . $p);
                   for ($i = 1; $i <= $tone; $i++) {
+                    // BOOKMARK: Double WAves
                     //dpm('i ' . $i);
                     ////dpm('jump = ' . $i);
                     ///
@@ -213,6 +214,8 @@ class JellomatrixWaveDetection {
                     //dpm($current_position['pole_shift']);
                     if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == 2) {
                       $pole = 0;
+                      //BOOKMARK: SHOW MORE WAVES
+                      //$pole = 2;
                     }
                     if (isset($current_position['pole_shift']) && $current_position['pole_shift'] == 1) {
                       $pole = 1;
@@ -590,7 +593,7 @@ class JellomatrixWaveDetection {
 
                       //dpm($scale);
 
-                      /*$check = $tone;
+                      $check = $tone;
                       if(isset($current_position['scale']) && $current_position['scale'] == $check) {
                         if (isset($next_position['scale']) && $next_position['scale'] != $check - 1) {
                           $current_position['scale'] = 0;
@@ -599,7 +602,7 @@ class JellomatrixWaveDetection {
                           $current_position['scale'] = 0;
                           $next_position['scale'] = 0;
                         }
-                      }*/
+                      }
 
                                 //  YAY Test works
                       //dpm('<strong>TONE:</strong> jump ' . $i . ' direction ' . $v_dir . ' <strong>current ' . $current_position['tone'] . ' next ' . $next_position['tone'] . '</strong> nextA ' . $next_adjacent_position['tone'] . ' <strong>nextnext ' . $next_next_position['tone'] .  '</strong> nextnextAA ' . $next_next_adjacent_position['tone'] . ' <strong>nextnextnext ' . $next_next_next_position['tone'] .  '</strong> nextnextnextAAA ' . $next_next_next_adjacent_position['tone']);
@@ -1544,7 +1547,8 @@ class JellomatrixWaveDetection {
           }
         }
 
-        //dpm($wave_interactions);
+        // BOOKMARK:
+        // dpm($wave_interactions);
 
         /*if (isset($wave_interactions)) {
 
@@ -1641,6 +1645,8 @@ class JellomatrixWaveDetection {
       //unset($spliced_matrix);
       //unset($wavelength_calculation);
       //unset($scale_increments);
+      // BOOKMARK:
+      // dpm($wave_detection['scale_increments']);
       if (!empty($wave_detection)) {
         return $wave_detection;
       }

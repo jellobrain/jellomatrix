@@ -16,6 +16,9 @@ class JellomatrixGenerateSoundFiles {
    *
    **/
   public function getSoundFiles($note_assembly, $tone, $interval, $frequency, $print) {
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL);
+    
     //var_dump(debug_backtrace());
     $prints_array = [];
     $print_array =[];
@@ -39,7 +42,6 @@ class JellomatrixGenerateSoundFiles {
       $print_array['forward'] = $note_assembly['forward'];
       $print_array['backward'] = $note_assembly['backward'];
     }
-    //dpm($prints_array);
 
     if (!empty($prints_array)) {
       foreach ($prints_array as $ke => $directions) {
@@ -101,6 +103,10 @@ class JellomatrixGenerateSoundFiles {
 
                 //Open a handle to our file in write mode, truncate the file if it exists
                 $fileHandle = fopen($filePath, 'wb');
+                sleep(3); 
+                if (false === $fileHandle) {
+                    throw new RuntimeException('Unable to open log file for writing');
+                }
 
                 $chunksize = 16;
                 $bitDepth = 8; //8bit
@@ -195,7 +201,7 @@ class JellomatrixGenerateSoundFiles {
 
                 //Write our empty dwChunkSize field
                 $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-
+                
                 /*
                  8-bit audio: -128 to 127 (because of 2’s complement)
                  */
@@ -268,6 +274,7 @@ class JellomatrixGenerateSoundFiles {
                 //Seek to our dwChunkSize and overwrite it with our final value
                 fseek($fileHandle, $dataChunkSizePosition);
                 fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+                sleep(3); 
                 fclose($fileHandle);
 
               }
@@ -280,6 +287,9 @@ class JellomatrixGenerateSoundFiles {
 
               //Open a handle to our file in write mode, truncate the file if it exists
               $fileHandle = fopen($filePath, 'wb');
+              if (false === $fileHandle) {
+                  throw new RuntimeException('Unable to open log file for writing');
+              }
 
               /* JOINWAV
                $channels = 1; //Mono
@@ -476,13 +486,13 @@ class JellomatrixGenerateSoundFiles {
 
               //Write sGroupID
               $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
-
+              
               //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
               $dataChunkSizePosition = $dwFileLength;
 
               //Write our empty dwChunkSize field
               $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-
+              
               /*
                8-bit audio: -128 to 127 (because of 2’s complement)
                *
@@ -644,6 +654,7 @@ class JellomatrixGenerateSoundFiles {
                   //Seek to our dwChunkSize and overwrite it with our final value
                   fseek($fileHandle, $dataChunkSizePosition);
                   fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+                  sleep(3); 
                   fclose($fileHandle);
 
                 }
@@ -653,7 +664,6 @@ class JellomatrixGenerateSoundFiles {
         }
       }
     }
-
     if ($print == 4) {
       $fileHandles = [];
       $rife = [];
@@ -670,6 +680,9 @@ class JellomatrixGenerateSoundFiles {
 
         //Open a handle to our file in write mode, truncate the file if it exists
         $fileHandle = fopen($filePath, 'wb');
+        if (false === $fileHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
         $channels = 1;
         $chunksize = 16;
         $bitDepth = 8; //8bit
@@ -758,13 +771,13 @@ class JellomatrixGenerateSoundFiles {
 
         //Write sGroupID
         $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
-
+        
         //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
         $dataChunkSizePosition = $dwFileLength;
 
         //Write our empty dwChunkSize field
         $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-
+        
         /*
          8-bit audio: -128 to 127 (because of 2’s complement)
          */
@@ -834,6 +847,7 @@ class JellomatrixGenerateSoundFiles {
         //Seek to our dwChunkSize and overwrite it with our final value
         fseek($fileHandle, $dataChunkSizePosition);
         fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
+        sleep(3); 
         fclose($fileHandle);
 
         $fileHandles[] = $fileHandle;
@@ -857,7 +871,11 @@ class JellomatrixGenerateSoundFiles {
 
       $path = DRUPAL_ROOT . '/sites/default/files/rife_complete_base_' . $frequency . '.wav';
       $handle = fopen($path, "wb");
+      if (false === $handle) {
+          throw new RuntimeException('Unable to open log file for writing');
+      }
       fwrite($handle, $combined_wav_data);
+      sleep(3); 
       fclose($handle);
 
 
@@ -876,7 +894,12 @@ class JellomatrixGenerateSoundFiles {
 
         $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
+        //dpm($pathHandle);
+        if (false === $pathHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
         fwrite($pathHandle,$r);
+        sleep(3); 
         fclose($pathHandle);
       }
 
@@ -888,7 +911,11 @@ class JellomatrixGenerateSoundFiles {
 
         $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
+        if (false === $pathHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
         fwrite($pathHandle,$rl);
+        sleep(3); 
         fclose($pathHandle);
       }
 
@@ -900,7 +927,11 @@ class JellomatrixGenerateSoundFiles {
 
         $path = DRUPAL_ROOT . '/sites/default/files/pair' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
         $pathHandle = fopen($path, 'wb');
+        if (false === $pathHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
         fwrite($pathHandle,$lr);
+        sleep(3); 
         fclose($pathHandle);
       }
     }
@@ -930,7 +961,11 @@ class JellomatrixGenerateSoundFiles {
 
       $path = DRUPAL_ROOT . '/sites/default/files/complete' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
       $pathHandle = fopen($path, 'wb');
+      if (false === $pathHandle) {
+          throw new RuntimeException('Unable to open log file for writing');
+      }
       fwrite($pathHandle,$c);
+      sleep(3); 
       fclose($pathHandle);
     }
     
@@ -947,6 +982,9 @@ class JellomatrixGenerateSoundFiles {
     $data = '';
     foreach ($wavs as $wav) {
       $fp = fopen($wav, 'rb');
+      if (false === $fp) {
+          throw new RuntimeException('Unable to open log file for writing');
+      }
       $header = fread($fp, 36);
       $info = unpack($fields, $header);
 

@@ -1106,7 +1106,6 @@ class JellomatrixWavePreparation {
     }
     //dpm($bscale);
 
-
     $scales = array('h' => $hscale, 'f' => $fscale, 'b' => $bscale);
 
     //dpm($scales);

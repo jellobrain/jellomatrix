@@ -23,17 +23,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 //use Drupal\jellomatrix\Services\Query\JellomatrixGenerateSoundFiles;
 //use Drupal\jellomatrix\Services\Query\JellomatrixCircleGrids;
 //use Drupal\jellomatrix\Services\Query\JellomatrixPrimes;
-//use Drupal\jellomatrix\Services\Display\GridPrimeMatrix
-//use Drupal\jellomatrix\Services\Display\GridSplicedMatrix
-//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativeEvenOdd
-//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativeHarmonics
-//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativePrimes
-//use Drupal\jellomatrix\Services\Display\GridSplicedDerivatives
-//use Drupal\jellomatrix\Services\Display\GridSplicedEvenOdd
-//use Drupal\jellomatrix\Services\Display\GridSplicedHarmonics
-//use Drupal\jellomatrix\Services\Display\GridSplicedPrimes
-//use Drupal\jellomatrix\Services\Display\GridSplicedScalePatterns
-//use Drupal\jellomatrix\Services\Display\GridSplicedWaveForms
+//use Drupal\jellomatrix\Services\Display\GridPrimeMatrix;
+//use Drupal\jellomatrix\Services\Display\GridSplicedMatrix;
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativeEvenOdd;
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativeHarmonics;
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivativePrimes;
+//use Drupal\jellomatrix\Services\Display\GridSplicedDerivatives;
+//use Drupal\jellomatrix\Services\Display\GridSplicedEvenOdd;
+//use Drupal\jellomatrix\Services\Display\GridSplicedHarmonics;
+//use Drupal\jellomatrix\Services\Display\GridSplicedPrimes;
+//use Drupal\jellomatrix\Services\Display\GridSplicedScalePatterns;
+//use Drupal\jellomatrix\Services\Display\GridSplicedWaveForms;
 
 class JelloMatrixResultForm extends FormBase {
   
@@ -460,12 +460,14 @@ class JelloMatrixResultForm extends FormBase {
       $output .= $wavelength_calculation;
     }
   
-    $output .= $this->grid_spliced_harmonics->getGridSplicedHarmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
+    $print = \Drupal::request()->query->get('print');
+    $output .= $this->grid_spliced_harmonics->getGridSplicedHarmonics($increment_original, $harmonics, $tone, $interval, $frequency, $print);
     $output .= $this->grid_spliced_derivative_harmonics->getGridSplicedDerivativeHarmonics($increment_original, $harmonics, $primes, $tone, $interval, $frequency, $print);
     //$output .= $this->grid_spliced_derivativess->getGridSplicedDerivatives($increments, $primes, $tone, $interval, $harmonics, $frequency, $print);
     //$output .= $this->grid_spliced_derivative_even_odd->getGridSplicedDerivativeEvenOdd($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     //$output .= $this->grid_spliced_derivative_primes->getGridSplicedDerivativePrimes($increments_prime, $primes, $tone, $interval, $harmonics, $frequency, $print);
     $output .= '</div>';
+   
 
 
     $form['output'] = array(
