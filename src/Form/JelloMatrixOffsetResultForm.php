@@ -376,7 +376,7 @@ class JelloMatrixOffsetResultForm extends FormBase {
     $spliced_matrix_reversed_saved = $spliced_matrix_reversed;
 
   	// Now we create the first original matrix grid.
-    $output = '';
+    $output = '<hr><h4>Control Set:</h4><p><a class="button btn-primary btn" href="/jellomatrix/' . $tone . '/' . $interval . '/doubleflip/">Doublflip it.</a></p>';
     $output .= $this->grid_prime_matrix->getGridPrimeMatrix($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
     $output .= $this->grid_spliced_matrix->getGridSplicedMatrix($spliced_matrix, $primes, $tone, $interval);
     $output .= $this->grid_spliced_primes->getGridSplicedPrimes($spliced_matrix, $primes, $tone, $interval);
