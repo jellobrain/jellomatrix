@@ -664,20 +664,28 @@ class JellomatrixGenerateSoundFiles {
         }
       }
     }
-    if ($print == 4) {
+    if ($print == 4 || $print == 6) {
       $fileHandles = [];
       $rife = [];
       $rife[] = $frequency;
       $old_frequency = $frequency;
       for ($w = 0; $w <= 2; $w++) {
-        $new_frequency = (int) $old_frequency * 11;
+        if ($print == 4) {
+         $new_frequency = (int) $old_frequency * 11;
+        } else {
+         $new_frequency = (int) $old_frequency * 12;
+        }
         $rife[] = $new_frequency;
         $old_frequency = $new_frequency;
       }
       foreach ($rife as $eleventh_harmonic) {
         //Path to output file
-        $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base' . $frequency . 'eleventh_harmonic.wav';
-
+        if ($print == 4) {
+         $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base' . $frequency . 'eleventh_harmonic.wav';
+        } else {
+         $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base' . $frequency . 'twelvth_harmonic.wav';
+        }
+        
         //Open a handle to our file in write mode, truncate the file if it exists
         $fileHandle = fopen($filePath, 'wb');
         if (false === $fileHandle) {
@@ -853,23 +861,36 @@ class JellomatrixGenerateSoundFiles {
         $fileHandles[] = $fileHandle;
       }
     }
-    if ($print == 5) {
+    if ($print == 5 || $print == 7) {
       $fileHandles = [];
       $rife = [];
       $rife[] = $frequency;
       $old_frequency = $frequency;
       for ($w = 0; $w <= 2; $w++) {
+        if ($print == 5) {
+         $new_frequency = (int) $old_frequency * 11;
+        } else {
+         $new_frequency = (int) $old_frequency * 12;
+        }
         $new_frequency = (int) $old_frequency * 11;
         $rife[] = $new_frequency;
         $old_frequency = $new_frequency;
       }
       foreach ($rife as $eleventh) {
-        $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'eleventh_harmonic.wav';
+        if ($print == 5) {
+         $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'eleventh_harmonic.wav';
+        } else {
+         $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'twelvth_harmonic.wav';
+        }
       }
 
       $combined_wav_data = $this->joinWaves($fileHandles, $frequency);
-
-      $path = DRUPAL_ROOT . '/sites/default/files/rife_complete_base_' . $frequency . '.wav';
+      
+      if ($print == 5) {
+       $path = DRUPAL_ROOT . '/sites/default/files/rife_eleventh_complete_base_' . $frequency . '.wav';
+      } else {
+       $path = DRUPAL_ROOT . '/sites/default/files/rife_twelvth_complete_base_' . $frequency . '.wav';
+      }
       $handle = fopen($path, "wb");
       if (false === $handle) {
           throw new RuntimeException('Unable to open log file for writing');
@@ -878,8 +899,6 @@ class JellomatrixGenerateSoundFiles {
       sleep(3); 
       chmod($path, 0777);
       fclose($handle);
-
-
     }
 
     /*
