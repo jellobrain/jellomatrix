@@ -877,9 +877,9 @@ class JellomatrixGenerateSoundFiles {
       }
       foreach ($rife as $eleventh) {
         if ($print == 5) {
-         $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'eleventh_harmonic.wav';
+         $fileHandles[] = '/sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'eleventh_harmonic.wav';
         } else {
-         $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'twelvth_harmonic.wav';
+         $fileHandles[] = '/sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'twelvth_harmonic.wav';
         }
       }
 
