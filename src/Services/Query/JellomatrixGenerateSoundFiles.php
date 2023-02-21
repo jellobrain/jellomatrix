@@ -103,7 +103,7 @@ class JellomatrixGenerateSoundFiles {
 
                 //Open a handle to our file in write mode, truncate the file if it exists
                 $fileHandle = fopen($filePath, 'wb');
-                sleep(3); 
+                sleep(10); 
                 if (false === $fileHandle) {
                     throw new RuntimeException('Unable to open log file for writing');
                 }
@@ -274,7 +274,7 @@ class JellomatrixGenerateSoundFiles {
                 //Seek to our dwChunkSize and overwrite it with our final value
                 fseek($fileHandle, $dataChunkSizePosition);
                 fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-                sleep(3); 
+                sleep(10); 
                 fclose($fileHandle);
 
               }
@@ -654,7 +654,7 @@ class JellomatrixGenerateSoundFiles {
                   //Seek to our dwChunkSize and overwrite it with our final value
                   fseek($fileHandle, $dataChunkSizePosition);
                   fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-                  sleep(3); 
+                  sleep(10); 
                   fclose($fileHandle);
 
                 }
@@ -855,7 +855,7 @@ class JellomatrixGenerateSoundFiles {
         //Seek to our dwChunkSize and overwrite it with our final value
         fseek($fileHandle, $dataChunkSizePosition);
         fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-        sleep(3); 
+        sleep(10); 
         fclose($fileHandle);
 
         $fileHandles[] = $fileHandle;
@@ -899,7 +899,7 @@ class JellomatrixGenerateSoundFiles {
           throw new RuntimeException('Unable to open log file for writing');
       }
       fwrite($handle, $combined_wav_data);
-      sleep(3); 
+      sleep(10); 
       chmod($path, 0777);
       fclose($handle);
     }
@@ -922,7 +922,7 @@ class JellomatrixGenerateSoundFiles {
             throw new RuntimeException('Unable to open log file for writing');
         }
         fwrite($pathHandle,$r);
-        sleep(3); 
+        sleep(10); 
         chmod($path, 0777);
         fclose($pathHandle);
       }
@@ -939,7 +939,7 @@ class JellomatrixGenerateSoundFiles {
             throw new RuntimeException('Unable to open log file for writing');
         }
         fwrite($pathHandle,$rl);
-        sleep(3); 
+        sleep(10); 
         chmod($path, 0777);
         fclose($pathHandle);
       }
@@ -956,7 +956,7 @@ class JellomatrixGenerateSoundFiles {
             throw new RuntimeException('Unable to open log file for writing');
         }
         fwrite($pathHandle,$lr);
-        sleep(3); 
+        sleep(10); 
         chmod($path, 0777);
         fclose($pathHandle);
       }
@@ -991,7 +991,7 @@ class JellomatrixGenerateSoundFiles {
           throw new RuntimeException('Unable to open log file for writing');
       }
       fwrite($pathHandle,$c);
-      sleep(3); 
+      sleep(10); 
       chmod($path, 0777);
       fclose($pathHandle);
     }
@@ -1026,6 +1026,7 @@ class JellomatrixGenerateSoundFiles {
       // read data
       $data .= fread($fp, $size);
     }
+    sleep(10);
     return $header . pack('V', strlen($data)) . $data;
   }
 }
