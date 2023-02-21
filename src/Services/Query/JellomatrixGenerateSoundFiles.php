@@ -872,7 +872,6 @@ class JellomatrixGenerateSoundFiles {
         } else {
          $new_frequency = (int) $old_frequency * 12;
         }
-        $new_frequency = (int) $old_frequency * 11;
         $rife[] = $new_frequency;
         $old_frequency = $new_frequency;
       }
