@@ -681,9 +681,9 @@ class JellomatrixGenerateSoundFiles {
       foreach ($rife as $eleventh_harmonic) {
         //Path to output file
         if ($print == 4) {
-         $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base' . $frequency . 'eleventh_harmonic.wav';
+         $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base_' . $frequency . '_eleventh_harmonic.wav';
         } else {
-         $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base' . $frequency . 'twelvth_harmonic.wav';
+         $filePath = 'sites/default/files/rife_' . $eleventh_harmonic . '_base_' . $frequency . '_twelvth_harmonic.wav';
         }
         
         //Open a handle to our file in write mode, truncate the file if it exists
@@ -868,28 +868,32 @@ class JellomatrixGenerateSoundFiles {
       $old_frequency = $frequency;
       for ($w = 0; $w <= 2; $w++) {
         if ($print == 5) {
-         $new_frequency = (int) $old_frequency * 11;
+          $new_frequency = (int) $old_frequency * 11;
         } else {
-         $new_frequency = (int) $old_frequency * 12;
+          $new_frequency = (int) $old_frequency * 12;
         }
+        
         $rife[] = $new_frequency;
         $old_frequency = $new_frequency;
       }
+      
       foreach ($rife as $eleventh) {
         if ($print == 5) {
-         $fileHandles[] = '/sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'eleventh_harmonic.wav';
+          $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base_' . $frequency . '_eleventh_harmonic.wav';
         } else {
-         $fileHandles[] = '/sites/default/files/rife_' . $eleventh . '_base' . $frequency . 'twelvth_harmonic.wav';
+          $fileHandles[] = 'sites/default/files/rife_' . $eleventh . '_base_' . $frequency . '_twelvth_harmonic.wav';
         }
       }
-
+      
+      
       $combined_wav_data = $this->joinWaves($fileHandles, $frequency);
       
       if ($print == 5) {
-       $path = DRUPAL_ROOT . '/sites/default/files/rife_eleventh_complete_base_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/rife_eleventh_complete_base_' . $frequency . '.wav';
       } else {
-       $path = DRUPAL_ROOT . '/sites/default/files/rife_twelvth_complete_base_' . $frequency . '.wav';
+        $path = DRUPAL_ROOT . '/sites/default/files/rife_twelvth_complete_base_' . $frequency . '.wav';
       }
+      
       $handle = fopen($path, "wb");
       if (false === $handle) {
           throw new RuntimeException('Unable to open log file for writing');
