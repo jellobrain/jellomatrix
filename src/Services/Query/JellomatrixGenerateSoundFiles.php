@@ -106,7 +106,7 @@ class JellomatrixGenerateSoundFiles {
 
               $chunksize = 16;
               $bitDepth = 8; //8bit
-              $sampleRate = 48000; //CD quality
+              $sampleRate = 88200; //CD quality
               $blockAlign = ($channels * ($bitDepth / 8));
               $averageBytesPerSecond = $sampleRate * $blockAlign;
 
@@ -292,7 +292,7 @@ class JellomatrixGenerateSoundFiles {
 
                 $chunksize = 16;
                 $bitDepth = 8; //8bit
-                $sampleRate = 48000; //CD quality
+                $sampleRate = 88200; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign;
 
@@ -372,7 +372,7 @@ class JellomatrixGenerateSoundFiles {
 
                 $chunksize = 16;
                 $bitDepth = 8; //8bit
-                $sampleRate = 48000; //CD quality
+                $sampleRate = 88200; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign;
 
@@ -717,7 +717,7 @@ class JellomatrixGenerateSoundFiles {
         $channels = 1;
         $chunksize = 16;
         $bitDepth = 8; //8bit
-        $sampleRate = 48000; //CD quality
+        $sampleRate = 88200; //CD quality
         $blockAlign = ($channels * ($bitDepth / 8));
         $averageBytesPerSecond = $sampleRate * $blockAlign;
 
