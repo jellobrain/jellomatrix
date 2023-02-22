@@ -209,7 +209,7 @@ class JellomatrixGenerateSoundFiles {
                 //dpm($currNote);
                 $currHz = (int)$currNote[0];
 
-                $currMillis = 1000;
+                $currMillis = 500;
 
                 /*
                  * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
@@ -531,7 +531,7 @@ class JellomatrixGenerateSoundFiles {
                     }
 
 
-                    $currMillis = 2000;
+                    $currMillis = 500;
 
                     /*
                      * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
@@ -820,7 +820,7 @@ class JellomatrixGenerateSoundFiles {
           //dpm($currNote);
           $currHz = (int)$input;
 
-          $currMillis = 1000;
+          $currMillis = 500;
 
           /*
            * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
@@ -909,7 +909,7 @@ class JellomatrixGenerateSoundFiles {
       }
       
       
-      $combined_wav_data = $this->joinWaves($fileHandles, $frequency);
+      $combined_wav_data = $this->joinWavesRife($fileHandles, $frequency);
       
       if ($print == 5) {
         $path = DRUPAL_ROOT . '/sites/default/files/rife_eleventh_complete_base_' . $frequency . '.wav';
@@ -930,100 +930,100 @@ class JellomatrixGenerateSoundFiles {
     /*
      * JOINWAVS
      */
-//     if ($print == 2) {
-//
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
-//        $r_set = [];
-//        $r_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
-//        $r_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
-//        $r = $this->joinWaves($r_set, $frequency);
-//
-//        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
-//        $pathHandle = fopen($path, 'wb');
-//        //dpm($pathHandle);
-//        if (false === $pathHandle) {
-//            throw new RuntimeException('Unable to open log file for writing');
-//        }
-//        fwrite($pathHandle,$r);
-//        sleep(3); 
-//        chmod($path, 0777);
-//        fclose($pathHandle);
-//      }
-//
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
-//        $rl_set = [];
-//        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' .  $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
-//        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
-//        $rl = $this->joinWaves($rl_set, $frequency);
-//
-//        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
-//        $pathHandle = fopen($path, 'wb');
-//        if (false === $pathHandle) {
-//            throw new RuntimeException('Unable to open log file for writing');
-//        }
-//        fwrite($pathHandle,$rl);
-//        sleep(3); 
-//        chmod($path, 0777);
-//        fclose($pathHandle);
-//      }
-//
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
-//        $lr_set = [];
-//        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
-//        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav';
-//        $lr = $this->joinWaves($lr_set, $frequency);
-//
-//        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
-//        $pathHandle = fopen($path, 'wb');
-//        if (false === $pathHandle) {
-//            throw new RuntimeException('Unable to open log file for writing');
-//        }
-//        fwrite($pathHandle,$lr);
-//        sleep(3); 
-//        chmod($path, 0777);
-//        fclose($pathHandle);
-//      }
-//    }
-//    if ($print == 3) {
-//      $c_set = [];
-//
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
-//        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
-//      }
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav')) {
-//        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
-//      }
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
-//        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
-//      }
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav')) {
-//        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
-//      }
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
-//        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
-//      }
-//      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav')) {
-//        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
-//      }
-//
-//      $c = $this->joinWaves($c_set, $frequency);
-//
-//      $path = DRUPAL_ROOT . '/sites/default/files/complete' . '_' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
-//      $pathHandle = fopen($path, 'wb');
-//      if (false === $pathHandle) {
-//          throw new RuntimeException('Unable to open log file for writing');
-//      }
-//      fwrite($pathHandle,$c);
-//      sleep(3); 
-//      chmod($path, 0777);
-//      fclose($pathHandle);
-//    }
+     if ($print == 2) {
+
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
+        $r_set = [];
+        $r_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
+        $r_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
+        $r = $this->joinWaves($r_set, $frequency);
+
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
+        $pathHandle = fopen($path, 'wb');
+        //dpm($pathHandle);
+        if (false === $pathHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
+        fwrite($pathHandle,$r);
+        sleep(3); 
+        chmod($path, 0777);
+        fclose($pathHandle);
+      }
+
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
+        $rl_set = [];
+        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' .  $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
+        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
+        $rl = $this->joinWaves($rl_set, $frequency);
+
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
+        $pathHandle = fopen($path, 'wb');
+        if (false === $pathHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
+        fwrite($pathHandle,$rl);
+        sleep(3); 
+        chmod($path, 0777);
+        fclose($pathHandle);
+      }
+
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
+        $lr_set = [];
+        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
+        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav';
+        $lr = $this->joinWaves($lr_set, $frequency);
+
+        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
+        $pathHandle = fopen($path, 'wb');
+        if (false === $pathHandle) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
+        fwrite($pathHandle,$lr);
+        sleep(3); 
+        chmod($path, 0777);
+        fclose($pathHandle);
+      }
+    }
+    if ($print == 3) {
+      $c_set = [];
+
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
+      }
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
+      }
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
+      }
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
+      }
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
+      }
+      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav')) {
+        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
+      }
+
+      $c = $this->joinWaves($c_set, $frequency);
+
+      $path = DRUPAL_ROOT . '/sites/default/files/complete' . '_' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
+      $pathHandle = fopen($path, 'wb');
+      if (false === $pathHandle) {
+          throw new RuntimeException('Unable to open log file for writing');
+      }
+      fwrite($pathHandle,$c);
+      sleep(3); 
+      chmod($path, 0777);
+      fclose($pathHandle);
+    }
     
     return [];
 
   }
   
-  public function joinWaves($wavs, $frequency) {
+  public function joinWavesRife($wavs, $frequency) {
 
     $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
       'H8Subchunk1ID', 'VSubchunk1Size',
@@ -1049,6 +1049,38 @@ class JellomatrixGenerateSoundFiles {
       // read data
       $data .= fread($fp, $size);
       sleep(1);
+    }
+    return $header . pack('l', strlen($data)) . $data; //V
+  }
+  
+  public function joinWaves($wavs, $frequency) {
+
+    $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
+      'H8Subchunk1ID', 'VSubchunk1Size',
+      'vAudioFormat', 'vNumChannels', 'VSampleRate',
+      'VByteRate', 'vBlockAlign', 'vBitsPerSample'));
+    $data = '';
+    foreach ($wavs as $wav) {
+      foreach ($wav as $channel) {
+        $fp = fopen($channel, 'rb');
+        if (false === $fp) {
+            throw new RuntimeException('Unable to open log file for writing');
+        }
+        $header = fread($fp, 36);
+        $info = unpack($fields, $header);
+
+        if ($info['Subchunk1Size'] > 16) {
+          $header .= fread($fp, ($info['Subchunk1Size'] - 16));
+        }
+        // read SubChunk2ID
+        $header .= fread($fp, 4);
+        // read Subchunk2Size
+        $size = unpack('vsize', fread($fp, 4));
+        $size = $size['size'];
+        // read data
+        $data .= fread($fp, $size);
+        sleep(1);
+      }
     }
     return $header . pack('l', strlen($data)) . $data; //V
   }
