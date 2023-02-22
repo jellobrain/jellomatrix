@@ -909,7 +909,7 @@ class JellomatrixGenerateSoundFiles {
       }
       
       
-      $combined_wav_data = $this->joinWavesRife($fileHandles, $frequency);
+      $combined_wav_data = $this->joinWaves($fileHandles, $frequency);
       
       if ($print == 5) {
         $path = DRUPAL_ROOT . '/sites/default/files/rife_eleventh_complete_base_' . $frequency . '.wav';
@@ -1023,7 +1023,7 @@ class JellomatrixGenerateSoundFiles {
 
   }
   
-  public function joinWavesRife($wavs, $frequency) {
+  public function joinWaves($wavs, $frequency) {
 
     $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
       'H8Subchunk1ID', 'VSubchunk1Size',
@@ -1049,38 +1049,6 @@ class JellomatrixGenerateSoundFiles {
       // read data
       $data .= fread($fp, $size);
       sleep(1);
-    }
-    return $header . pack('l', strlen($data)) . $data; //V
-  }
-  
-  public function joinWaves($wavs, $frequency) {
-
-    $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
-      'H8Subchunk1ID', 'VSubchunk1Size',
-      'vAudioFormat', 'vNumChannels', 'VSampleRate',
-      'VByteRate', 'vBlockAlign', 'vBitsPerSample'));
-    $data = '';
-    foreach ($wavs as $wav) {
-      foreach ($wav as $channel) {
-        $fp = fopen($channel, 'rb');
-        if (false === $fp) {
-            throw new RuntimeException('Unable to open log file for writing');
-        }
-        $header = fread($fp, 36);
-        $info = unpack($fields, $header);
-
-        if ($info['Subchunk1Size'] > 16) {
-          $header .= fread($fp, ($info['Subchunk1Size'] - 16));
-        }
-        // read SubChunk2ID
-        $header .= fread($fp, 4);
-        // read Subchunk2Size
-        $size = unpack('vsize', fread($fp, 4));
-        $size = $size['size'];
-        // read data
-        $data .= fread($fp, $size);
-        sleep(1);
-      }
     }
     return $header . pack('l', strlen($data)) . $data; //V
   }
