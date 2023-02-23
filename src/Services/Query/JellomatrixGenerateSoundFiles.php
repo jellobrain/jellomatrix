@@ -240,14 +240,12 @@ class JellomatrixGenerateSoundFiles {
                   /*
                    * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                    */
-                  dpm($currHz[0]);
                   if ($currHz[0] > 1 || str_contains($currHz[0], 'E')) {
                     $currHz[0] = .00001;
                   }
                   if ($currHz[0] >= 20000) {
                     $currHz[0] = 88200;
                   }
-                  dpm($currHz[0]);
 
                   $waveIncrement = $sampleRate/($sampleRate/$currHz[0]);
 
