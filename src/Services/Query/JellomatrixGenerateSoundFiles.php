@@ -104,8 +104,15 @@ class JellomatrixGenerateSoundFiles {
                 if (false === $fileHandle) {
                     throw new RuntimeException('Unable to open log file for writing');
                 }
-
+                /**
+                 * Format
+                 */
+                $subChunkSize = 4;
+                $subChunkIDSize = 4;
+                $subChunk = 4;
+                $format = 4;
                 $chunksize = 16;
+                
                 $bitDepth = 8; //8bit
                 $sampleRate = 176400; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
@@ -126,14 +133,21 @@ class JellomatrixGenerateSoundFiles {
                  * Format chunk
                  */
                 $fmtChunk = [
-                  'sGroupID' => 'fmt',
+                  'sGroupID' => 0x46464952,
                   'dwChunkSize' => $chunksize,
                   'wFormatTag' => 1,
                   'wChannels' => $channels,
                   'dwSamplesPerSec' => $sampleRate,
                   'dwAvgBytesPerSec' => $averageBytesPerSecond,
                   'wBlockAlign' => $blockAlign,
-                  'dwBitsPerSample' => $bitDepth
+                  'dwBitsPerSample' => $bitDepth,
+                  'subChunkID1' => 0x20746d66,
+                  'subChunk1Size' => $subChunkSize,
+                  'subChunk2Size' => $subChunkSize,
+                  'subChunk1' => $subChunk,
+                  'subChunk2' => $subChunk,
+                  'subChunkID1' => 0x20746d66,
+                  'subChunkID2' => 0x4556157
                 ];
 
                 /*
@@ -141,16 +155,22 @@ class JellomatrixGenerateSoundFiles {
                  * WAV format uses little-endian byte order
                  */
                 $fieldFormatMap = [
-                  'sGroupID' => 'A4',
+                  'sGroupID' => 'V',
                   'dwFileLength' => 'V',
-                  'sRiffType' => 'A4',
+                  'sRiffType' => 'V',
                   'dwChunkSize' => 'V',
                   'wFormatTag' => 'v',
                   'wChannels' => 'v',
                   'dwSamplesPerSec' => 'V',
                   'dwAvgBytesPerSec' => 'V',
                   'wBlockAlign' => 'v',
-                  'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+                  'dwBitsPerSample' => 'v', //Some resources say this is a uint but it's not - stay woke.
+                  'subChunk1Size' => 'V',
+                  'subChunk2Size' => 'V',
+                  'subChunk1' => 'V',
+                  'subChunk2' => 'V',
+                  'subChunkID1' => 'V',
+                  'subChunkID2' => 'V'
                 ];
                 /*
                  * Pack and write our values
@@ -186,7 +206,7 @@ class JellomatrixGenerateSoundFiles {
                  * after audio data has been written
                  */
                 $dataChunk = [
-                  'sGroupID' => 'data',
+                  'sGroupID' => 0x46464952,
                   'dwChunkSize' => 0
                 ];
 
@@ -206,10 +226,8 @@ class JellomatrixGenerateSoundFiles {
 
 
                 //Loop through input
-
                 foreach ($input as $currNote) {
-                  //dpm($currNote);
-                  $currHz = (int)$currNote[0];
+                  $currHz = $currNote[0];
 
                   $currMillis = 1000;
 
@@ -222,14 +240,16 @@ class JellomatrixGenerateSoundFiles {
                   /*
                    * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                    */
-                  if ($currHz == 0) {
-                    $currHz = .00001;
+                  dpm($currHz[0]);
+                  if ($currHz[0] > 1 || str_contains($currHz[0], 'E')) {
+                    $currHz[0] = .00001;
                   }
-                  if ($currHz >= 20000) {
-                    $currHz = 44100;
+                  if ($currHz[0] >= 20000) {
+                    $currHz[0] = 88200;
                   }
+                  dpm($currHz[0]);
 
-                  $waveIncrement = $sampleRate/($sampleRate/$currHz);
+                  $waveIncrement = $sampleRate/($sampleRate/$currHz[0]);
 
                   /*
                    * Run the sine function until we have written all the samples to fill the current note time
@@ -320,14 +340,14 @@ class JellomatrixGenerateSoundFiles {
                 $subChunkSize = 4;
                 $subChunkIDSize = 4;
                 $subChunk = 4;
-                $chunksize = 4;
+                $chunksize = 16;
                 $format = 4;
                 $fmtChunk = [
-                  'subChunkID1' => 'fmt',
+                  'subChunkID1' => 0x20746d66,
                   'subChunk1' => $subChunk,
                   'subChunk1Size' => $subChunkSize,
                   'subChunk2' => $subChunk,
-                  'subChunkID2' => 'fmt',
+                  'subChunkID2' => 0x4556157,
                   'subChunk2Size' => $subChunkSize,
                   'wFormatTag' => 1,
                   'wChannels' => $channels,
@@ -335,7 +355,7 @@ class JellomatrixGenerateSoundFiles {
                   'dwAvgBytesPerSec' => $averageBytesPerSecond,
                   'wBlockAlign' => $blockAlign,
                   'dwBitsPerSample' => $bitDepth,
-                  'sGroupID' => 'fmt',
+                  'sGroupID' => 0x46464952,
                   'dwChunkSize' => $chunksize + $format + ($subChunkSize * $channels) + ($subChunkIDSize * $channels) + ($subChunk * $channels)
                 ];
 
@@ -344,9 +364,9 @@ class JellomatrixGenerateSoundFiles {
                  * WAV format uses little-endian byte order
                  */
                 $fieldFormatMap = [
-                  'sGroupID' => 'A4',
+                  'sGroupID' => 'V',
                   'dwFileLength' => 'V',
-                  'sRiffType' => 'A4',
+                  'sRiffType' => 'V',
                   'dwChunkSize' => 'V',
                   'wFormatTag' => 'v',
                   'wChannels' => 'v',
@@ -358,8 +378,8 @@ class JellomatrixGenerateSoundFiles {
                   'subChunk2Size' => 'V',
                   'subChunk1' => 'V',
                   'subChunk2' => 'V',
-                  'subChunkID1' => 'A4',
-                  'subChunkID2' => 'A4'
+                  'subChunkID1' => 'V',
+                  'subChunkID2' => 'V'
                 ];
               }
               if ($channels == 6 && $ke == 'complete') {
@@ -400,34 +420,22 @@ class JellomatrixGenerateSoundFiles {
                 $subChunkSize = 4;
                 $subChunkIDSize = 4;
                 $subChunk = 4;
-                $chunksize = 4;
+                $chunksize = 16;
                 $format = 4;
                 $fmtChunk = [
-                  'subChunkID1' => 'fmt',
+                  'subChunkID1' => 0x20746d66,
                   'subChunk1' => $subChunk,
                   'subChunk1Size' => $subChunkSize,
                   'subChunk2' => $subChunk,
-                  'subChunkID2' => 'fmt',
+                  'subChunkID2' => 0x4556157,
                   'subChunk2Size' => $subChunkSize,
-                  'subChunkID3' => 'fmt',
-                  'subChunk3' => $subChunk,
-                  'subChunk3Size' => $subChunkSize,
-                  'subChunk4' => $subChunk,
-                  'subChunkID4' => 'fmt',
-                  'subChunk4Size' => $subChunkSize,
-                  'subChunkID5' => 'fmt',
-                  'subChunk5' => $subChunk,
-                  'subChunk5Size' => $subChunkSize,
-                  'subChunk6' => $subChunk,
-                  'subChunkID6' => 'fmt',
-                  'subChunk6Size' => $subChunkSize,
                   'wFormatTag' => 1,
                   'wChannels' => $channels,
                   'dwSamplesPerSec' => $sampleRate,
                   'dwAvgBytesPerSec' => $averageBytesPerSecond,
                   'wBlockAlign' => $blockAlign,
                   'dwBitsPerSample' => $bitDepth,
-                  'sGroupID' => 'fmt',
+                  'sGroupID' => 0x46464952,
                   'dwChunkSize' => $chunksize + $format + ($subChunkSize * $channels) + ($subChunkIDSize * $channels) + ($subChunk * $channels)
                 ];
 
@@ -436,9 +444,9 @@ class JellomatrixGenerateSoundFiles {
                  * WAV format uses little-endian byte order
                  */
                 $fieldFormatMap = [
-                  'sGroupID' => 'A4',
+                  'sGroupID' => 'V',
                   'dwFileLength' => 'V',
-                  'sRiffType' => 'A4',
+                  'sRiffType' => 'V',
                   'dwChunkSize' => 'V',
                   'wFormatTag' => 'v',
                   'wChannels' => 'v',
@@ -450,20 +458,8 @@ class JellomatrixGenerateSoundFiles {
                   'subChunk2Size' => 'V',
                   'subChunk1' => 'V',
                   'subChunk2' => 'V',
-                  'subChunkID1' => 'A4',
-                  'subChunkID2' => 'A4',
-                  'subChunk3Size' => 'V',
-                  'subChunk4Size' => 'V',
-                  'subChunk3' => 'V',
-                  'subChunk4' => 'V',
-                  'subChunkID3' => 'A4',
-                  'subChunkID4' => 'A4',
-                  'subChunk5Size' => 'V',
-                  'subChunk6Size' => 'V',
-                  'subChunk5' => 'V',
-                  'subChunk6' => 'V',
-                  'subChunkID5' => 'A4',
-                  'subChunkID6' => 'A4'
+                  'subChunkID1' => 'V',
+                  'subChunkID2' => 'V',
                 ];
               }
 
@@ -501,7 +497,7 @@ class JellomatrixGenerateSoundFiles {
                * after audio data has been written
                */
               $dataChunk = [
-                'sGroupID' => 'data',
+                'sGroupID' => 0x46464952,
                 'dwChunkSize' => 0
               ];
 
@@ -546,45 +542,45 @@ class JellomatrixGenerateSoundFiles {
                     /*
                      * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                      */
-                    if ($currHz == 0) {
+                    if ($currHz < 1 ) {
                       $currHz = .00001;
                     }
 
-                    if (isset($currHz2) && $currHz2 == 0) {
+                    if (isset($currHz2) && $currHz2 < 1 ) {
                       $currHz2 = .00001;
                     }
-                    if (isset($currHz3) && $currHz3 == 0) {
+                    if (isset($currHz3) && $currHz3 < 1 ) {
                       $currHz3 = .00001;
                     }
-                    if (isset($currHz4) && $currHz4 == 0) {
+                    if (isset($currHz4) && $currHz4 < 1 ) {
                       $currHz4 = .00001;
                     }
-                    if (isset($currHz5) && $currHz5 == 0) {
+                    if (isset($currHz5) && $currHz5 < 1 ) {
                       $currHz5 = .00001;
                     }
-                    if (isset($currHz6) && $currHz6 == 0) {
+                    if (isset($currHz6) && $currHz6 < 1 ) {
                       $currHz6 = .00001;
                     }
                     
                     
-                    if ($currHz == 0 && $currHz >= 20000) {
-                      $currHz = 44100;
+                    if ($currHz < 1  && $currHz >= 20000) {
+                      $currHz = 88200;
                     }
 
                     if (isset($currHz2) && $currHz2 >= 20000) {
-                      $currHz2 = 44100;
+                      $currHz2 = 88200;
                     }
                     if (isset($currHz3) && $currHz3 >= 20000) {
-                      $currHz3 = 44100;
+                      $currHz3 = 88200;
                     }
                     if (isset($currHz4) && $currHz4 >= 20000) {
-                      $currHz4 = 44100;
+                      $currHz4 = 88200;
                     }
                     if (isset($currHz5) && $currHz5 >= 20000) {
-                      $currHz5 = 44100;
+                      $currHz5 = 88200;
                     }
                     if (isset($currHz6) && $currHz6 >= 20000) {
-                      $currHz6 = 44100;
+                      $currHz6 = 88200;
                     }
                     
 // (Math.PI * 2 * freq) / (format.dwSamplesPerSec * format.wChannels);
@@ -761,15 +757,26 @@ class JellomatrixGenerateSoundFiles {
         /*
          * Format chunk
          */
+        $subChunkSize = 4;
+        $subChunkIDSize = 4;
+        $subChunk = 4;
+        $chunksize = 16;
+        $format = 4;
         $fmtChunk = [
-          'sGroupID' => 'fmt',
-          'dwChunkSize' => $chunksize,
+          'subChunkID1' => 0x20746d66,
+          'subChunk1' => $subChunk,
+          'subChunk1Size' => $subChunkSize,
+          'subChunk2' => $subChunk,
+          'subChunkID2' => 0x4556157,
+          'subChunk2Size' => $subChunkSize,
           'wFormatTag' => 1,
           'wChannels' => $channels,
           'dwSamplesPerSec' => $sampleRate,
           'dwAvgBytesPerSec' => $averageBytesPerSecond,
           'wBlockAlign' => $blockAlign,
-          'dwBitsPerSample' => $bitDepth
+          'dwBitsPerSample' => $bitDepth,
+          'sGroupID' => 0x46464952,
+          'dwChunkSize' => $chunksize + $format + ($subChunkSize * $channels) + ($subChunkIDSize * $channels) + ($subChunk * $channels)
         ];
 
         /*
@@ -777,16 +784,22 @@ class JellomatrixGenerateSoundFiles {
          * WAV format uses little-endian byte order
          */
         $fieldFormatMap = [
-          'sGroupID' => 'A4',
+          'sGroupID' => 'V',
           'dwFileLength' => 'V',
-          'sRiffType' => 'A4',
+          'sRiffType' => 'V',
           'dwChunkSize' => 'V',
           'wFormatTag' => 'v',
           'wChannels' => 'v',
           'dwSamplesPerSec' => 'V',
           'dwAvgBytesPerSec' => 'V',
           'wBlockAlign' => 'v',
-          'dwBitsPerSample' => 'v' //Some resources say this is a uint but it's not - stay woke.
+          'dwBitsPerSample' => 'v', //Some resources say this is a uint but it's not - stay woke.
+          'subChunk1Size' => 'V',
+          'subChunk2Size' => 'V',
+          'subChunk1' => 'V',
+          'subChunk2' => 'V',
+          'subChunkID1' => 'V',
+          'subChunkID2' => 'V',
         ];
         /*
          * Pack and write our values
@@ -822,7 +835,7 @@ class JellomatrixGenerateSoundFiles {
          * after audio data has been written
          */
         $dataChunk = [
-          'sGroupID' => 'data',
+          'sGroupID' => 0x46464952,
           'dwChunkSize' => 0
         ];
 
@@ -857,7 +870,7 @@ class JellomatrixGenerateSoundFiles {
           /*
            * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
            */
-          if ($currHz == 0) {
+          if ($currHz < 1 ) {
             $currHz = .00001;
           }
 
@@ -1064,7 +1077,7 @@ class JellomatrixGenerateSoundFiles {
       if (false === $fp) {
           throw new RuntimeException('Unable to open log file for writing');
       }
-      $header = fread($fp, 4);
+      $header = fread($fp, 16);
       dpm($header);
       $info = unpack($fields, $header);
       dpm($info);
@@ -1072,7 +1085,7 @@ class JellomatrixGenerateSoundFiles {
         $header .= fread($fp, ($info['Subchunk1Size'] - 16));
       }
       // read SubChunk2ID
-      $header .= fread($fp, 4);
+      $header .= fread($fp, 16);
       // read Subchunk2Size
       $size = unpack('vsize', fread($fp, 4));
       $size = $size['size'];
