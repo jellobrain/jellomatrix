@@ -516,8 +516,9 @@ class JellomatrixGenerateSoundFiles {
               foreach ($input as $array) {
                 foreach ($array as $currSet) {
                   foreach ($currSet as $currNote) {
-                    $currHz = (int)$currNote[0];
-
+                    if (isset($currNote[0])) {
+                      $currHz = (int)$currNote[0];
+                    }
                     if ($channels == 2 && $ke == 'pairings') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
