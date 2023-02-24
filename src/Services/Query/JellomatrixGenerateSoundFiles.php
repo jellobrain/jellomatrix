@@ -623,7 +623,6 @@ class JellomatrixGenerateSoundFiles {
                       $currHz6 = 44100;
                     }
                     
-                    dpm($currHz);
                     
 // (Math.PI * 2 * freq) / (format.dwSamplesPerSec * format.wChannels);
                     $waveIncrement = 360/($sampleRate/$currHz);
@@ -707,9 +706,6 @@ class JellomatrixGenerateSoundFiles {
 
                         //Write the sample and increment our byte counts
                         // BOOKMARK ERROR HERE
-//                        dpm($filePath);
-//                        dpm($fileHandle);
-//                        dpm($currAmplitude1);
                         if (($fileHandle = fopen($filePath, "ab")) !== false) {
                           $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude1));
                           $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude2));
@@ -718,7 +714,6 @@ class JellomatrixGenerateSoundFiles {
                           $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude5));
                           $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude6));
                         }
-//                        dpm($currBytesWritten);
 
                         $dataChunk['dwChunkSize'] += $currBytesWritten;
 
@@ -898,7 +893,6 @@ class JellomatrixGenerateSoundFiles {
 
         //Loop through input
         for ($z = 0; $z < 60; $z++) {
-          //dpm($currNote);
           $currHz = (int)$input;
 
           $currMillis = 1000;
