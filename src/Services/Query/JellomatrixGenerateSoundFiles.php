@@ -594,7 +594,7 @@ class JellomatrixGenerateSoundFiles {
                     }
                     
                     
-                    if ($currHz < 1  && $currHz >= 20000) {
+                    if (isset($currHz) && $currHz >= 20000) {
                       $currHz = 15000;
                     }
 
