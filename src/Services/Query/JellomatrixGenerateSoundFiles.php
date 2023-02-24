@@ -227,7 +227,7 @@ class JellomatrixGenerateSoundFiles {
 
                 //Loop through input
                 foreach ($input as $currNote) {
-                  $currHz = $currNote[0];
+                  $currHz = $currNote;
 
                   $currMillis = 1000;
 
@@ -240,14 +240,14 @@ class JellomatrixGenerateSoundFiles {
                   /*
                    * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                    */
-                  if ($currHz[0] > 1 || str_contains($currHz[0], 'E')) {
-                    $currHz[0] = .00001;
+                  if ($currHz < 1 || !is_numeric($currHz)) {
+                    $currHz = .001;
                   }
-                  if ($currHz[0] >= 20000) {
-                    $currHz[0] = 88200;
+                  if ($currHz >= 20000) {
+                    $currHz = 88200;
                   }
 
-                  $waveIncrement = $sampleRate/($sampleRate/$currHz[0]);
+                  $waveIncrement = $sampleRate/($sampleRate/$currHz);
 
                   /*
                    * Run the sine function until we have written all the samples to fill the current note time
@@ -280,7 +280,6 @@ class JellomatrixGenerateSoundFiles {
                     $elapsed += $timeIncrement;
                   }
                 }
-
 
                 /*
                  * Seek to our dwFileLength and overwrite it with our final value. Make sure to subtract 8 for the
@@ -541,23 +540,23 @@ class JellomatrixGenerateSoundFiles {
                      * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                      */
                     if ($currHz < 1 ) {
-                      $currHz = .00001;
+                      $currHz = .001;
                     }
 
                     if (isset($currHz2) && $currHz2 < 1 ) {
-                      $currHz2 = .00001;
+                      $currHz2 = .001;
                     }
                     if (isset($currHz3) && $currHz3 < 1 ) {
-                      $currHz3 = .00001;
+                      $currHz3 = .001;
                     }
                     if (isset($currHz4) && $currHz4 < 1 ) {
-                      $currHz4 = .00001;
+                      $currHz4 = .001;
                     }
                     if (isset($currHz5) && $currHz5 < 1 ) {
-                      $currHz5 = .00001;
+                      $currHz5 = .001;
                     }
                     if (isset($currHz6) && $currHz6 < 1 ) {
-                      $currHz6 = .00001;
+                      $currHz6 = .001;
                     }
                     
                     
