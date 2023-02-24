@@ -1015,7 +1015,7 @@ class JellomatrixGenerateSoundFiles {
       if (false === $fp) {
           throw new RuntimeException('Unable to open log file for writing');
       }
-      $header = fread($fp, 4);
+      $header = fread($fp, 36);
       $info = unpack($fields, $header);
       if ($info['Subchunk1Size'] > 16) {
         $header .= fread($fp, ($info['Subchunk1Size'] - 16));
@@ -1029,6 +1029,6 @@ class JellomatrixGenerateSoundFiles {
       $data .= fread($fp, $size);
       sleep(1);
     }
-    return $header . pack('l', strlen($data)) . $data; //V
+    return $header . pack('V', strlen($data)) . $data; //V
   }
 }
