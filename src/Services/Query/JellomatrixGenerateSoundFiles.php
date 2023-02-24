@@ -246,7 +246,7 @@ class JellomatrixGenerateSoundFiles {
                   if ($currHz >= 20000) {
                     $currHz = 44100;
                   }
-                  $currHz = round($currHz, 3);
+                  #$currHz = round($currHz, 3);
 
                   $waveIncrement = 360/($sampleRate/$currHz);
                   #$waveIncrement = $sampleRate/($sampleRate/$currHz);
@@ -520,7 +520,7 @@ class JellomatrixGenerateSoundFiles {
                   foreach ($currSet as $currNote) {
                     if (isset($currNote[0])) {
                       $currHz = (int)$currNote[0];
-                      $currHz = round($currHz, 3);
+                      #$currHz = round($currHz, 3);
                     }
                     else {
                       $currHz = 1;
@@ -528,7 +528,7 @@ class JellomatrixGenerateSoundFiles {
                     if ($channels == 2 && $ke == 'pairings') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
-                        $currHz2 = round($currHz2, 3);
+                        #$currHz2 = round($currHz2, 3);
                       }
                       else {
                         $currHz2 = 1;
@@ -536,35 +536,35 @@ class JellomatrixGenerateSoundFiles {
                     } elseif ($channels == 6 && $ke == 'complete') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
-                        $currHz2 = round($currHz2, 3);
+                        #$currHz2 = round($currHz2, 3);
                       }
                       else {
                         $currHz2 = 1;
                       }
                       if (isset($currNote[2])) {
                         $currHz3 = (int)$currNote[2];
-                        $currHz3 = round($currHz3, 3);
+                        #$currHz3 = round($currHz3, 3);
                       }
                       else {
                         $currHz3 = 1;
                       }
                       if (isset($currNote[3])) {
                         $currHz4 = (int)$currNote[3];
-                        $currHz4 = round($currHz4, 3);
+                        #$currHz4 = round($currHz4, 3);
                       }
                       else {
                         $currHz4 = 1;
                       }
                       if (isset($currNote[4])) {
                         $currHz5 = (int)$currNote[4];
-                        $currHz5 = round($currHz5, 3);
+                        #$currHz5 = round($currHz5, 3);
                       }
                       else {
                         $currHz5 = 1;
                       }
                       if (isset($currNote[5])) {
                         $currHz6 = (int)$currNote[5];
-                        $currHz6 = round($currHz6, 3);
+                        #$currHz6 = round($currHz6, 3);
                       }
                       else {
                         $currHz6 = 1;
