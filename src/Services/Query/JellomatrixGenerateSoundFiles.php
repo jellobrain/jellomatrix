@@ -240,11 +240,11 @@ class JellomatrixGenerateSoundFiles {
                   /*
                    * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                    */
-                  if ($currHz < 1 || !is_numeric($currHz)) {
-                    $currHz = .001;
+                  if ($currHz < 1) {
+                    $currHz = 1;
                   }
                   if ($currHz >= 20000) {
-                    $currHz = 88200;
+                    $currHz = 15000;
                   }
 
                   $waveIncrement = $sampleRate/($sampleRate/$currHz);
@@ -520,45 +520,45 @@ class JellomatrixGenerateSoundFiles {
                       $currHz = (int)$currNote[0];
                     }
                     else {
-                      $currHz = .001;
+                      $currHz = 1;
                     }
                     if ($channels == 2 && $ke == 'pairings') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
                       }
                       else {
-                        $currHz2 = .001;
+                        $currHz2 = 1;
                       }
                     } elseif ($channels == 6 && $ke == 'complete') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
                       }
                       else {
-                        $currHz2 = .001;
+                        $currHz2 = 1;
                       }
                       if (isset($currNote[2])) {
                         $currHz3 = (int)$currNote[2];
                       }
                       else {
-                        $currHz3 = .001;
+                        $currHz3 = 1;
                       }
                       if (isset($currNote[3])) {
                         $currHz4 = (int)$currNote[3];
                       }
                       else {
-                        $currHz4 = .001;
+                        $currHz4 = 1;
                       }
                       if (isset($currNote[4])) {
                         $currHz5 = (int)$currNote[4];
                       }
                       else {
-                        $currHz5 = .001;
+                        $currHz5 = 1;
                       }
                       if (isset($currNote[5])) {
                         $currHz6 = (int)$currNote[5];
                       }
                       else {
-                        $currHz6 = .001;
+                        $currHz6 = 1;
                       }
                     }
 
@@ -574,44 +574,44 @@ class JellomatrixGenerateSoundFiles {
                      * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                      */
                     if ($currHz < 1 ) {
-                      $currHz = .001;
+                      $currHz = 1;
                     }
 
                     if (isset($currHz2) && $currHz2 < 1 ) {
-                      $currHz2 = .001;
+                      $currHz2 = 1;
                     }
                     if (isset($currHz3) && $currHz3 < 1 ) {
-                      $currHz3 = .001;
+                      $currHz3 = 1;
                     }
                     if (isset($currHz4) && $currHz4 < 1 ) {
-                      $currHz4 = .001;
+                      $currHz4 = 1;
                     }
                     if (isset($currHz5) && $currHz5 < 1 ) {
-                      $currHz5 = .001;
+                      $currHz5 = 1;
                     }
                     if (isset($currHz6) && $currHz6 < 1 ) {
-                      $currHz6 = .001;
+                      $currHz6 = 1;
                     }
                     
                     
                     if ($currHz < 1  && $currHz >= 20000) {
-                      $currHz = 88200;
+                      $currHz = 15000;
                     }
 
                     if (isset($currHz2) && $currHz2 >= 20000) {
-                      $currHz2 = 88200;
+                      $currHz2 = 15000;
                     }
                     if (isset($currHz3) && $currHz3 >= 20000) {
-                      $currHz3 = 88200;
+                      $currHz3 = 15000;
                     }
                     if (isset($currHz4) && $currHz4 >= 20000) {
-                      $currHz4 = 88200;
+                      $currHz4 = 15000;
                     }
                     if (isset($currHz5) && $currHz5 >= 20000) {
-                      $currHz5 = 88200;
+                      $currHz5 = 15000;
                     }
                     if (isset($currHz6) && $currHz6 >= 20000) {
-                      $currHz6 = 88200;
+                      $currHz6 = 15000;
                     }
                     
 // (Math.PI * 2 * freq) / (format.dwSamplesPerSec * format.wChannels);
@@ -997,98 +997,6 @@ class JellomatrixGenerateSoundFiles {
       sleep(3); 
       chmod($path, 0777);
       fclose($handle);
-    }
-
-    /*
-     * JOINWAVS
-     */
-     if ($print == 2) {
-
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
-        $r_set = [];
-        $r_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
-        $r_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
-        $r = $this->joinWaves($r_set, $frequency);
-
-        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rset_' . $frequency . '.wav';
-        $pathHandle = fopen($path, 'ab');
-        //dpm($pathHandle);
-        if (false === $pathHandle) {
-            throw new RuntimeException('Unable to open log file for writing');
-        }
-        fwrite($pathHandle,$r);
-        sleep(3); 
-        chmod($path, 0777);
-        fclose($pathHandle);
-      }
-
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
-        $rl_set = [];
-        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' .  $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
-        $rl_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
-        $rl = $this->joinWaves($rl_set, $frequency);
-
-        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_rlset_' . $frequency . '.wav';
-        $pathHandle = fopen($path, 'ab');
-        if (false === $pathHandle) {
-            throw new RuntimeException('Unable to open log file for writing');
-        }
-        fwrite($pathHandle,$rl);
-        sleep(3); 
-        chmod($path, 0777);
-        fclose($pathHandle);
-      }
-
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
-        $lr_set = [];
-        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
-        $lr_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav';
-        $lr = $this->joinWaves($lr_set, $frequency);
-
-        $path = DRUPAL_ROOT . '/sites/default/files/pair' . '_' . $tone . '_' . $interval . '_lrset_' . $frequency . '.wav';
-        $pathHandle = fopen($path, 'ab');
-        if (false === $pathHandle) {
-            throw new RuntimeException('Unable to open log file for writing');
-        }
-        fwrite($pathHandle,$lr);
-        sleep(3); 
-        chmod($path, 0777);
-        fclose($pathHandle);
-      }
-    }
-    if ($print == 3) {
-      $c_set = [];
-
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_r_' . $frequency . '.wav';
-      }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward'. '_' . $tone . '_' . $interval . '_rd_' . $frequency . '.wav';
-      }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rl_' . $frequency . '.wav';
-      }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . '_rld_' . $frequency . '.wav';
-      }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lr_' . $frequency . '.wav';
-      }
-      if (file_exists(DRUPAL_ROOT . '/sites/default/files/forward' . '_' . $tone . '_' . $interval . '_lrd_' . $frequency . '.wav')) {
-        $c_set[] = DRUPAL_ROOT . '/sites/default/files/backward' . '_' . $tone . '_' . $interval . 'lrd' . $frequency . '.wav';
-      }
-
-      $c = $this->joinWaves($c_set, $frequency);
-
-      $path = DRUPAL_ROOT . '/sites/default/files/complete' . '_' . $tone . '_' . $interval . '_cset_' . $frequency . '.wav';
-      $pathHandle = fopen($path, 'ab');
-      if (false === $pathHandle) {
-          throw new RuntimeException('Unable to open log file for writing');
-      }
-      fwrite($pathHandle,$c);
-      sleep(3); 
-      chmod($path, 0777);
-      fclose($pathHandle);
     }
     
     return [];
