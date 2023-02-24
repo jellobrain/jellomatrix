@@ -519,25 +519,46 @@ class JellomatrixGenerateSoundFiles {
                     if (isset($currNote[0])) {
                       $currHz = (int)$currNote[0];
                     }
+                    else {
+                      $currHz = .001;
+                    }
                     if ($channels == 2 && $ke == 'pairings') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
+                      }
+                      else {
+                        $currHz2 = .001;
                       }
                     } elseif ($channels == 6 && $ke == 'complete') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
                       }
+                      else {
+                        $currHz2 = .001;
+                      }
                       if (isset($currNote[2])) {
                         $currHz3 = (int)$currNote[2];
+                      }
+                      else {
+                        $currHz3 = .001;
                       }
                       if (isset($currNote[3])) {
                         $currHz4 = (int)$currNote[3];
                       }
+                      else {
+                        $currHz4 = .001;
+                      }
                       if (isset($currNote[4])) {
                         $currHz5 = (int)$currNote[4];
                       }
+                      else {
+                        $currHz5 = .001;
+                      }
                       if (isset($currNote[5])) {
                         $currHz6 = (int)$currNote[5];
+                      }
+                      else {
+                        $currHz6 = .001;
                       }
                     }
 
