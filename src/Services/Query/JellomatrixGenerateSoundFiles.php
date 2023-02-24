@@ -1069,24 +1069,20 @@ class JellomatrixGenerateSoundFiles {
       'VByteRate', 'vBlockAlign', 'vBitsPerSample'));
     $data = '';
     foreach ($wavs as $wav) {
-      dpm($wav);
       $fp = fopen($wav, 'rb');
       if (false === $fp) {
           throw new RuntimeException('Unable to open log file for writing');
       }
-      $header = fread($fp, 16);
-      dpm($header);
+      $header = fread($fp, 4);
       $info = unpack($fields, $header);
-      dpm($info);
       if ($info['Subchunk1Size'] > 16) {
         $header .= fread($fp, ($info['Subchunk1Size'] - 16));
       }
       // read SubChunk2ID
-      $header .= fread($fp, 16);
+      $header .= fread($fp, 4);
       // read Subchunk2Size
       $size = unpack('vsize', fread($fp, 4));
       $size = $size['size'];
-      dpm($size);
       // read data
       $data .= fread($fp, $size);
       sleep(1);
