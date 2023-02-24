@@ -113,7 +113,7 @@ class JellomatrixGenerateSoundFiles {
                 $format = 4;
                 $chunksize = 16;
                 
-                $bitDepth = 8; //8bit
+                $bitDepth = 32; //8bit
                 $sampleRate = 176400; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
@@ -246,8 +246,10 @@ class JellomatrixGenerateSoundFiles {
                   if ($currHz >= 20000) {
                     $currHz = 44100;
                   }
+                  $currHz = round($currHz, 3);
 
-                  $waveIncrement = $sampleRate/($sampleRate/$currHz);
+                  $waveIncrement = 360/($sampleRate/$currHz);
+                  #$waveIncrement = $sampleRate/($sampleRate/$currHz);
 
                   /*
                    * Run the sine function until we have written all the samples to fill the current note time
@@ -313,7 +315,7 @@ class JellomatrixGenerateSoundFiles {
                  #$channels = 1; //Mono
 
                 $chunksize = 16;
-                $bitDepth = 8; //8bit
+                $bitDepth = 32; //8bit
                 $sampleRate = 176400; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
@@ -393,7 +395,7 @@ class JellomatrixGenerateSoundFiles {
                  #$channels = 1; //Mono
 
                 $chunksize = 16;
-                $bitDepth = 8; //8bit
+                $bitDepth = 32; //8bit
                 $sampleRate = 176400; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
@@ -518,6 +520,7 @@ class JellomatrixGenerateSoundFiles {
                   foreach ($currSet as $currNote) {
                     if (isset($currNote[0])) {
                       $currHz = (int)$currNote[0];
+                      $currHz = round($currHz, 3);
                     }
                     else {
                       $currHz = 1;
@@ -525,6 +528,7 @@ class JellomatrixGenerateSoundFiles {
                     if ($channels == 2 && $ke == 'pairings') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
+                        $currHz2 = round($currHz2, 3);
                       }
                       else {
                         $currHz2 = 1;
@@ -532,30 +536,35 @@ class JellomatrixGenerateSoundFiles {
                     } elseif ($channels == 6 && $ke == 'complete') {
                       if (isset($currNote[1])) {
                         $currHz2 = (int)$currNote[1];
+                        $currHz2 = round($currHz2, 3);
                       }
                       else {
                         $currHz2 = 1;
                       }
                       if (isset($currNote[2])) {
                         $currHz3 = (int)$currNote[2];
+                        $currHz3 = round($currHz3, 3);
                       }
                       else {
                         $currHz3 = 1;
                       }
                       if (isset($currNote[3])) {
                         $currHz4 = (int)$currNote[3];
+                        $currHz4 = round($currHz4, 3);
                       }
                       else {
                         $currHz4 = 1;
                       }
                       if (isset($currNote[4])) {
                         $currHz5 = (int)$currNote[4];
+                        $currHz5 = round($currHz5, 3);
                       }
                       else {
                         $currHz5 = 1;
                       }
                       if (isset($currNote[5])) {
                         $currHz6 = (int)$currNote[5];
+                        $currHz6 = round($currHz6, 3);
                       }
                       else {
                         $currHz6 = 1;
@@ -614,18 +623,20 @@ class JellomatrixGenerateSoundFiles {
                       $currHz6 = 44100;
                     }
                     
+                    dpm($currHz);
+                    
 // (Math.PI * 2 * freq) / (format.dwSamplesPerSec * format.wChannels);
-                    $waveIncrement = $sampleRate/($sampleRate/$currHz);
+                    $waveIncrement = 360/($sampleRate/$currHz);
 
                     if ($channels == 2 && $ke == 'pairings') {
-                      $waveIncrement2 = $sampleRate/($sampleRate/$currHz2);
+                      $waveIncrement2 = 360/($sampleRate/$currHz2);
                     }
                     if ($channels == 6 && $ke == 'complete') {
-                      $waveIncrement2 = $sampleRate/($sampleRate/$currHz2);
-                      $waveIncrement3 = $sampleRate/($sampleRate/$currHz3);
-                      $waveIncrement4 = $sampleRate/($sampleRate/$currHz4);
-                      $waveIncrement5 = $sampleRate/($sampleRate/$currHz5);
-                      $waveIncrement6 = $sampleRate/($sampleRate/$currHz6);
+                      $waveIncrement2 = 360/($sampleRate/$currHz2);
+                      $waveIncrement3 = 360/($sampleRate/$currHz3);
+                      $waveIncrement4 = 360/($sampleRate/$currHz4);
+                      $waveIncrement5 = 360/($sampleRate/$currHz5);
+                      $waveIncrement6 = 360/($sampleRate/$currHz6);
                     }
 
                     /*
@@ -769,7 +780,7 @@ class JellomatrixGenerateSoundFiles {
         }
         $channels = 1;
         $chunksize = 16;
-        $bitDepth = 8; //8bit
+        $bitDepth = 32; //8bit
         $sampleRate = 176400; //CD quality
         $blockAlign = ($channels * ($bitDepth / 8));
         $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
@@ -902,7 +913,7 @@ class JellomatrixGenerateSoundFiles {
            * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
            */
           if ($currHz < 1 ) {
-            $currHz = .00001;
+            $currHz = .001;
           }
 
           $waveIncrement = $sampleRate/($sampleRate/$currHz);
