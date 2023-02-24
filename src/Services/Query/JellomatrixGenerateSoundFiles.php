@@ -519,9 +519,13 @@ class JellomatrixGenerateSoundFiles {
                     $currHz = (int)$currNote[0];
 
                     if ($channels == 2 && $ke == 'pairings') {
-                      $currHz2 = (int)$currNote[1];
+                      if (isset($currNote[1])) {
+                        $currHz2 = (int)$currNote[1];
+                      }
                     } elseif ($channels == 6 && $ke == 'complete') {
-                      $currHz2 = (int)$currNote[1];
+                      if (isset($currNote[1])) {
+                        $currHz2 = (int)$currNote[1];
+                      }
                       if (isset($currNote[2])) {
                         $currHz3 = (int)$currNote[2];
                       }
