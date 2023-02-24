@@ -244,7 +244,7 @@ class JellomatrixGenerateSoundFiles {
                     $currHz = 1;
                   }
                   if ($currHz >= 20000) {
-                    $currHz = 15000;
+                    $currHz = 44100;
                   }
 
                   $waveIncrement = $sampleRate/($sampleRate/$currHz);
@@ -595,23 +595,23 @@ class JellomatrixGenerateSoundFiles {
                     
                     
                     if (isset($currHz) && $currHz >= 20000) {
-                      $currHz = 15000;
+                      $currHz = 44100;
                     }
 
                     if (isset($currHz2) && $currHz2 >= 20000) {
-                      $currHz2 = 15000;
+                      $currHz2 = 44100;
                     }
                     if (isset($currHz3) && $currHz3 >= 20000) {
-                      $currHz3 = 15000;
+                      $currHz3 = 44100;
                     }
                     if (isset($currHz4) && $currHz4 >= 20000) {
-                      $currHz4 = 15000;
+                      $currHz4 = 44100;
                     }
                     if (isset($currHz5) && $currHz5 >= 20000) {
-                      $currHz5 = 15000;
+                      $currHz5 = 44100;
                     }
                     if (isset($currHz6) && $currHz6 >= 20000) {
-                      $currHz6 = 15000;
+                      $currHz6 = 44100;
                     }
                     
 // (Math.PI * 2 * freq) / (format.dwSamplesPerSec * format.wChannels);
