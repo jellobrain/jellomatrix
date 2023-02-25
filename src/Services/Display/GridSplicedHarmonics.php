@@ -45,6 +45,9 @@ class GridSplicedHarmonics {
               $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
 
               foreach ($row as $key => $item) {
+                if ($item == 0) {
+                  $item = $tone;
+                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -193,6 +196,9 @@ class GridSplicedHarmonics {
               $rd .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
 
               foreach ($row as $key => $item) {
+                if ($item == 0) {
+                  $item = $tone;
+                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -332,6 +338,9 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
+                if ($item == 0) {
+                  $item = $tone;
+                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -468,6 +477,9 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $lrd .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
+                if ($item == 0) {
+                  $item = $tone;
+                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -609,6 +621,9 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $rl .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
+                if ($item == 0) {
+                  $item = $tone;
+                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -745,6 +760,9 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $rld .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
+                if ($item == 0) {
+                  $item = $tone;
+                }
                 $test = $row;
                 unset($clink); $clink = ''; $clink = '';
                 if (is_array($test)) {
@@ -909,10 +927,12 @@ class GridSplicedHarmonics {
       }
     }
 
-
-
-    $output .= $r;
-    $output .= $rd;
+    if (isset($r)) {
+      $output .= $r;
+    }
+    if (isset($rd)) {
+      $output .= $rd;
+    }
 
 
     $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
@@ -960,8 +980,12 @@ class GridSplicedHarmonics {
     }
     $output .= '</table>';
 
-    $output .= $rl;
-    $output .= $rld;
+    if (isset($rl)) {
+      $output .= $rl;
+    }
+    if (isset($rld)) {
+      $output .= $rld;
+    }
 
 
     $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
@@ -1007,8 +1031,13 @@ class GridSplicedHarmonics {
       $output .= '</tr>';
     }
     $output .= '</table>';
-    $output .= $lr;
-    $output .= $lrd;
+    
+    if (isset($lr)) {
+      $output .= $lr;
+    }
+    if (isset($lrd)) {
+      $output .= $lrd;
+    }
 
 
     $output .= '<h3>Lambdoma Keyboard (<a href="http://lambdoma.com" target="_blank">Barbara Hero</a>) colored in with the locally determined frequency , and the letter note values based on a 256Hz C.</h3><table><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';

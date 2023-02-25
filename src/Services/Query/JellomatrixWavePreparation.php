@@ -90,7 +90,7 @@ class JellomatrixWavePreparation {
         }
         if (!isset($spliced_matrix[$key][$k + 1]['tone'])) {
           $bridge_kplus = ($k + 1) - (2 * $tone);
-          if ($spliced_matrix[$key][$bridge_kplus]['tone'] == $spliced_matrix[$key][$k]['tone']) {
+          if (isset($spliced_matrix[$key][$bridge_kplus]['tone']) && isset($spliced_matrix[$key][$k]['tone']) && $spliced_matrix[$key][$bridge_kplus]['tone'] == $spliced_matrix[$key][$k]['tone']) {
             $fount++;
             $spliced_matrix[$key][$k]['wave_limit'] = 'active';
             $spliced_matrix[$key][$bridge_kplus]['pole_shift'] = '2';
@@ -105,7 +105,7 @@ class JellomatrixWavePreparation {
         }
         if (!isset($spliced_matrix[$key][$k - 1]['tone'])) {
           $bridge_kminus = ($k - 1) + (2 * $tone);
-          if ($spliced_matrix[$key][$bridge_kminus]['tone'] == $spliced_matrix[$key][$k]['tone']) {
+          if (isset($spliced_matrix[$key][$bridge_kminus]['tone']) && isset($spliced_matrix[$key][$k]['tone']) && $spliced_matrix[$key][$bridge_kminus]['tone'] == $spliced_matrix[$key][$k]['tone']) {
             $fount++;
             $spliced_matrix[$key][$k]['wave_limit'] = 'active';
             $spliced_matrix[$key][$bridge_kminus]['pole_shift'] = '1';
@@ -528,7 +528,7 @@ class JellomatrixWavePreparation {
         }
         if (!isset($spliced_matrix_reversed[$key][$k + 1]['tone'])) {
           $bridge_kplus = ($k + 1) - (2 * $tone);
-          if ($spliced_matrix_reversed[$key][$bridge_kplus]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
+          if (isset($spliced_matrix_reversed[$key][$bridge_kplus]['tone']) && isset($spliced_matrix_reversed[$key][$k]['tone']) && $spliced_matrix_reversed[$key][$bridge_kplus]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
             $dount++;
             $spliced_matrix_reversed[$key][$k]['wave_limit'] = 'active';
             $spliced_matrix_reversed[$key][$bridge_kplus]['pole_shift'] = '2';
@@ -543,7 +543,7 @@ class JellomatrixWavePreparation {
         }
         if (!isset($spliced_matrix_reversed[$key][$k - 1]['tone'])) {
           $bridge_kminus = ($k - 1) + (2 * $tone);
-          if ($spliced_matrix_reversed[$key][$bridge_kminus]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
+          if (isset($spliced_matrix_reversed[$key][$bridge_kminus]['tone']) && isset($spliced_matrix_reversed[$key][$k]['tone']) && $spliced_matrix_reversed[$key][$bridge_kminus]['tone'] == $spliced_matrix_reversed[$key][$k]['tone']) {
             $dount++;
             $spliced_matrix_reversed[$key][$k]['wave_limit'] = 'active';
             $spliced_matrix_reversed[$key][$bridge_kminus]['pole_shift'] = '1';
@@ -692,7 +692,7 @@ class JellomatrixWavePreparation {
                 }
                 if (!isset($new_key) && isset($bridge_kplus)) {
                   if ($spliced_matrix_reversed[$key][$k]['scale_position'] < $tone) {
-                    if ($spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position'] == $spliced_matrix_reversed[$key][$k]['scale_position'] + 1) {
+                    if (isset($spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position']) && $spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale_position'] == $spliced_matrix_reversed[$key][$k]['scale_position'] + 1) {
                       $spliced_matrix_reversed[$key - 1][$bridge_kplus]['scale'] = $spliced_matrix_reversed[$key][$k]['scale'];
                       $spliced_matrix_reversed[$key - 1][$bridge_kplus]['phase_color'] = $spliced_matrix_reversed[$key][$k]['phase_color'];
                     }

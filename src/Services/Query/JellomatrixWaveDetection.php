@@ -277,7 +277,7 @@ class JellomatrixWaveDetection {
                       $next_next_adjacent_position = [];
                       $next_next_next_adjacent_position = [];
 
-                      if (!empty($spliced_matrix[$key][$k + 1]) && $spliced_matrix[$key][$k + 1]['tone'] == $spliced_matrix[$key][$k]['tone'] && $spliced_matrix[$key][$k + 1]['row'] == $spliced_matrix[$key][$k]['row']) {
+                      if (isset($spliced_matrix[$key][$k + 2]) && !empty($spliced_matrix[$key][$k + 1]) && $spliced_matrix[$key][$k + 1]['tone'] == $spliced_matrix[$key][$k]['tone'] && $spliced_matrix[$key][$k + 1]['row'] == $spliced_matrix[$key][$k]['row']) {
                         $next_position = $spliced_matrix[$key][$k + 1];
                         $next_adjacent_position = $spliced_matrix[$key][$k + 2];
                         $nadjacent++;
@@ -1107,12 +1107,20 @@ class JellomatrixWaveDetection {
                 $save_k = 0;
                 $save_tone = 0;
 
-                if ($spliced_matrix[$key][$k]['tone'] == $spliced_matrix[$key][$k+1]['tone'] &&
-                  $spliced_matrix[$key][$k+2]['tone'] == $spliced_matrix[$key][$k+3]['tone'] ||
-                  $spliced_matrix[$key][$k+1]['tone'] == $spliced_matrix[$key][$k+2]['tone'] &&
-                  $spliced_matrix[$key][$k+3]['tone'] == $spliced_matrix[$key][$k+4]['tone']) {
-                  //dpm('WAVELIMIT');
-                  $spliced_matrix[$key][$k]['wave_limit'] == 1;
+                if (isset($spliced_matrix[$key][$k]) && isset($spliced_matrix[$key]) && 
+                    isset($spliced_matrix[$key][$k+1]) && 
+                    isset($spliced_matrix[$key][$k+2]) && isset($spliced_matrix[$key][$k+3]) && 
+                    isset($spliced_matrix[$key][$k+4]) && 
+                    $spliced_matrix[$key][$k]['tone'] == $spliced_matrix[$key][$k+1]['tone'] &&
+                    $spliced_matrix[$key][$k+2]['tone'] == $spliced_matrix[$key][$k+3]['tone'] ||
+                    isset($spliced_matrix[$key][$k]) && isset($spliced_matrix[$key]) && 
+                    isset($spliced_matrix[$key][$k+1]) && 
+                    isset($spliced_matrix[$key][$k+2]) && isset($spliced_matrix[$key][$k+3]) && 
+                    isset($spliced_matrix[$key][$k+4]) && 
+                    $spliced_matrix[$key][$k+1]['tone'] == $spliced_matrix[$key][$k+2]['tone'] &&
+                    $spliced_matrix[$key][$k+3]['tone'] == $spliced_matrix[$key][$k+4]['tone']) {
+                    //dpm('WAVELIMIT');
+                      $spliced_matrix[$key][$k]['wave_limit'] == 1;
                 }
 
                 if (isset($scale_increments[$i]) /*&& $wave == $increment*/) {

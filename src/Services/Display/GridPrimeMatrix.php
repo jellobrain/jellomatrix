@@ -56,10 +56,10 @@ class GridPrimeMatrix {
         if ($item['tone'] == $scales['h'][$count]) {
           $output .= '<td class="tdgrid ' . $color . ' blue-text">' . $item['tone'] . '</td>';
         }
-        elseif ($item['tone'] == $scales['f'][$count]) {
+        elseif (isset($scales['f'][$count]) && $item['tone'] == $scales['f'][$count]) {
           $output .= '<td class="tdgrid ' . $color . ' groen-text">' . $item['tone'] . '</td>';
         }
-        elseif ($item['tone'] == $scales['b'][$count]) {
+        elseif (isset($scales['b'][$count]) && $item['tone'] == $scales['b'][$count]) {
           $output .= '<td class="tdgrid ' . $color . ' salmon-text">' . $item['tone'] . '</td>';
         }
         else {

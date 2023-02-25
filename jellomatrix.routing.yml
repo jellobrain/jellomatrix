@@ -30,11 +30,27 @@ jellomatrix.result:
   requirements:
     _permission: 'view some jellomatrix'
 
+jellomatrix.abharesult:
+  path: '/jellomatrix/{tone}/{interval}/ABHA'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixABHAResultForm'
+    _title: 'JelloMatrix ABHA Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
 jellomatrix.offsetzero:
   path: '/jellomatrix/{tone}/{interval}/offset'
   defaults:
     _form: '\Drupal\jellomatrix\Form\JelloMatrixOffsetResultForm'
     _title: 'JelloMatrix Offset Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+jellomatrix.abhaoffsetzero:
+  path: '/jellomatrix/{tone}/{interval}/ABHA/offset'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixABHAOffsetResultForm'
+    _title: 'JelloMatrix ABHA Offset Result'
   requirements:
     _permission: 'view some jellomatrix'
 
@@ -46,11 +62,27 @@ jellomatrix.offset:
   requirements:
     _permission: 'view some jellomatrix'
 
+jellomatrix.abhaoffset:
+  path: '/jellomatrix/{tone}/{interval}/ABHA/offset/{offset}'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixABHAOffsetResultForm'
+    _title: 'JelloMatrix ABHA Offset Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
 jellomatrix.doubleflip:
   path: '/jellomatrix/{tone}/{interval}/doubleflip'
   defaults:
     _form: '\Drupal\jellomatrix\Form\JelloMatrixDoubleFlipResultForm'
     _title: 'JelloMatrix Double Flip Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+jellomatrix.abhadoubleflip:
+  path: '/jellomatrix/{tone}/{interval}/ABHA/doubleflip'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixABHADoubleFlipResultForm'
+    _title: 'JelloMatrix ABHA Double Flip Result'
   requirements:
     _permission: 'view some jellomatrix'
 
@@ -62,11 +94,27 @@ jellomatrix.doubleflipoffsetzero:
   requirements:
     _permission: 'view some jellomatrix'
 
+jellomatrix.abhadoubleflipoffsetzero:
+  path: '/jellomatrix/{tone}/{interval}/ABHA/doubleflip/offset'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixABHADoubleFlipOffsetResultForm'
+    _title: 'JelloMatrix ABHA Double Flip Offset Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
 jellomatrix.doubleflipoffset:
   path: '/jellomatrix/{tone}/{interval}/doubleflip/offset/{offset}'
   defaults:
     _form: '\Drupal\jellomatrix\Form\JelloMatrixDoubleFlipOffsetResultForm'
     _title: 'JelloMatrix Double Flip Offset Result'
+  requirements:
+    _permission: 'view some jellomatrix'
+
+jellomatrix.abhadoubleflipoffset:
+  path: '/jellomatrix/{tone}/{interval}/ABHA/doubleflip/offset/{offset}'
+  defaults:
+    _form: '\Drupal\jellomatrix\Form\JelloMatrixABHADoubleFlipOffsetResultForm'
+    _title: 'JelloMatrix ABHA Double Flip Offset Result'
   requirements:
     _permission: 'view some jellomatrix'
 #jellomatrix.description:
