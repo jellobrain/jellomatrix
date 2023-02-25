@@ -244,7 +244,7 @@ class JellomatrixGenerateSoundFiles {
                     $currHz = 1;
                   }
                   if ($currHz >= 20000) {
-                    $currHz = 44100;
+                    $currHz = 10000;
                   }
                   #$currHz = round($currHz, 3);
 
@@ -604,23 +604,23 @@ class JellomatrixGenerateSoundFiles {
                     
                     
                     if (isset($currHz) && $currHz >= 20000) {
-                      $currHz = 44100;
+                      $currHz = 10000;
                     }
 
                     if (isset($currHz2) && $currHz2 >= 20000) {
-                      $currHz2 = 44100;
+                      $currHz2 = 10000;
                     }
                     if (isset($currHz3) && $currHz3 >= 20000) {
-                      $currHz3 = 44100;
+                      $currHz3 = 10000;
                     }
                     if (isset($currHz4) && $currHz4 >= 20000) {
-                      $currHz4 = 44100;
+                      $currHz4 = 10000;
                     }
                     if (isset($currHz5) && $currHz5 >= 20000) {
-                      $currHz5 = 44100;
+                      $currHz5 = 10000;
                     }
                     if (isset($currHz6) && $currHz6 >= 20000) {
-                      $currHz6 = 44100;
+                      $currHz6 = 10000;
                     }
                     
                     
