@@ -45,9 +45,6 @@ class GridSplicedHarmonics {
               $r .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
 
               foreach ($row as $key => $item) {
-                if ($item == 0) {
-                  $item = $tone;
-                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -196,9 +193,6 @@ class GridSplicedHarmonics {
               $rd .= '<td class="tdgridltfirst">Row ' . $count . ': </td>';
 
               foreach ($row as $key => $item) {
-                if ($item == 0) {
-                  $item = $tone;
-                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -338,9 +332,6 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $lr .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
-                if ($item == 0) {
-                  $item = $tone;
-                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -477,9 +468,6 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $lrd .= '<td class="tdgridlt">LR Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
-                if ($item == 0) {
-                  $item = $tone;
-                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -621,9 +609,6 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $rl .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
-                if ($item == 0) {
-                  $item = $tone;
-                }
                 $test = $row;
                 unset($clink); $clink = '';
                 if (is_array($test)) {
@@ -760,9 +745,6 @@ class GridSplicedHarmonics {
             foreach ($direction as $row) {
               $rld .= '<td class="tdgridlt">RL Row ' . $count .': </td>';
               foreach ($row as $key=>$item) {
-                if ($item == 0) {
-                  $item = $tone;
-                }
                 $test = $row;
                 unset($clink); $clink = ''; $clink = '';
                 if (is_array($test)) {
