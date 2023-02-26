@@ -113,8 +113,8 @@ class JellomatrixGenerateSoundFiles {
                 $format = 4;
                 $chunksize = 16;
                 
-                $bitDepth = 32; //8bit
-                $sampleRate = 176400; //CD quality
+                $bitDepth = 24; //8bit
+                $sampleRate = 48000; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
 
@@ -243,7 +243,7 @@ class JellomatrixGenerateSoundFiles {
                   if ($currHz < 1) {
                     $currHz = 1;
                   }
-                  if ($currHz >= 20000) {
+                  if ($currHz >= 24000) {
                     $currHz = 10000;
                   }
                   #$currHz = round($currHz, 3);
@@ -271,7 +271,7 @@ class JellomatrixGenerateSoundFiles {
 
                     //Write the sample and increment our byte counts
                     if (($fileHandle = fopen($filePath, "ab")) !== false) {
-                      $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+                      $currBytesWritten = fwrite($fileHandle, pack('l', $currAmplitude));
                     }
 
                     $dataChunk['dwChunkSize'] += $currBytesWritten;
@@ -315,8 +315,8 @@ class JellomatrixGenerateSoundFiles {
                  #$channels = 1; //Mono
 
                 $chunksize = 16;
-                $bitDepth = 32; //8bit
-                $sampleRate = 176400; //CD quality
+                $bitDepth = 24; //8bit
+                $sampleRate = 48000; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
 
@@ -395,8 +395,8 @@ class JellomatrixGenerateSoundFiles {
                  #$channels = 1; //Mono
 
                 $chunksize = 16;
-                $bitDepth = 32; //8bit
-                $sampleRate = 176400; //CD quality
+                $bitDepth = 24; //8bit
+                $sampleRate = 48000; //CD quality
                 $blockAlign = ($channels * ($bitDepth / 8));
                 $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
 
@@ -603,23 +603,23 @@ class JellomatrixGenerateSoundFiles {
                     }
                     
                     
-                    if (isset($currHz) && $currHz >= 20000) {
+                    if (isset($currHz) && $currHz >= 24000) {
                       $currHz = 10000;
                     }
 
-                    if (isset($currHz2) && $currHz2 >= 20000) {
+                    if (isset($currHz2) && $currHz2 >= 24000) {
                       $currHz2 = 10000;
                     }
-                    if (isset($currHz3) && $currHz3 >= 20000) {
+                    if (isset($currHz3) && $currHz3 >= 24000) {
                       $currHz3 = 10000;
                     }
-                    if (isset($currHz4) && $currHz4 >= 20000) {
+                    if (isset($currHz4) && $currHz4 >= 24000) {
                       $currHz4 = 10000;
                     }
-                    if (isset($currHz5) && $currHz5 >= 20000) {
+                    if (isset($currHz5) && $currHz5 >= 24000) {
                       $currHz5 = 10000;
                     }
-                    if (isset($currHz6) && $currHz6 >= 20000) {
+                    if (isset($currHz6) && $currHz6 >= 24000) {
                       $currHz6 = 10000;
                     }
                     
@@ -662,8 +662,8 @@ class JellomatrixGenerateSoundFiles {
                         //Write the sample and increment our byte counts
                         // BOOKMARK ERROR HERE
                         if (($fileHandle = fopen($filePath, "ab")) !== false) {
-                          $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude1));
-                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude2));
+                          $currBytesWritten = fwrite($fileHandle, pack('l', $currAmplitude1));
+                          $currBytesWritten .= fwrite($fileHandle, pack('l', $currAmplitude2));
                         }
 
                         $dataChunk['dwChunkSize'] += $currBytesWritten;
@@ -707,12 +707,12 @@ class JellomatrixGenerateSoundFiles {
                         //Write the sample and increment our byte counts
                         // BOOKMARK ERROR HERE
                         if (($fileHandle = fopen($filePath, "ab")) !== false) {
-                          $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude1));
-                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude2));
-                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude3));
-                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude4));
-                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude5));
-                          $currBytesWritten .= fwrite($fileHandle, pack('c', $currAmplitude6));
+                          $currBytesWritten = fwrite($fileHandle, pack('l', $currAmplitude1));
+                          $currBytesWritten .= fwrite($fileHandle, pack('l', $currAmplitude2));
+                          $currBytesWritten .= fwrite($fileHandle, pack('l', $currAmplitude3));
+                          $currBytesWritten .= fwrite($fileHandle, pack('l', $currAmplitude4));
+                          $currBytesWritten .= fwrite($fileHandle, pack('l', $currAmplitude5));
+                          $currBytesWritten .= fwrite($fileHandle, pack('l', $currAmplitude6));
                         }
 
                         $dataChunk['dwChunkSize'] += $currBytesWritten;
@@ -775,8 +775,8 @@ class JellomatrixGenerateSoundFiles {
         }
         $channels = 1;
         $chunksize = 16;
-        $bitDepth = 32; //8bit
-        $sampleRate = 176400; //CD quality
+        $bitDepth = 24; //8bit
+        $sampleRate = 48000; //CD quality
         $blockAlign = ($channels * ($bitDepth / 8));
         $averageBytesPerSecond = $sampleRate * $blockAlign * $channels;
 
@@ -932,7 +932,7 @@ class JellomatrixGenerateSoundFiles {
 
             //Write the sample and increment our byte counts
             if (($fileHandle = fopen($filePath, "ab")) !== false) {
-              $currBytesWritten = fwrite($fileHandle, pack('c', $currAmplitude));
+              $currBytesWritten = fwrite($fileHandle, pack('l', $currAmplitude));
             }
 
             $dataChunk['dwChunkSize'] += $currBytesWritten;
