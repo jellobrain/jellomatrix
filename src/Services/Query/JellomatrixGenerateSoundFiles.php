@@ -241,7 +241,7 @@ class JellomatrixGenerateSoundFiles {
                    * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                    */
                   if ($currHz < 1) {
-                    $currHz = .001;
+                    $currHz = 1; //To get a binaural off the 10000 in the infinite series.
                   }
                   if ($currHz >= 24000) {
                     $currHz = 10000;
@@ -584,23 +584,23 @@ class JellomatrixGenerateSoundFiles {
                      * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
                      */
                     if ($currHz < 1 ) {
-                      $currHz = .001;
+                      $currHz = 1; //To get a binaural off the 10000 in the infinite series.
                     }
 
                     if (isset($currHz2) && $currHz2 < 1 ) {
-                      $currHz2 = .001;
+                      $currHz2 = 1; //To get a binaural off the 10000 in the infinite series.
                     }
                     if (isset($currHz3) && $currHz3 < 1 ) {
-                      $currHz3 = .001;
+                      $currHz3 = 1; //To get a binaural off the 10000 in the infinite series.
                     }
                     if (isset($currHz4) && $currHz4 < 1 ) {
-                      $currHz4 = .001;
+                      $currHz4 = 1; //To get a binaural off the 10000 in the infinite series.
                     }
                     if (isset($currHz5) && $currHz5 < 1 ) {
-                      $currHz5 = .001;
+                      $currHz5 = 1; //To get a binaural off the 10000 in the infinite series.
                     }
                     if (isset($currHz6) && $currHz6 < 1 ) {
-                      $currHz6 = .001;
+                      $currHz6 = 1; //To get a binaural off the 10000 in the infinite series.
                     }
                     
                     
@@ -909,7 +909,7 @@ class JellomatrixGenerateSoundFiles {
            * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
            */
           if ($currHz < 1 ) {
-            $currHz = .001;
+            $currHz = 1; //To get a binaural off the 10000 in the infinite series.
           }
 
           $waveIncrement = $sampleRate/($sampleRate/$currHz);
