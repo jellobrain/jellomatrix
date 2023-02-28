@@ -911,14 +911,14 @@ class JellomatrixGenerateSoundFiles {
 
         $waveIncrement = 360/($sampleRate/$currHz);
 
-        /*
-         * Run the sine function until we have written all the samples to fill the current note time
-         */
-        $elapsed = 0;
-
-        $x = 0;
         
         for($t=0; $t<=60; $t++) {
+          /*
+           * Run the sine function until we have written all the samples to fill the current note time
+           */
+          $elapsed = 0;
+
+          $x = 0;
 
           while ($elapsed < $currMillis) {
             /*
