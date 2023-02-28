@@ -748,28 +748,29 @@ class JellomatrixGenerateSoundFiles {
         }
       }
     }
-    if ($print == 4 || $print == 6) {
+    if ($print == 4 || $print == 5) {
       $fileHandles = [];
       $rife = [];
       $rife[] = $frequency;
-      $old_frequency = $frequency;
-      for ($w = 0; $w <= 2; $w++) {
+      $original_frequency = $frequency;
+      for ($w = 0; $w <= 1; $w++) {
         if ($print == 4) {
-         $new_frequency = (int) $old_frequency * 11;
+         $first_harmonic = (int) $original_frequency * 11;
         } else {
-         $new_frequency = (int) $old_frequency * 12;
+         $first_harmonic = (int) $original_frequency * 12;
         }
-        $rife[] = $new_frequency;
-        $old_frequency = $new_frequency;
+        $rife[] = $first_harmonic;
+        $original_frequency = $first_harmonic;
       }
-      foreach ($rife as $eleventh_harmonic) {
+      
+      foreach ($rife as $a_harmonic) {
         //Path to output file
         if ($print == 4) {
-         $filePath = DRUPAL_ROOT . '/sites/default/files/rife_' . $eleventh_harmonic . '_base_' . $frequency . '_eleventh_harmonic.wav';
+         $filePath = DRUPAL_ROOT . '/sites/default/files/rife_' . $frequency . '_' . $a_harmonic . '_eleventh_harmonic.wav';
         } else {
-         $filePath = DRUPAL_ROOT . '/sites/default/files/rife_' . $eleventh_harmonic . '_base_' . $frequency . '_twelvth_harmonic.wav';
+         $filePath = DRUPAL_ROOT . '/sites/default/files/rife_' . $frequency . '_' . $a_harmonic . '_twelvth_harmonic.wav';
         }
-        
+
         //Open a handle to our file in write mode, truncate the file if it exists
         $fileHandle = fopen($filePath, 'wb');
         if (false === $fileHandle) {
@@ -782,7 +783,6 @@ class JellomatrixGenerateSoundFiles {
         $blockAlign = ($channels * ($bitDepth / 8));
         $averageBytesPerSecond = $sampleRate * $blockAlign;
 
-        $input = $eleventh_harmonic;
         /*
          * Header chunk
          * dwFileLength will be calculated at the end, based upon the length of the audio data
@@ -880,46 +880,45 @@ class JellomatrixGenerateSoundFiles {
 
         //Write sGroupID
         $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['sGroupID'], $dataChunk['sGroupID']));
-        
+
         //Save a reference to the position in the file of the dwChunkSize field so we can overwrite later
         $dataChunkSizePosition = $dwFileLength;
 
         //Write our empty dwChunkSize field
         $dwFileLength += fwrite($fileHandle, pack($fieldFormatMap['dwChunkSize'], $dataChunk['dwChunkSize']));
-        
+
         /*
          8-bit audio: -128 to 127 (because of 2’s complement)
          */
         $maxAmplitude = 127;
 
+        $currHz = (int)$a_harmonic;
 
-        //Loop through input
-        for ($z = 0; $z < 60; $z++) {
-          $currHz = (int)$input;
+        $currMillis = 1000;
 
-          $currMillis = 1000;
+        /*
+         * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
+         * 1000/$sampleRate
+         */
+        $timeIncrement = 1000 / $sampleRate;
 
-          /*
-           * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
-           * 1000/$sampleRate
-           */
-          $timeIncrement = 1000 / $sampleRate;
+        /*
+         * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
+         */
+        if ($currHz < 1 ) {
+          $currHz = 1; //To get a binaural off the 10000 in the infinite series.
+        }
 
-          /*
-           * Define how much each tick should advance the sine function. 360deg/(sample rate/frequency)
-           */
-          if ($currHz < 1 ) {
-            $currHz = 1; //To get a binaural off the 10000 in the infinite series.
-          }
+        $waveIncrement = 360/($sampleRate/$currHz);
 
-          $waveIncrement = $sampleRate/($sampleRate/$currHz);
+        /*
+         * Run the sine function until we have written all the samples to fill the current note time
+         */
+        $elapsed = 0;
 
-          /*
-           * Run the sine function until we have written all the samples to fill the current note time
-           */
-          $elapsed = 0;
-
-          $x = 0;
+        $x = 0;
+        
+        for($t=0; $t<=60; $t++) {
 
           while ($elapsed < $currMillis) {
             /*
@@ -927,7 +926,7 @@ class JellomatrixGenerateSoundFiles {
              * $maxAmplitude*.95 lowers the output a bit so we're not right up at 0db
              */
 
-            $currAmplitude = number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
+            $currAmplitude = ($maxAmplitude) - number_format(sin(deg2rad($x)) * ($maxAmplitude * .95));
 
             //Increment our position in the wave
             $x += $waveIncrement;
@@ -963,80 +962,7 @@ class JellomatrixGenerateSoundFiles {
 
         $fileHandles[] = $fileHandle;
       }
+      return [];
     }
-    if ($print == 5 || $print == 7) {
-      $fileHandles = [];
-      $rife = [];
-      $rife[] = $frequency;
-      $old_frequency = $frequency;
-      for ($w = 0; $w <= 2; $w++) {
-        if ($print == 5) {
-          $new_frequency = (int) $old_frequency * 11;
-        } else {
-          $new_frequency = (int) $old_frequency * 12;
-        }
-        
-        $rife[] = $new_frequency;
-        $old_frequency = $new_frequency;
-      }
-      
-      foreach ($rife as $eleventh) {
-        if ($print == 5) {
-          $fileHandles[] = DRUPAL_ROOT . '/sites/default/files/rife_' . $eleventh . '_base_' . $frequency . '_eleventh_harmonic.wav';
-        } else {
-          $fileHandles[] = DRUPAL_ROOT . '/sites/default/files/rife_' . $eleventh . '_base_' . $frequency . '_twelvth_harmonic.wav';
-        }
-      }
-      
-      
-      $combined_wav_data = $this->joinWaves($fileHandles, $frequency);
-      
-      if ($print == 5) {
-        $path = DRUPAL_ROOT . '/sites/default/files/rife_eleventh_complete_base_' . $frequency . '.wav';
-      } else {
-        $path = DRUPAL_ROOT . '/sites/default/files/rife_twelvth_complete_base_' . $frequency . '.wav';
-      }
-      
-      $handle = fopen($path, "wb");
-      if (false === $handle) {
-          throw new RuntimeException('Unable to open log file for writing');
-      }
-      fwrite($handle, $combined_wav_data);
-      sleep(3); 
-      chmod($path, 0777);
-      fclose($handle);
-    }
-    
-    return [];
-
-  }
-  
-  public function joinWaves($wavs, $frequency) {
-
-    $fields = join('/', array('H8ChunkID', 'VChunkSize', 'H8Format',
-      'H8Subchunk1ID', 'VSubchunk1Size',
-      'vAudioFormat', 'vNumChannels', 'VSampleRate',
-      'VByteRate', 'vBlockAlign', 'vBitsPerSample'));
-    $data = '';
-    foreach ($wavs as $wav) {
-      $fp = fopen($wav, 'rb');
-      if (false === $fp) {
-          throw new RuntimeException('Unable to open log file for writing');
-      }
-      $header = fread($fp, 36);
-      $info = unpack($fields, $header);
-      if ($info['Subchunk1Size'] > 16) {
-        $header .= fread($fp, ($info['Subchunk1Size'] - 16));
-      }
-      // read SubChunk2ID
-      $header .= fread($fp, 4);
-      // read Subchunk2Size
-      $size = unpack('vsize', fread($fp, 4));
-      $size = $size['size'];
-      // read data
-      $data .= fread($fp, $size);
-      sleep(1);
-    }
-    return $header . pack('V', strlen($data)) . $data; //V
   }
 }
