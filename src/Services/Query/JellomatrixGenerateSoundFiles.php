@@ -899,7 +899,7 @@ class JellomatrixGenerateSoundFiles {
         $currHz2 = (int)$a_harmonic[1];
         $currHz3 = (int)$a_harmonic[2];
 
-        $currMillis = 1000;
+        $currMillis = 10000;
 
         /*
          * Each "tick" should be 1 second divided by our sample rate. Since we're counting in milliseconds, use
