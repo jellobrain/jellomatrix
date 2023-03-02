@@ -514,7 +514,7 @@ class JelloMatrixABHADoubleFlipOffsetResultForm extends FormBase {
     $frequency = $form_state->getValue('frequency');
     $print = $form_state->getValue('print');
     if ($offset != 0) {
-      $uri = 'jellomatrix/' . $tone . '/' . $interval . '/doubleflip/offset/' . $offset . '?frequency=' . $frequency;
+      $uri = 'jellomatrix/' . $tone . '/' . $interval . '/ABHA/doubleflip/offset/' . $offset . '?frequency=' . $frequency;
       if (isset($print)) {
         $uri .= '&print=' . $print;
       }
@@ -523,7 +523,7 @@ class JelloMatrixABHADoubleFlipOffsetResultForm extends FormBase {
       return $frequency;
     }
     else {
-      $uri = 'jellomatrix/' . $tone . '/' . $interval . '/doubleflip?frequency=' . $frequency;
+      $uri = 'jellomatrix/' . $tone . '/' . $interval . '/ABHA/doubleflip?frequency=' . $frequency;
       if (isset($print)) {
         $uri .= '&print=' . $print;
       }
