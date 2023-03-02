@@ -134,7 +134,7 @@ class JellomatrixWavePreparation {
             if (isset($spliced_matrix[$key][$k]['scale']) && isset($spliced_matrix[$key][$k]['scale_position'])) {
               if (isset($spliced_matrix[$key + 1][$k - 2]) && isset($spliced_matrix[$key][$k]['scale'])) {
                 if ($spliced_matrix[$key][$k]['scale_position'] < $tone) {
-                  if ($spliced_matrix[$key + 1][$k - 2]['scale_position'] == $spliced_matrix[$key][$k]['scale_position'] + 1) {
+                  if (isset($spliced_matrix[$key + 1][$k - 2]['scale_position']) && $spliced_matrix[$key + 1][$k - 2]['scale_position'] == $spliced_matrix[$key][$k]['scale_position'] + 1) {
                     $spliced_matrix[$key + 1][$k - 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     $spliced_matrix[$key + 1][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
@@ -147,7 +147,7 @@ class JellomatrixWavePreparation {
               }
               if (isset($spliced_matrix[$key - 1][$k - 2]) && isset($spliced_matrix[$key][$k]['scale'])) {
                 if ($spliced_matrix[$key][$k]['scale_position'] < $tone) {
-                  if ($spliced_matrix[$key - 1][$k - 2]['scale_position'] == $spliced_matrix[$key][$k]['scale_position'] + 1) {
+                  if (isset($spliced_matrix[$key - 1][$k - 2]['scale_position']) && $spliced_matrix[$key - 1][$k - 2]['scale_position'] == $spliced_matrix[$key][$k]['scale_position'] + 1) {
                     $spliced_matrix[$key - 1][$k - 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     $spliced_matrix[$key - 1][$k - 2]['phase_color'] = $spliced_matrix[$key][$k]['phase_color'];
                   }
