@@ -274,7 +274,7 @@ class JellomatrixWavePreparation {
             if (isset($spliced_matrix[$key][$k]['scale'])) {
               if (isset($spliced_matrix[$key + 1][$k + 2]) && isset($spliced_matrix[$key][$k]['scale'])) {
                 if ($spliced_matrix[$key][$k]['scale_position'] > 1) {
-                  if ($spliced_matrix[$key + 1][$k + 2]['scale_position'] == $spliced_matrix[$key][$k]['scale_position'] - 1) {
+                  if (isset($spliced_matrix[$key + 1][$k + 2]['scale_position']) && $spliced_matrix[$key + 1][$k + 2]['scale_position'] == $spliced_matrix[$key][$k]['scale_position'] - 1) {
                     $spliced_matrix[$key + 1][$k + 2]['scale'] = $spliced_matrix[$key][$k]['scale'];
                     if (isset($spliced_matrix[$key + 1][$k + 2]['phase_color'])) {
                       $spliced_matrix[$key + 1][$k + 2]['phase_color'] = 'purple';
