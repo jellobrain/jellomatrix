@@ -377,7 +377,7 @@ class JelloMatrixABHADoubleFlipOffsetResultForm extends FormBase {
 
   	// Now we create the first original matrix grid.
     $output = '';
-    $output .= $this->grid_prime_matrix->getGridPrimeMatrix($increments, $response_matrix, $primes, $tone, $interval, $scaled, $scales);
+    $output .= $this->grid_prime_matrix->getGridPrimeMatrix($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
     $output .= $this->grid_spliced_matrix->getGridSplicedMatrix($spliced_matrix, $primes, $tone, $interval);
     $output .= $this->grid_spliced_primes->getGridSplicedPrimes($spliced_matrix, $primes, $tone, $interval);
     $output .= $this->grid_spliced_even_odd->getGridSplicedEvenOdd($spliced_matrix, $tone, $interval);

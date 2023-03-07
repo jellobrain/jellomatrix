@@ -27,8 +27,8 @@ class JellomatrixDoubleflipResponseMatrix {
       $row = 0;
       for ($i = 1; $i <= $interval; $i++) {
         $row++;
-        $column = 0;
         $record = 'first';
+        $column = 0;
         for ($t = 1; $t <= $tone; $t++) {
           $column++;
           if ($record == 'first') {
@@ -94,12 +94,12 @@ class JellomatrixDoubleflipResponseMatrix {
       $row = 0;
       for ($i = 1; $i <= $interval; $i++) {
         $row++;
-        $column = 0;
         $record = 'first';
-        for ($t = 1; $t <= $tone; $t++) {
+        $column = 0;
+        for ($t = $tone; $t >= 1; $t--) {
           $column++;
           if ($record == 'first') {
-            if ($i == 1 ) {
+            if ($i == 1) {
               $response_bt[$i][$t]['tone'] = $tone;
             }
             else/*if ($i > 1 && $tone >= $i )*/ {
@@ -119,7 +119,6 @@ class JellomatrixDoubleflipResponseMatrix {
             $response_bt[$i][$t]['padding'] = 3;
             $response_bt[$i][$t]['background'] = '#fafafa';
             $record = $response_bt[$i][$t]['tone'];
-            $matrix_count++;
           }
           else {
             while ($record <= 0) {
@@ -143,9 +142,9 @@ class JellomatrixDoubleflipResponseMatrix {
             $response_bt[$i][$t]['opacity'] = 1;
             $response_bt[$i][$t]['padding'] = 3;
             $response_bt[$i][$t]['background'] = '#fafafa';
-            $matrix_count++;
           }
         }
+        $matrix_count++;
       }
     }
 

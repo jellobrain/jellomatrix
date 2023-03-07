@@ -380,7 +380,7 @@ class JelloMatrixABHAResultForm extends FormBase {
   	// Now we create the first original matrix grid.
     $output = '<hr><h4>Control Set:</h4><p><a class="button btn-primary btn" href="/jellomatrix/' . $tone . '/' . $interval . '/ABHA/doubleflip/">Doublflip it.</a></p>';
     $output .= '<p><a href="https://www.jellobrain.com/sites/default/files/complete_13_20_complete_432.mp3">Here is an example of the sounds these fields can produce.</a></p>';
-    $output .= $this->grid_prime_matrix->getGridPrimeMatrix($increments, $response_matrix, $primes, $tone, $interval, $scaled, $scales);
+    $output .= $this->grid_prime_matrix->getGridPrimeMatrix($increments, $prime_matrix, $primes, $tone, $interval, $scaled, $scales);
     $output .= $this->grid_spliced_matrix->getGridSplicedMatrix($spliced_matrix, $primes, $tone, $interval);
     $output .= $this->grid_spliced_primes->getGridSplicedPrimes($spliced_matrix, $primes, $tone, $interval);
     $output .= $this->grid_spliced_even_odd->getGridSplicedEvenOdd($spliced_matrix, $tone, $interval);

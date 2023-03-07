@@ -126,7 +126,7 @@ class JellomatrixResponseOffsetMatrix {
           $column++;
           if ($record == 'first') {
             if ($i == 1 ) {
-              $response_bt[$i][$t]['tone'] = $t;
+              $response_bt[$i][$t]['tone'] = $tone;
             }
             else {
               $response_bt[$i][$t]['tone'] = $tone - ($i-1);

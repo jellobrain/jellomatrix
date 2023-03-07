@@ -38,7 +38,6 @@ class GridSplicedMatrix {
     if (isset($path_args[4])) {
       $doubleflip = $path_args[4];
     }
-
     for ($i = 1; $i <= $interval; $i++) {
       $output .= '<tr>';
       $count = 1;
@@ -60,6 +59,18 @@ class GridSplicedMatrix {
               $item['opacity'] = '.' . $item['tone'];
             }
             if (isset($doubleflip) && $doubleflip == 'doubleflip') {
+              if ($item['column'] == 2*$tone && $item['row'] == $interval) {
+                $item['background'] = 'green';
+                $item['opacity'] = '.' . $item['tone'];
+              }
+            }
+            elseif (isset($doubleflip) && $doubleflip == 'ABHA' && $path_args[5] == 'doubleflip') {
+              if ($item['column'] == 2 && $item['row'] == $interval) {
+                $item['background'] = 'green';
+                $item['opacity'] = '.' . $item['tone'];
+              }
+            }
+            elseif (isset($doubleflip) && $doubleflip == 'ABHA' && $path_args[5] != 'doubleflip') {
               if ($item['column'] == 2*$tone && $item['row'] == $interval) {
                 $item['background'] = 'green';
                 $item['opacity'] = '.' . $item['tone'];
